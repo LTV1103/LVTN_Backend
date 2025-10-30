@@ -1,32 +1,40 @@
 package com.learning.lvtn_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
 @Table(name = "user")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_User")
-    private int id;
+    int id;
     @Column(name = "full_name")
-    private String name;
+    String fullname;
     @Column(name = "email")
-    private String email;
+    String email;
     @Column(name = "password")
-    private String password;
+    String password;
     @Column(name = "username")
-    private String username;
+    String username;
     @Column(name = "role")
-    private String role;
+    String role;
     @Column(name = "provider")
-    private String provider;
+    String provider;
     @Column(name = "google_id")
-    private String googleId;
+    String googleId;
     @Column(name = "refresh_token")
-    private String refreshToken;
+    String refreshToken;
     @Column(name = "created_at")
-    private String createdAt;
+    LocalDateTime createdAt;
 }

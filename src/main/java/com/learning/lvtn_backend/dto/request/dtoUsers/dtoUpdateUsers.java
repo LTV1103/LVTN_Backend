@@ -1,6 +1,5 @@
 package com.learning.lvtn_backend.dto.request.dtoUsers;
 
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,14 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class dtoCreateUsers {
+public class dtoUpdateUsers {
      String fullname;
      String email;
-    @Size(min = 8, message =  "password must be least 8 characters!")
      String password;
-     String username;
-     String role;
-     String provider;
-     String createdAt;
 }
-
