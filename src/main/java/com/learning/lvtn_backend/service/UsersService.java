@@ -2,9 +2,9 @@ package com.learning.lvtn_backend.service;
 
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoUpdateUsers;
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoCreateUsers;
-import com.learning.lvtn_backend.dto.response.dtoUsers.dtoGetUser;
+import com.learning.lvtn_backend.dto.response.dtoGetUser;
 import com.learning.lvtn_backend.entity.Users;
-import com.learning.lvtn_backend.mapper.UserMapping;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.UsersReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UsersService {
     @Autowired
     private UsersReponsitory usersReponsitory;
     @Autowired
-    private UserMapping userMapping;
+    private MapperEntity userMapping;
 
     public List<dtoGetUser> getAllUser() {
         List<Users> usersList = usersReponsitory.findAll();

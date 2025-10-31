@@ -1,6 +1,7 @@
 package com.learning.lvtn_backend.service;
 
 import com.learning.lvtn_backend.entity.Course;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private MapperEntity mapperEntity;
+
 
     public List<Course> getAllCourses() {
         return courseRepository.findAll();

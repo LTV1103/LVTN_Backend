@@ -2,7 +2,7 @@ package com.learning.lvtn_backend.controller;
 
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoUpdateUsers;
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoCreateUsers;
-import com.learning.lvtn_backend.dto.response.dtoUsers.dtoGetUser;
+import com.learning.lvtn_backend.dto.response.dtoGetUser;
 import com.learning.lvtn_backend.entity.Users;
 import com.learning.lvtn_backend.service.UsersService;
 import jakarta.validation.Valid;
