@@ -24,15 +24,14 @@ public interface MapperEntity {
     Users userToUser(dtoCreateUsers request);
     dtoGetUser dtoToGetUser(Users users);
     List<dtoGetUser> dtoToGetUserList(List<Users> users);
-    void  userUpdate(@MappingTarget dtoUpdateUsers request , Users user);
+    void  userUpdate(@MappingTarget  Users user ,  dtoUpdateUsers request);
 
 
     //Course
-    Course courseToCourse(dtoUpdateUsers request);
+    Course courseToCourse(dtoGetCourse request);
     dtoGetCourse dtoToGetCourse(Course course);
-    List<dtoGetUser> dtoToGetCourseList(List<Course> courses);
-    void courseUpdate(@MappingTarget dtoUpdateCourse request , Course course);
-
+    List<dtoGetCourse> dtoToGetCourseList(List<Course> courses);
+    void courseUpdate(@MappingTarget Course course  ,  dtoUpdateCourse request);
 
     // Learning Progress
     LearningProgress progressToProgress(dtoCreateLearningProgress request);

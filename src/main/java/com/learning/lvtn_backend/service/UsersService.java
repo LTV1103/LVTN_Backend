@@ -15,7 +15,6 @@ import java.util.List;
 public class UsersService {
     @Autowired
     private UsersReponsitory usersReponsitory;
-    @Autowired
     private MapperEntity userMapping;
 
     public List<dtoGetUser> getAllUser() {
@@ -23,12 +22,12 @@ public class UsersService {
         return userMapping.dtoToGetUserList(usersList);
     }
     public dtoGetUser getUserById(int id) {
-        Users findUsersbyID = usersReponsitory.findById(id).orElseThrow(() -> new RuntimeException("User Not Found With ID = "+ id));
+        Users findUsersbyID = usersReponsitory.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID = "+ id));
         return userMapping.dtoToGetUser(findUsersbyID);
     }
     public Users createUsers(dtoCreateUsers request) {
         if (usersReponsitory.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Username đã tồn tại");
         }
         Users user = userMapping.userToUser(request);
         user.setRole("User");
@@ -39,14 +38,17 @@ public class UsersService {
     }
     public dtoGetUser updateUser(int id, dtoUpdateUsers request) {
         Users userEntity = usersReponsitory.findById(id)
-                .orElseThrow(() -> new RuntimeException("User Not Found With ID = " + id));
-        userMapping.userUpdate(request, userEntity);
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID = " + id));
+        userMapping.userUpdate(userEntity ,request);
         Users updatedUser = usersReponsitory.save(userEntity);
         return userMapping.dtoToGetUser(updatedUser);
     }
 
 
     public void deleteUser(int id) {
+        if (!usersReponsitory.existsById(id)) {
+            throw new RuntimeException("Không tìm thấy người dùng với ID = " + id);
+        }
         usersReponsitory.deleteById(id);
     }
 }

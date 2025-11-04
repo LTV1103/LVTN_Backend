@@ -1,41 +1,50 @@
 package com.learning.lvtn_backend.controller;
 
+import com.learning.lvtn_backend.controller.base.BaseController;
+import com.learning.lvtn_backend.dto.request.dtoPayment.dtoCreatePayment;
+import com.learning.lvtn_backend.dto.request.dtoPayment.dtoUpdatePayment;
+import com.learning.lvtn_backend.dto.response.dtoGetPayment;
 import com.learning.lvtn_backend.entity.Payment;
 import com.learning.lvtn_backend.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/payment")
-public class PaymentController {
+public class PaymentController extends BaseController {
 
     @Autowired
     private PaymentService paymentService;
 
     @GetMapping
-    public List<Payment> getAllPayments() {
-        return paymentService.getAllPayments();
+    public ResponseEntity<?> getAllPayments() {
+        List<dtoGetPayment> payments = paymentService.getAllPayments();
+        return success("Lấy danh sách thanh toán thành công!", payments);
     }
 
     @GetMapping("/{id}")
-    public Payment getPaymentById(@PathVariable int id) {
-        return paymentService.getPaymentById(id);
+    public ResponseEntity<?> getPaymentById(@PathVariable int id) {
+        dtoGetPayment payment = paymentService.getPaymentById(id);
+        return success("Lấy thông tin thanh toán thành công!", payment);
     }
 
     @PostMapping
-    public Payment createPayment(@RequestBody Payment payment) {
-        return paymentService.createPayment(payment);
+    public ResponseEntity<?> createPayment(@RequestBody dtoCreatePayment request) {
+        Payment newPayment = paymentService.createPayment(request);
+        return created("Tạo thanh toán mới thành công!", newPayment);
     }
 
     @PutMapping("/{id}")
-    public Payment updatePayment(@PathVariable int id, @RequestBody Payment paymentDetails) {
-        return paymentService.updatePayment(id, paymentDetails);
+    public ResponseEntity<?> updatePayment(@PathVariable int id, @RequestBody dtoUpdatePayment request) {
+        dtoGetPayment updatedPayment = paymentService.updatePayment(id, request);
+        return success("Cập nhật thanh toán thành công!", updatedPayment);
     }
 
     @DeleteMapping("/{id}")
-    public String deletePayment(@PathVariable int id) {
+    public ResponseEntity<?> deletePayment(@PathVariable int id) {
         paymentService.deletePayment(id);
-        return "Deleted payment with ID = " + id;
+        return success("Xóa thanh toán thành công!", "Deleted payment with ID = " + id);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Save")
+@RequestMapping("/save")
 public class UserSavedVocabularyController {
 
     @Autowired

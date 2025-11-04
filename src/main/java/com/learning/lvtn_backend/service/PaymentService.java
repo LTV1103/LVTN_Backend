@@ -1,6 +1,10 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.request.dtoPayment.dtoCreatePayment;
+import com.learning.lvtn_backend.dto.request.dtoPayment.dtoUpdatePayment;
+import com.learning.lvtn_backend.dto.response.dtoGetPayment;
 import com.learning.lvtn_backend.entity.Payment;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,29 +12,41 @@ import java.util.List;
 
 @Service
 public class PaymentService {
+
     @Autowired
     private PaymentRepository paymentRepository;
 
-    public List<Payment> getAllPayments() { return paymentRepository.findAll(); }
+    @Autowired
+    private MapperEntity paymentMapping;
 
-    public Payment getPaymentById(int id) {
-        return paymentRepository.findById(id).orElseThrow(() -> new RuntimeException("Payment not found with ID = " + id));
+    public List<dtoGetPayment> getAllPayments() {
+        List<Payment> payments = paymentRepository.findAll();
+        return paymentMapping.dtoToGetPaymentList(payments);
     }
 
-    public Payment createPayment(Payment payment) { return paymentRepository.save(payment); }
+    public dtoGetPayment getPaymentById(int id) {
+        Payment payment = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy thanh toán với ID = " + id));
+        return paymentMapping.dtoToGetPayment(payment);
+    }
 
-    public Payment updatePayment(int id, Payment details) {
-        Payment existing = getPaymentById(id);
-        existing.setIdUser(details.getIdUser());
-        existing.setIdCourse(details.getIdCourse());
-        existing.setAmount(details.getAmount());
-        existing.setPaymentMethod(details.getPaymentMethod());
-        existing.setPaymentStatus(details.getPaymentStatus());
-        return paymentRepository.save(existing);
+    public Payment createPayment(dtoCreatePayment request) {
+        Payment payment = paymentMapping.paymentToPayment(request);
+        return paymentRepository.save(payment);
+    }
+
+    public dtoGetPayment updatePayment(int id, dtoUpdatePayment request) {
+        Payment existing = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy thanh toán với ID = " + id));
+        paymentMapping.paymentUpdate(existing, request);
+        Payment updated = paymentRepository.save(existing);
+        return paymentMapping.dtoToGetPayment(updated);
     }
 
     public void deletePayment(int id) {
-        if (!paymentRepository.existsById(id)) throw new RuntimeException("Payment not found with ID = " + id);
+        if (!paymentRepository.existsById(id)) {
+            throw new RuntimeException("Không tìm thấy thanh toán với ID = " + id);
+        }
         paymentRepository.deleteById(id);
     }
 }

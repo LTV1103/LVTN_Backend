@@ -1,36 +1,53 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.request.dtoLesson.dtoCreateLesson;
+import com.learning.lvtn_backend.dto.request.dtoLesson.dtoUpdateLesson;
+import com.learning.lvtn_backend.dto.response.dtoGetLesson;
 import com.learning.lvtn_backend.entity.Lesson;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class LessonService {
+
     @Autowired
     private LessonRepository lessonRepository;
 
-    public List<Lesson> getAllLessons() { return lessonRepository.findAll(); }
+    private MapperEntity mapper; // Dùng chung mapper cho project
 
-    public Lesson getLessonById(int id) {
-        return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found with ID = " + id));
+    public List<dtoGetLesson> getAllLessons() {
+        List<Lesson> lessons = lessonRepository.findAll();
+        return mapper.dtoToGetLessonList(lessons);
     }
 
-    public Lesson createLesson(Lesson lesson) { return lessonRepository.save(lesson); }
+    public dtoGetLesson getLessonById(int id) {
+        Lesson lesson = lessonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với ID = " + id));
+        return mapper.dtoToGetLesson(lesson);
+    }
 
-    public Lesson updateLesson(int id, Lesson details) {
-        Lesson existing = getLessonById(id);
-        existing.setIdCourse(details.getIdCourse());
-        existing.setLessonTitle(details.getLessonTitle());
-        existing.setDescription(details.getDescription());
-        existing.setOrderIndex(details.getOrderIndex());
-        existing.setCreatedAt(details.getCreatedAt());
-        return lessonRepository.save(existing);
+    public Lesson createLesson(dtoCreateLesson request) {
+        Lesson lesson = mapper.lessonToLesson(request);
+        return lessonRepository.save(lesson);
+    }
+
+    public dtoGetLesson updateLesson(int id, dtoUpdateLesson request) {
+        Lesson existingLesson = lessonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với ID = " + id));
+
+        mapper.lessonUpdate(existingLesson, request);
+        Lesson updatedLesson = lessonRepository.save(existingLesson);
+        return mapper.dtoToGetLesson(updatedLesson);
     }
 
     public void deleteLesson(int id) {
-        if (!lessonRepository.existsById(id)) throw new RuntimeException("Lesson not found with ID = " + id);
+        if (!lessonRepository.existsById(id)) {
+            throw new RuntimeException("Không tìm thấy bài học với ID = " + id);
+        }
         lessonRepository.deleteById(id);
     }
 }
