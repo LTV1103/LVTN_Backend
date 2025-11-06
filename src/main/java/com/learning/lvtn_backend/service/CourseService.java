@@ -3,13 +3,11 @@ package com.learning.lvtn_backend.service;
 import com.learning.lvtn_backend.dto.request.dtoCourse.dtoUpdateCourse;
 import com.learning.lvtn_backend.dto.response.dtoGetCourse;
 import com.learning.lvtn_backend.entity.Course;
-import com.learning.lvtn_backend.entity.Users;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.CourseRepository;
+import com.learning.lvtn_backend.reponsitory.UsersReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,7 +15,9 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
-
+    @Autowired
+    private UsersReponsitory usersReponsitory;
+    @Autowired
     private MapperEntity courseMapping;
 
 
@@ -52,5 +52,16 @@ public class CourseService {
             throw new RuntimeException("Không tìm thấy khóa học với ID = " + id);
         }
         courseRepository.deleteById(id);
+    }
+
+    public List<Course> getCoursebyUserid(int userId) {
+        if (!usersReponsitory.existsById(userId)) {
+            throw new RuntimeException("Khóa học không có người dùng với ID = " + userId);
+        }
+        List<Course> courseList =  courseRepository.findCourseByUser(userId);
+        if (courseList.isEmpty()) {
+            throw new RuntimeException("Người dùng này chưa tham gia khóa học nào!");
+        }
+        return courseList;
     }
 }

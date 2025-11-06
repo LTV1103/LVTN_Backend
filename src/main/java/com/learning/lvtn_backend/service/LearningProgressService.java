@@ -15,7 +15,7 @@ public class LearningProgressService {
 
     @Autowired
     private LearningProgressRepository learningProgressRepository;
-
+    @Autowired
     private MapperEntity learningProgressMapping;
 
     // Lấy tất cả progress

@@ -15,6 +15,7 @@ import java.util.List;
 public class UsersService {
     @Autowired
     private UsersReponsitory usersReponsitory;
+    @Autowired
     private MapperEntity userMapping;
 
     public List<dtoGetUser> getAllUser() {

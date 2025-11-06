@@ -10,7 +10,6 @@ import java.util.List;
 public class LessonGrammarService {
     @Autowired
     private LessonGrammarRepository lessonGrammarRepository;
-
     public List<LessonGrammar> getAllLessonGrammars() { return lessonGrammarRepository.findAll(); }
 
     public LessonGrammar getLessonGrammarById(int id) {

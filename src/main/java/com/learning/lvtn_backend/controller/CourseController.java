@@ -1,6 +1,6 @@
 package com.learning.lvtn_backend.controller;
 
-import com.learning.lvtn_backend.controller.base.BaseController;
+import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoCourse.dtoUpdateCourse;
 import com.learning.lvtn_backend.dto.response.dtoGetCourse;
 import com.learning.lvtn_backend.entity.Course;
@@ -46,5 +46,11 @@ public class CourseController extends BaseController {
     public ResponseEntity<?> deleteCourse(@PathVariable int id) {
         courseService.deleteCourse(id);
         return success("Xóa khóa học thành công!", "Deleted course with ID = " + id);
+    }
+
+    @GetMapping("users/{id}")
+    public ResponseEntity<?> getUserCourses(@PathVariable int id) {
+        List<Course> course = courseService.getCoursebyUserid(id);
+        return success("Lấy thông tin khóa học thành công!" , course);
     }
 }

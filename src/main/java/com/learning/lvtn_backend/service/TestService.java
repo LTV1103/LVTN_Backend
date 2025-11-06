@@ -16,6 +16,7 @@ public class TestService {
     @Autowired
     private TestRepository testRepository;
 
+    @Autowired
     private MapperEntity TestMapping;
 
     public List<dtoGetTest> getAllTests() {

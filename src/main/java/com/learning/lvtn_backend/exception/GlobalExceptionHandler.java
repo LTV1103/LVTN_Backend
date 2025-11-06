@@ -12,7 +12,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Xử lý các lỗi chung khi throw RuntimeException
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.badRequest().body(Map.of(
@@ -23,7 +22,6 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // Xử lý lỗi validate khi dùng @Valid trong DTO
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException e) {
         String message = (e.getFieldError() != null)
@@ -37,15 +35,4 @@ public class GlobalExceptionHandler {
                 "message", message
         ));
     }
-
-//    // Xử lý các lỗi chưa được định nghĩa cụ thể (fallback)
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<?> handleGenericException(Exception e) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-//                "timestamp", LocalDateTime.now(),
-//                "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//                "error", "Internal Server Error",
-//                "message", e.getMessage()
-//        ));
-//    }
 }

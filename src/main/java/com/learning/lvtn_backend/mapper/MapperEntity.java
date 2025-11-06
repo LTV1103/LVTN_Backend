@@ -13,8 +13,8 @@ import com.learning.lvtn_backend.dto.request.dtoUsers.dtoUpdateUsers;
 import com.learning.lvtn_backend.dto.response.*;
 import com.learning.lvtn_backend.entity.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -25,6 +25,7 @@ public interface MapperEntity {
     dtoGetUser dtoToGetUser(Users users);
     List<dtoGetUser> dtoToGetUserList(List<Users> users);
     void  userUpdate(@MappingTarget  Users user ,  dtoUpdateUsers request);
+
 
 
     //Course

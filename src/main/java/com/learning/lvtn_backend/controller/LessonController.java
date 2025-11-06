@@ -1,6 +1,6 @@
 package com.learning.lvtn_backend.controller;
 
-import com.learning.lvtn_backend.controller.base.BaseController;
+import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoLesson.dtoCreateLesson;
 import com.learning.lvtn_backend.dto.request.dtoLesson.dtoUpdateLesson;
 import com.learning.lvtn_backend.dto.response.dtoGetLesson;
