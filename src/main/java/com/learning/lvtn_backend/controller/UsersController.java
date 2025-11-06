@@ -30,6 +30,7 @@ public class UsersController extends BaseController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<dtoGetUser>>> getUsers() {
         List<dtoGetUser> users = usersService.getAllUser();
+        System.out.println(users);
         return success("Lấy danh sách người dùng thành công!", users);
     }
 
@@ -58,7 +59,16 @@ public class UsersController extends BaseController {
             return error(HttpStatus.UNAUTHORIZED, e.getMessage(),null);
         }
     }
-
+    @PostMapping("/auth/logout")
+    public ResponseEntity<ApiResponse<String>> logout(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            authService.logout(token);
+            return success("Đăng xuất thành công", null);
+        } catch (RuntimeException e) {
+            return error(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+        }
+    }
 
 
     //PUT

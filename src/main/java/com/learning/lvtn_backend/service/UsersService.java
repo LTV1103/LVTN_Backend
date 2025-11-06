@@ -1,5 +1,6 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.Auth.JWT.jwtUtil;
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoUpdateUsers;
 import com.learning.lvtn_backend.dto.request.dtoUsers.dtoCreateUsers;
 import com.learning.lvtn_backend.dto.response.dtoGetUser;
@@ -7,6 +8,7 @@ import com.learning.lvtn_backend.entity.Users;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.UsersReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,8 @@ public class UsersService {
     private UsersReponsitory usersReponsitory;
     @Autowired
     private MapperEntity userMapping;
+    @Autowired
+    private jwtUtil jwtUtil;
 
     public List<dtoGetUser> getAllUser() {
         List<Users> usersList = usersReponsitory.findAll();
@@ -33,6 +37,8 @@ public class UsersService {
         Users user = userMapping.userToUser(request);
         user.setRole("User");
         user.setProvider("Local");
+        String refeshToken = jwtUtil.generateRefreshToken(user.getUsername());
+        user.setRefreshToken(refeshToken);
         user.setCreatedAt(LocalDateTime.now());
         return usersReponsitory.save(user);
 

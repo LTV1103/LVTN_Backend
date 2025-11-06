@@ -18,9 +18,6 @@ public class LvtnBackEndApplication {
         dotenv.entries().forEach(entry ->
                 System.setProperty(entry.getKey(), entry.getValue())
         );
-        // In thử để check (sau khi chạy có thể xóa)
-        System.out.println("🔍 Loaded DB_URL = " + System.getProperty("DB_URL"));
-
         SpringApplication.run(LvtnBackEndApplication.class, args);
     }
 }

@@ -16,18 +16,34 @@ public class AuthService {
     private jwtUtil jwtUtil;
 
 
-    public Map<String , Object> login(String username , String password){
-        Users users = usersReponsitory.findByUsername(username).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
-        System.out.print(password);
-        System.out.println(users.getClass().getName());
-
-        if(!users.getPassword().equals(password)){
+    public Map<String, Object> login(String username, String password) {
+        Users user = usersReponsitory.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+        if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Sai mật khẩu");
         }
-        String token = jwtUtil.generateToken(users.getUsername());
-        return Map.of("users" , users ,"token", token);
+        String accessToken = jwtUtil.generateToken(user.getUsername());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+        user.setRefreshToken(refreshToken);
+        usersReponsitory.save(user);
+        // Trả về kết quả
+        return Map.of(
 
+                "accessToken", accessToken,
+                "refreshToken", refreshToken
+        );
     }
+
+    public void logout(String token) {
+        String username = jwtUtil.getUsernameFromToken(token);
+        Users user = usersReponsitory.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+        user.setRefreshToken(null);
+        usersReponsitory.save(user);
+    }
+
+
+
 
 
 

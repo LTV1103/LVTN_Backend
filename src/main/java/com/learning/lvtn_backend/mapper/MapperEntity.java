@@ -15,8 +15,8 @@ import com.learning.lvtn_backend.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import java.util.List;
 
+import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MapperEntity {
 
