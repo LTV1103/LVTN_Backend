@@ -14,34 +14,37 @@ import java.util.Optional;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
     @Autowired
     private UsersReponsitory usersReponsitory;
+
     @Autowired
     private jwtUtil jwtUtil;
 
-
-    public CustomOAuth2UserService(UsersReponsitory usersReponsitory) {
-        this.usersReponsitory = usersReponsitory;
-    }
+    @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        String id_gg  = oAuth2User.getAttribute("sub");
+        String googleId = oAuth2User.getAttribute("sub");
         String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
-        Optional<User> existingUser = usersReponsitory.findByEmail(email);
-        if(existingUser.isEmpty()) {
+        String fullName = oAuth2User.getAttribute("name");
+        Optional<User> findUserByEmail = usersReponsitory.findByEmail(email);
+        if (findUserByEmail.isEmpty()) {
             User user = new User();
             user.setEmail(email);
-            user.setFullname(name);
+            user.setFullname(fullName);
             user.setCreatedAt(LocalDateTime.now());
-            user.setRole("USER");
+            user.setRole("user");
             user.setProvider("google");
-            String refeshToken = jwtUtil.generateRefreshToken(user.getUsername());
-            user.setRefreshToken(refeshToken);
-            user.setGoogleId(id_gg);
+            user.setGoogleId(googleId);
+        } else {
+            User user = findUserByEmail.get();
+            String accessToken = jwtUtil.generateToken(user.getUsername());
+            String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+            user.setRefreshToken(refreshToken);
             usersReponsitory.save(user);
-        }
-        return oAuth2User;
+            System.out.println(accessToken);
+            System.out.println(refreshToken);
+        }return oAuth2User;
     }
-
 }
+
