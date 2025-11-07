@@ -1,7 +1,7 @@
-package com.learning.lvtn_backend.Auth;
+package com.learning.lvtn_backend.auth;
 
-import com.learning.lvtn_backend.Auth.JWT.jwtUtil;
-import com.learning.lvtn_backend.entity.Users;
+import com.learning.lvtn_backend.auth.JWT.jwtUtil;
+import com.learning.lvtn_backend.entity.User;
 import com.learning.lvtn_backend.reponsitory.UsersReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AuthService {
 
 
     public Map<String, Object> login(String username, String password) {
-        Users user = usersReponsitory.findByUsername(username)
+        User user = usersReponsitory.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Sai mật khẩu");
@@ -26,7 +26,6 @@ public class AuthService {
         String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
         user.setRefreshToken(refreshToken);
         usersReponsitory.save(user);
-        // Trả về kết quả
         return Map.of(
 
                 "accessToken", accessToken,
@@ -36,7 +35,7 @@ public class AuthService {
 
     public void logout(String token) {
         String username = jwtUtil.getUsernameFromToken(token);
-        Users user = usersReponsitory.findByUsername(username)
+        User user = usersReponsitory.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         user.setRefreshToken(null);
         usersReponsitory.save(user);

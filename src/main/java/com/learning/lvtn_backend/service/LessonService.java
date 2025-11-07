@@ -2,7 +2,7 @@ package com.learning.lvtn_backend.service;
 
 import com.learning.lvtn_backend.dto.request.dtoLesson.dtoCreateLesson;
 import com.learning.lvtn_backend.dto.request.dtoLesson.dtoUpdateLesson;
-import com.learning.lvtn_backend.dto.response.dtoGetLesson;
+import com.learning.lvtn_backend.dto.response.dtoLesson.dtoGetLesson;
 import com.learning.lvtn_backend.entity.Lesson;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.LessonRepository;
@@ -17,21 +17,22 @@ public class LessonService {
     @Autowired
     private LessonRepository lessonRepository;
 
-    private MapperEntity mapper; // Dùng chung mapper cho project
+    @Autowired
+    private MapperEntity lessonMapping;
 
     public List<dtoGetLesson> getAllLessons() {
         List<Lesson> lessons = lessonRepository.findAll();
-        return mapper.dtoToGetLessonList(lessons);
+        return lessonMapping.listLessonToListDtoGetLesson(lessons);
     }
 
     public dtoGetLesson getLessonById(int id) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với ID = " + id));
-        return mapper.dtoToGetLesson(lesson);
+        return lessonMapping.lessonToDtoGetLesson(lesson);
     }
 
     public Lesson createLesson(dtoCreateLesson request) {
-        Lesson lesson = mapper.lessonToLesson(request);
+        Lesson lesson = lessonMapping.dtoCreateLessonToLesson(request);
         return lessonRepository.save(lesson);
     }
 
@@ -39,9 +40,9 @@ public class LessonService {
         Lesson existingLesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với ID = " + id));
 
-        mapper.lessonUpdate(existingLesson, request);
+        lessonMapping.lessonUpdate(existingLesson, request);
         Lesson updatedLesson = lessonRepository.save(existingLesson);
-        return mapper.dtoToGetLesson(updatedLesson);
+        return lessonMapping.lessonToDtoGetLesson(updatedLesson);
     }
 
     public void deleteLesson(int id) {

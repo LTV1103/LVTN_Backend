@@ -1,4 +1,4 @@
-package com.learning.lvtn_backend.dto.response;
+package com.learning.lvtn_backend.dto.response.dtoUser;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

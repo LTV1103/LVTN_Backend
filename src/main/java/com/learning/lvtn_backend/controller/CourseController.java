@@ -1,8 +1,9 @@
 package com.learning.lvtn_backend.controller;
 
+import com.learning.lvtn_backend.dto.request.dtoCourse.dtoCreateCourse;
 import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoCourse.dtoUpdateCourse;
-import com.learning.lvtn_backend.dto.response.dtoGetCourse;
+import com.learning.lvtn_backend.dto.response.dtoCourse.dtoGetCourse;
 import com.learning.lvtn_backend.entity.Course;
 import com.learning.lvtn_backend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CourseController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourse(@RequestBody dtoGetCourse request) {
+    public ResponseEntity<?> createCourse(@RequestBody dtoCreateCourse request) {
         Course newCourse = courseService.createCourse(request);
         return created("Tạo khóa học mới thành công!", newCourse);
     }
@@ -50,7 +51,7 @@ public class CourseController extends BaseController {
 
     @GetMapping("users/{id}")
     public ResponseEntity<?> getUserCourses(@PathVariable int id) {
-        List<Course> course = courseService.getCoursebyUserid(id);
+        List<dtoGetCourse> course = courseService.getCoursebyUserid(id);
         return success("Lấy thông tin khóa học thành công!" , course);
     }
 }

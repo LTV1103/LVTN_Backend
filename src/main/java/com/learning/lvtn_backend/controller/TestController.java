@@ -3,7 +3,7 @@ package com.learning.lvtn_backend.controller;
 import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoTest.dtoCreateTest;
 import com.learning.lvtn_backend.dto.request.dtoTest.dtoUpdateTest;
-import com.learning.lvtn_backend.dto.response.dtoGetTest;
+import com.learning.lvtn_backend.dto.response.dtoTest.dtoGetTest;
 import com.learning.lvtn_backend.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

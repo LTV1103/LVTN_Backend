@@ -3,7 +3,7 @@ package com.learning.lvtn_backend.controller;
 import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoCreatePayment;
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoUpdatePayment;
-import com.learning.lvtn_backend.dto.response.dtoGetPayment;
+import com.learning.lvtn_backend.dto.response.dtoPayment.dtoGetPayment;
 import com.learning.lvtn_backend.entity.Payment;
 import com.learning.lvtn_backend.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;

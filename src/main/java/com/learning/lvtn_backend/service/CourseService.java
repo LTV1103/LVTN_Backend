@@ -1,13 +1,16 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.request.dtoCourse.dtoCreateCourse;
 import com.learning.lvtn_backend.dto.request.dtoCourse.dtoUpdateCourse;
-import com.learning.lvtn_backend.dto.response.dtoGetCourse;
+import com.learning.lvtn_backend.dto.response.dtoCourse.dtoGetCourse;
 import com.learning.lvtn_backend.entity.Course;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.CourseRepository;
 import com.learning.lvtn_backend.reponsitory.UsersReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +26,7 @@ public class CourseService {
 
     public List<dtoGetCourse> getAllCourses() {
         List<Course> courseList = courseRepository.findAll();
-        return courseMapping.dtoToGetCourseList(courseList);
+        return courseMapping.listCourseTolistDtoCourse(courseList);
     }
 
     public Course getCourseById(int id) {
@@ -31,11 +34,11 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với ID = " + id));
     }
 
-    public Course createCourse(dtoGetCourse request) {
+    public Course createCourse(dtoCreateCourse request) {
         if (courseRepository.existsByCourseName(request.getCourseName())) {
             throw new RuntimeException("Tên khóa học đã tồn tại");
         }
-        Course course = courseMapping.courseToCourse(request);
+        Course course = courseMapping.dtoCreateCourseToCourse(request);
         return courseRepository.save(course);
     }
 
@@ -44,7 +47,7 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với ID = " + id));
         courseMapping.courseUpdate(courseEntity,request);
        Course updatedCourse = courseRepository.save(courseEntity);
-       return courseMapping.dtoToGetCourse(updatedCourse);
+       return courseMapping.courseToDtoCourse(updatedCourse);
     }
 
     public void deleteCourse(int id) {
@@ -54,14 +57,15 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public List<Course> getCoursebyUserid(int userId) {
+    public List<dtoGetCourse> getCoursebyUserid(int userId) {
         if (!usersReponsitory.existsById(userId)) {
             throw new RuntimeException("Khóa học không có người dùng với ID = " + userId);
         }
         List<Course> courseList =  courseRepository.findCourseByUser(userId);
+        List<dtoGetCourse> listCourseTolistDtoCourse = courseMapping.listCourseTolistDtoCourse(courseList);
         if (courseList.isEmpty()) {
             throw new RuntimeException("Người dùng này chưa tham gia khóa học nào!");
         }
-        return courseList;
+        return listCourseTolistDtoCourse;
     }
 }

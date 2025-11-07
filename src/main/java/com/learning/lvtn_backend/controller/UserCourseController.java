@@ -1,40 +1,49 @@
 package com.learning.lvtn_backend.controller;
 
-import com.learning.lvtn_backend.entity.UserCourse;
+import com.learning.lvtn_backend.dto.request.dtoUserCourse.dtoCreateUserCourse;
+import com.learning.lvtn_backend.dto.request.dtoUserCourse.dtoUpdateUserCourse;
+import com.learning.lvtn_backend.dto.response.dtoUserCourse.dtoGetUserCourse;
+import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.service.UserCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/buy")
-public class UserCourseController {
+public class UserCourseController extends BaseController {
+
     @Autowired
     private UserCourseService userCourseService;
 
     @GetMapping
-    public List<UserCourse> getAllUserCourses() {
-        return userCourseService.getAllUserCourses();
+    public ResponseEntity<?> getAllUserCourses() {
+        List<dtoGetUserCourse> list = userCourseService.getAllUserCourses();
+        return success("Lấy danh sách khóa học đã mua thành công!", list);
     }
 
     @GetMapping("/{id}")
-    public UserCourse getUserCourseById(@PathVariable int id) {
-        return userCourseService.getUserCourseById(id);
+    public ResponseEntity<?> getUserCourseById(@PathVariable int id) {
+        dtoGetUserCourse userCourse = userCourseService.getUserCourseById(id);
+        return success("Lấy thông tin khóa học đã mua thành công!", userCourse);
     }
 
     @PostMapping
-    public UserCourse createUserCourse(@RequestBody UserCourse userCourse) {
-        return userCourseService.createUserCourse(userCourse);
+    public ResponseEntity<?> createUserCourse(@RequestBody dtoCreateUserCourse request) {
+        dtoGetUserCourse created = userCourseService.createUserCourse(request);
+        return created("Mua khóa học thành công!", created);
     }
 
     @PutMapping("/{id}")
-    public UserCourse updateUserCourse(@PathVariable int id, @RequestBody UserCourse userCourseDetails) {
-        return userCourseService.updateUserCourse(id, userCourseDetails);
+    public ResponseEntity<?> updateUserCourse(@PathVariable int id, @RequestBody dtoUpdateUserCourse request) {
+        dtoGetUserCourse updated = userCourseService.updateUserCourse(id, request);
+        return success("Cập nhật thông tin khóa học đã mua thành công!", updated);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUserCourse(@PathVariable int id) {
+    public ResponseEntity<?> deleteUserCourse(@PathVariable int id) {
         userCourseService.deleteUserCourse(id);
-        return "Deleted user-course with ID = " + id;
+        return success("Xóa khóa học đã mua thành công!", "Deleted user-course with ID = " + id);
     }
 }

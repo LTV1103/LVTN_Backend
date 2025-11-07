@@ -1,13 +1,13 @@
 package com.learning.lvtn_backend.controller;
 
-import com.learning.lvtn_backend.Auth.AuthService;
+import com.learning.lvtn_backend.auth.AuthService;
+import com.learning.lvtn_backend.entity.User;
 import com.learning.lvtn_backend.exception.base.BaseController;
-import com.learning.lvtn_backend.dto.request.dtoUsers.dtoUpdateUsers;
-import com.learning.lvtn_backend.dto.request.dtoUsers.dtoCreateUsers;
-import com.learning.lvtn_backend.dto.response.dtoGetUser;
-import com.learning.lvtn_backend.entity.Users;
+import com.learning.lvtn_backend.dto.request.dtoUser.dtoUpdateUsers;
+import com.learning.lvtn_backend.dto.request.dtoUser.dtoCreateUsers;
+import com.learning.lvtn_backend.dto.response.dtoUser.dtoGetUser;
 import com.learning.lvtn_backend.exception.base.ApiResponse;
-import com.learning.lvtn_backend.service.UsersService;
+import com.learning.lvtn_backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class UsersController extends BaseController {
+public class UserController extends BaseController {
 
     @Autowired
-    private UsersService usersService;
+    private UserService userService;
     @Autowired
     private AuthService authService;
 
@@ -29,22 +29,22 @@ public class UsersController extends BaseController {
     //GET
     @GetMapping
     public ResponseEntity<ApiResponse<List<dtoGetUser>>> getUsers() {
-        List<dtoGetUser> users = usersService.getAllUser();
+        List<dtoGetUser> users = userService.getAllUser();
         System.out.println(users);
         return success("Lấy danh sách người dùng thành công!", users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<dtoGetUser>> getUserById(@PathVariable int id) {
-        dtoGetUser user = usersService.getUserById(id);
+        dtoGetUser user = userService.getUserById(id);
         return success("Lấy thông tin người dùng thành công!", user);
     }
 
 
     //POST
     @PostMapping
-    public ResponseEntity<ApiResponse<Users>> createUser(@RequestBody @Valid dtoCreateUsers request) {
-        Users created = usersService.createUsers(request);
+    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody @Valid dtoCreateUsers request) {
+        User created = userService.createUsers(request);
         return created("Tạo người dùng mới thành công!", created);
     }
     @PostMapping("/auth/login")
@@ -74,7 +74,7 @@ public class UsersController extends BaseController {
     //PUT
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<dtoGetUser>> updateUser(@PathVariable int id, @RequestBody dtoUpdateUsers request) {
-        dtoGetUser updatedUser = usersService.updateUser(id, request);
+        dtoGetUser updatedUser = userService.updateUser(id, request);
         return success("Cập nhật người dùng thành công!", updatedUser);
     }
 
@@ -82,7 +82,7 @@ public class UsersController extends BaseController {
     //DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable int id) {
-        usersService.deleteUser(id);
+        userService.deleteUser(id);
         return success("Xóa người dùng thành công!", "Deleted user with ID = " + id);
     }
 }

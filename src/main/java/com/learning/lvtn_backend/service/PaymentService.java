@@ -2,7 +2,7 @@ package com.learning.lvtn_backend.service;
 
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoCreatePayment;
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoUpdatePayment;
-import com.learning.lvtn_backend.dto.response.dtoGetPayment;
+import com.learning.lvtn_backend.dto.response.dtoPayment.dtoGetPayment;
 import com.learning.lvtn_backend.entity.Payment;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.PaymentRepository;
@@ -21,17 +21,17 @@ public class PaymentService {
 
     public List<dtoGetPayment> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
-        return paymentMapping.dtoToGetPaymentList(payments);
+        return paymentMapping.listPaymentToListDtoGetPayment(payments);
     }
 
     public dtoGetPayment getPaymentById(int id) {
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy thanh toán với ID = " + id));
-        return paymentMapping.dtoToGetPayment(payment);
+        return paymentMapping.paymentToDtoGetPayment(payment);
     }
 
     public Payment createPayment(dtoCreatePayment request) {
-        Payment payment = paymentMapping.paymentToPayment(request);
+        Payment payment = paymentMapping.dtoCreatePaymentToPayment(request);
         return paymentRepository.save(payment);
     }
 
@@ -40,7 +40,7 @@ public class PaymentService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy thanh toán với ID = " + id));
         paymentMapping.paymentUpdate(existing, request);
         Payment updated = paymentRepository.save(existing);
-        return paymentMapping.dtoToGetPayment(updated);
+        return paymentMapping.paymentToDtoGetPayment(updated);
     }
 
     public void deletePayment(int id) {

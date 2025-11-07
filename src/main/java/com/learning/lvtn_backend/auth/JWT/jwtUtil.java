@@ -1,4 +1,4 @@
-package com.learning.lvtn_backend.Auth.JWT;
+package com.learning.lvtn_backend.auth.JWT;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -26,12 +26,13 @@ public class jwtUtil {
     }
 
     public String generateToken(String username) {
-        return Jwts.builder()
+        String token =  Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+        return  token;
     }
 
     public String generateRefreshToken(String username) {

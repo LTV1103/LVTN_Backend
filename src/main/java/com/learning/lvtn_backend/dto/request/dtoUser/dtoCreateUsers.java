@@ -1,4 +1,4 @@
-package com.learning.lvtn_backend.dto.request.dtoUsers;
+package com.learning.lvtn_backend.dto.request.dtoUser;
 
 import jakarta.validation.constraints.Size;
 import lombok.*;

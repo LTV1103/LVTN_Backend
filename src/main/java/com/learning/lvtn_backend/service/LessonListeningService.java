@@ -1,6 +1,10 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.request.dtoListening.dtoCreateListening;
+import com.learning.lvtn_backend.dto.request.dtoListening.dtoUpdateListening;
+import com.learning.lvtn_backend.dto.response.dtoListening.dtoGetListening;
 import com.learning.lvtn_backend.entity.LessonListening;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.LessonListeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,27 +14,26 @@ import java.util.List;
 public class LessonListeningService {
     @Autowired
     private LessonListeningRepository lessonListeningRepository;
+    @Autowired
+    private MapperEntity listeningMapping;
 
-    public List<LessonListening> getAllLessonListenings() { return lessonListeningRepository.findAll(); }
+    public List<dtoGetListening> getAllLessonListenings() { return listeningMapping.listListeningToListDtoGetListening(lessonListeningRepository.findAll());  }
 
-    public LessonListening getLessonListeningById(int id) {
-        return lessonListeningRepository.findById(id).orElseThrow(() -> new RuntimeException("Listening not found with ID = " + id));
+    public dtoGetListening getLessonListeningById(int id) {
+        return listeningMapping.listeningToDtoGetListening(lessonListeningRepository.findById(id).orElseThrow(() -> new RuntimeException("Listening not found with ID = " + id)));
     }
 
-    public LessonListening createLessonListening(LessonListening listening) { return lessonListeningRepository.save(listening); }
+    public LessonListening createLessonListening(dtoCreateListening listening) {
+        LessonListening lessonListening = listeningMapping.dtoCreateListeningToListening(listening);
+        return lessonListeningRepository.save(lessonListening);
+    }
 
-    public LessonListening updateLessonListening(int id, LessonListening details) {
-        LessonListening existing = getLessonListeningById(id);
-        existing.setIdLesson(details.getIdLesson());
-        existing.setAudioUrl(details.getAudioUrl());
-        existing.setTranscript(details.getTranscript());
-        existing.setQuestion(details.getQuestion());
-        existing.setOptionA(details.getOptionA());
-        existing.setOptionB(details.getOptionB());
-        existing.setOptionC(details.getOptionC());
-        existing.setOptionD(details.getOptionD());
-        existing.setCorrectOption(details.getCorrectOption());
-        return lessonListeningRepository.save(existing);
+    public dtoGetListening updateLessonListening(int id, dtoUpdateListening lessonListening) {
+        LessonListening existing = lessonListeningRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài nghe với ID = " + id));
+        listeningMapping.listeningUpdate(existing,lessonListening);
+        LessonListening listening = lessonListeningRepository.save(existing);
+        return listeningMapping.listeningToDtoGetListening(listening);
     }
 
     public void deleteLessonListening(int id) {

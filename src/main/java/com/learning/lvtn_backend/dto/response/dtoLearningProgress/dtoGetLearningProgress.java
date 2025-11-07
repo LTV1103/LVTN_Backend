@@ -1,20 +1,20 @@
-package com.learning.lvtn_backend.dto.response;
+package com.learning.lvtn_backend.dto.response.dtoLearningProgress;
 
 import lombok.AccessLevel;
 import lombok.Data;
+
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class dtoGetCourse {
-    String courseName;
-    String description;
-    String imgUrl;
-    BigDecimal price;
-    String level;
+public class dtoGetLearningProgress {
+    int idUserCourse;
+    int idLesson;
+    BigDecimal progressPercent;
+    LocalDateTime lastAccessed;
     String status;
-    LocalDateTime createdAt;
 }
 

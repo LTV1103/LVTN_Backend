@@ -2,7 +2,7 @@ package com.learning.lvtn_backend.service;
 
 import com.learning.lvtn_backend.dto.request.dtoTest.dtoCreateTest;
 import com.learning.lvtn_backend.dto.request.dtoTest.dtoUpdateTest;
-import com.learning.lvtn_backend.dto.response.dtoGetTest;
+import com.learning.lvtn_backend.dto.response.dtoTest.dtoGetTest;
 import com.learning.lvtn_backend.entity.Test;
 import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.TestRepository;
@@ -20,25 +20,25 @@ public class TestService {
     private MapperEntity TestMapping;
 
     public List<dtoGetTest> getAllTests() {
-        return TestMapping.dtoToGetTestList(testRepository.findAll());
+        return TestMapping.listTestToListDtoGetTest(testRepository.findAll());
     }
 
     public dtoGetTest getTestById(int id) {
         Test test = testRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài kiểm tra có ID = " + id));
-        return TestMapping.dtoToGetTest(test);
+        return TestMapping.testToDtoGetTest(test);
     }
 
     public dtoGetTest createTest(dtoCreateTest request) {
-        Test test = TestMapping.testToTest(request);
-        return TestMapping.dtoToGetTest(testRepository.save(test));
+        Test test = TestMapping.dtoCreateTestToTest(request);
+        return TestMapping.testToDtoGetTest(testRepository.save(test));
     }
 
     public dtoGetTest updateTest(int id, dtoUpdateTest request) {
         Test existing = testRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài kiểm tra có ID = " + id));
         TestMapping.testUpdate(existing, request);
-        return TestMapping.dtoToGetTest(testRepository.save(existing));
+        return TestMapping.testToDtoGetTest(testRepository.save(existing));
     }
 
     public void deleteTest(int id) {

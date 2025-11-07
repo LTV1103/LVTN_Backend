@@ -1,4 +1,4 @@
-package com.learning.lvtn_backend.dto.response;
+package com.learning.lvtn_backend.dto.response.dtoLesson;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -9,10 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetLesson {
-    int idCourse;
     String lessonTitle;
     String description;
-    int orderIndex;
     LocalDateTime createdAt;
 }
 

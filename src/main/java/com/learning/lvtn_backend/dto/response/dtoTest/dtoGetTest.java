@@ -1,4 +1,4 @@
-package com.learning.lvtn_backend.dto.response;
+package com.learning.lvtn_backend.dto.response.dtoTest;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

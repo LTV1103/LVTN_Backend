@@ -1,6 +1,6 @@
 package com.learning.lvtn_backend.reponsitory;
 
-import com.learning.lvtn_backend.entity.Users;
+import com.learning.lvtn_backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +8,8 @@ import java.util.Optional;
 
 @Repository
 
-public interface UsersReponsitory extends JpaRepository<Users, Integer> {
+public interface UsersReponsitory extends JpaRepository<User, Integer> {
    boolean existsByUsername (String username);
-   Optional<Users> findByUsername(String username);
-   Optional<Users> findByEmail(String email);
+   Optional<User> findByUsername(String username);
+   Optional<User> findByEmail(String email);
 }

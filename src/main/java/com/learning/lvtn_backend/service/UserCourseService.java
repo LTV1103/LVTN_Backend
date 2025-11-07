@@ -1,35 +1,50 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.request.dtoUserCourse.dtoCreateUserCourse;
+import com.learning.lvtn_backend.dto.request.dtoUserCourse.dtoUpdateUserCourse;
+import com.learning.lvtn_backend.dto.response.dtoUserCourse.dtoGetUserCourse;
 import com.learning.lvtn_backend.entity.UserCourse;
+import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.UserCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class UserCourseService {
+
     @Autowired
     private UserCourseRepository userCourseRepository;
 
-    public List<UserCourse> getAllUserCourses() { return userCourseRepository.findAll(); }
+    @Autowired
+    private MapperEntity mapperEntity;
 
-    public UserCourse getUserCourseById(int id) {
-        return userCourseRepository.findById(id).orElseThrow(() -> new RuntimeException("UserCourse not found with ID = " + id));
+    public List<dtoGetUserCourse> getAllUserCourses() {
+        return mapperEntity.listUserCourseToListDtoGetUserCourse(userCourseRepository.findAll());
     }
 
-    public UserCourse createUserCourse(UserCourse userCourse) { return userCourseRepository.save(userCourse); }
+    public dtoGetUserCourse getUserCourseById(int id) {
+        UserCourse userCourse = userCourseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy UserCourse có ID = " + id));
+        return mapperEntity.userCourseToDtoGetUserCourse(userCourse);
+    }
 
-    public UserCourse updateUserCourse(int id, UserCourse details) {
-        UserCourse existing = getUserCourseById(id);
-        existing.setId_Course(details.getId_Course());
-        existing.setId_User(details.getId_User());
-        existing.setEnrolledAt(details.getEnrolledAt());
-        existing.setStatus(details.getStatus());
-        return userCourseRepository.save(existing);
+    public dtoGetUserCourse createUserCourse(dtoCreateUserCourse request) {
+        UserCourse entity = mapperEntity.dtoCreateUserCourseToUserCourse(request);
+        return mapperEntity.userCourseToDtoGetUserCourse(userCourseRepository.save(entity));
+    }
+
+    public dtoGetUserCourse updateUserCourse(int id, dtoUpdateUserCourse request) {
+        UserCourse existing = userCourseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy UserCourse có ID = " + id));
+        mapperEntity.userCourseUpdate(existing, request);
+        return mapperEntity.userCourseToDtoGetUserCourse(userCourseRepository.save(existing));
     }
 
     public void deleteUserCourse(int id) {
-        if (!userCourseRepository.existsById(id)) throw new RuntimeException("UserCourse not found with ID = " + id);
+        if (!userCourseRepository.existsById(id))
+            throw new RuntimeException("Không tìm thấy UserCourse có ID = " + id);
         userCourseRepository.deleteById(id);
     }
 }
