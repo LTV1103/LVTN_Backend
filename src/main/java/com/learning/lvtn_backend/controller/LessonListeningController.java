@@ -13,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/listening")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class LessonListeningController extends BaseController {
 
     @Autowired

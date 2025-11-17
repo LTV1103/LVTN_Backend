@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/progress")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LearningProgressController extends BaseController {
 
     @Autowired

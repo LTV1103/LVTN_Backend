@@ -13,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grammar")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class LessonGrammarController extends BaseController {
 
     @Autowired

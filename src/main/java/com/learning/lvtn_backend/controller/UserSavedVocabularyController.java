@@ -8,6 +8,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/save")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class UserSavedVocabularyController {
 
     @Autowired

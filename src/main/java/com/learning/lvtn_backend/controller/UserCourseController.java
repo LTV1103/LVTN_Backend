@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/buy")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class UserCourseController extends BaseController {
 
     @Autowired

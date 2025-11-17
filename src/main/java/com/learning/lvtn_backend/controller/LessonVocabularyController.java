@@ -13,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vocabulary")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class LessonVocabularyController extends BaseController {
 
     @Autowired

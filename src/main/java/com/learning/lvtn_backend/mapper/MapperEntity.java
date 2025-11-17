@@ -45,9 +45,8 @@ import org.mapstruct.MappingTarget;
 import org.springframework.context.annotation.Primary;
 
 import java.util.List;
-
-@Mapper(componentModel = "spring")
 @Primary
+@Mapper(componentModel = "spring")
 public interface MapperEntity {
 
     // ================= USER =================

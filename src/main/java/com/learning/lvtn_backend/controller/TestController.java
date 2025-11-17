@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/test")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class TestController extends BaseController {
 
     @Autowired

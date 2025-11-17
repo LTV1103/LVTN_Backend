@@ -36,6 +36,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setRole("user");
             user.setProvider("google");
             user.setGoogleId(googleId);
+            usersReponsitory.save(user);
+
         } else {
             User user = findUserByEmail.get();
             String accessToken = jwtUtil.generateToken(user.getUsername());

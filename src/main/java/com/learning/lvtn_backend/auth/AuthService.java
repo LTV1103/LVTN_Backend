@@ -29,6 +29,8 @@ public class AuthService {
         return Map.of(
 
                 "accessToken", accessToken,
+                "user" , user.getUsername(),
+                "role" , user.getRole(),
                 "refreshToken", refreshToken
         );
     }
