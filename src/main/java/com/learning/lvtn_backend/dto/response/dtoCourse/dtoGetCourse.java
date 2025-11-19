@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetCourse {
+    int id_Course;
     String courseName;
     String description;
     String imgUrl;

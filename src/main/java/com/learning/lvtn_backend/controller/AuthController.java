@@ -1,5 +1,7 @@
 package com.learning.lvtn_backend.controller;
 
+import com.learning.lvtn_backend.auth.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -7,21 +9,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173") // optional nếu đã global
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
+
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
-        String accessToken = body.get("access_token");
+        String credential = body.get("credential");
+        System.out.println(credential);
 
-        // Gọi Google API lấy thông tin user
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken;
-
-        Map<String, Object> googleUser = restTemplate.getForObject(url, Map.class);
-
-        return ResponseEntity.ok(Map.of(
-                "user", googleUser
-        ));
+        return ResponseEntity.ok(authService.loginWithGoogle(credential));
     }
 }
+

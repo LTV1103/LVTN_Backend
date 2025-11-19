@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class BaseController {
 
-    // Trả về ResponseEntity (status HTTP vẫn giữ, nhưng JSON không chứa status)
+    // Trả về ResponseEntity (status HTTP vẫn giữ, JSON có cả status)
     protected <T> ResponseEntity<ApiResponse<T>> successResponse(HttpStatus status, String message, T data) {
         return ResponseEntity.status(status)
-                .body(new ApiResponse<>(message, data));
+                .body(new ApiResponse<>(status.value(), message, data));
     }
 
     // 200 OK
@@ -21,15 +21,15 @@ public abstract class BaseController {
         return successResponse(HttpStatus.CREATED, message, data);
     }
 
-    // 204 NO CONTENT – không trả data luôn
+    // 204 NO CONTENT – không trả data
     protected ResponseEntity<ApiResponse<Void>> deleted(String message) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .body(new ApiResponse<>(message, null));
+                .body(new ApiResponse<>(HttpStatus.NO_CONTENT.value(), message, null));
     }
 
     // Error
     protected <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message, T data) {
         return ResponseEntity.status(status)
-                .body(new ApiResponse<>(message, data));
+                .body(new ApiResponse<>(status.value(), message, data));
     }
 }
