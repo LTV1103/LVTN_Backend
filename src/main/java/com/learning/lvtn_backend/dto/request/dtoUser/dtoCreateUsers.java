@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreateUsers {
      String fullname;
-     String email;
     @Size(min = 8, message =  "password must be least 8 characters!")
      String password;
      String username;
