@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetPayment {
+    int idPayment;
     int idUser;
     int idCourse;
     BigDecimal amount;

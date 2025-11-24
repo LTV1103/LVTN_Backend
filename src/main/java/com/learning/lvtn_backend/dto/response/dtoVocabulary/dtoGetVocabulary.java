@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetVocabulary {
+    int idVocab;
     int idLesson;
     String word;
     String meaning;

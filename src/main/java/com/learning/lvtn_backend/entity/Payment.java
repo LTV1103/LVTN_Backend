@@ -18,11 +18,8 @@ public class Payment {
     @Column(name = "id_payment")
     int idPayment;
 
-    @Column(name = "id_user")
+    @Column(name = "id_User")
     int idUser;
-
-    @Column(name = "id_course")
-    int idCourse;
 
     @Column(name = "amount")
     BigDecimal amount;

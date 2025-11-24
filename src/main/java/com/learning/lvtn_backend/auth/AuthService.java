@@ -53,13 +53,9 @@ public class AuthService {
         // VERIFY ID TOKEN
         String url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + credential;
         Map<String, Object> googleUser = restTemplate.getForObject(url, Map.class);
-
         // user info
-        String googleId = (String) googleUser.get("sub");
         String email = (String) googleUser.get("email");
         String fullName = (String) googleUser.get("name");
-        String picture = (String) googleUser.get("picture");
-
         // Check user tồn tại
         Optional<User> existing = usersReponsitory.findByEmail(email);
         User user;
@@ -69,7 +65,6 @@ public class AuthService {
             user.setEmail(email);
             user.setFullname(fullName);
             user.setProvider("google");
-            user.setGoogleId(googleId);
             user.setCreatedAt(LocalDateTime.now());
             user.setRole("user");
 
@@ -93,11 +88,9 @@ public class AuthService {
 
         // Access token
         String accessToken = jwtUtil.generateToken(email);
-
         return Map.of(
                 "message", "login_success",
                 "accessToken", accessToken,
-                "refreshToken", user.getRefreshToken(),
                 "user", user
         );
     }

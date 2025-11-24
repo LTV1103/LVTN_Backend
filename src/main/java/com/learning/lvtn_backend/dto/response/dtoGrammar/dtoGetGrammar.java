@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetGrammar {
+    int idGrammar;
     int idLesson;
     String title;
     String explanation;

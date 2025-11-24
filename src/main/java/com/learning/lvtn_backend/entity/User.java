@@ -30,8 +30,6 @@ public class User {
     String role;
     @Column(name = "provider")
     String provider;
-    @Column(name = "google_id")
-    String googleId;
     @Column(name = "refresh_token")
     String refreshToken;
     @Column(name = "created_at")

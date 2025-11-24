@@ -1,24 +1,134 @@
 package com.learning.lvtn_backend.controller;
 
+import com.learning.lvtn_backend.dto.request.dtoPayment.VNPayRequest;
+import com.learning.lvtn_backend.dto.request.dtoUserCourse.dtoCreateUserCourse;
+import com.learning.lvtn_backend.entity.Payment_Course;
+import com.learning.lvtn_backend.entity.UserCourse;
 import com.learning.lvtn_backend.exception.base.BaseController;
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoCreatePayment;
 import com.learning.lvtn_backend.dto.request.dtoPayment.dtoUpdatePayment;
 import com.learning.lvtn_backend.dto.response.dtoPayment.dtoGetPayment;
 import com.learning.lvtn_backend.entity.Payment;
+import com.learning.lvtn_backend.reponsitory.PaymentRepository;
+import com.learning.lvtn_backend.service.PaymentCourseService;
 import com.learning.lvtn_backend.service.PaymentService;
+import com.learning.lvtn_backend.service.UserCourseService;
+import com.learning.lvtn_backend.service.VNPayService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/payment")
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 
 public class PaymentController extends BaseController {
-
+    @Autowired
+    private VNPayService vnPayService;
+    @Autowired
+    private PaymentRepository paymentRepository;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private PaymentCourseService paymentCourseService;
+    @Autowired
+    private UserCourseService userCourseService;
+
+//    VNpay
+@PostMapping("/create")
+public ResponseEntity<?> createPayment(@RequestBody VNPayRequest req,
+                                       HttpServletRequest request) {
+
+    try {
+        // 1️⃣ Tạo Payment
+        Payment payment = new Payment();
+        payment.setIdUser((int) req.getIdUser());
+        payment.setAmount(new BigDecimal(req.getAmount()));
+        payment.setPaymentMethod("vnpay");
+        payment.setPaymentStatus("pending");
+        Payment savedPayment = paymentRepository.save(payment);
+
+        // 2️⃣ Lưu Payment_Course cho nhiều khóa học
+        String coursesStr = req.getIdCourse();
+        String[] courseIdsArr = coursesStr.split(",");
+        List<Payment_Course> paymentCourses = new ArrayList<>();
+        for (String id : courseIdsArr) {
+            Payment_Course pc = new Payment_Course();
+            pc.setIdPayment(savedPayment.getIdPayment());
+            pc.setIdCourse(Integer.parseInt(id.trim()));
+            pc.setCreatedAt(LocalDateTime.now());
+            paymentCourses.add(pc);
+        }
+        paymentCourseService.saveAll(paymentCourses);
+
+        // 3️⃣ Tạo URL VNPAY
+        String paymentUrl = vnPayService.createPaymentUrl(
+                (long) savedPayment.getIdPayment(),
+                req.getAmount(),
+                "Thanh toán khóa học: " + coursesStr,
+                coursesStr,
+                request
+        );
+
+        // 4️⃣ Trả response
+        Map<String, Object> response = new HashMap<>();
+        response.put("idPayment", savedPayment.getIdPayment());
+        response.put("idUser", savedPayment.getIdUser());
+        response.put("courses", coursesStr); // trả về tất cả id khóa học
+        response.put("amount", savedPayment.getAmount());
+        response.put("paymentMethod", savedPayment.getPaymentMethod());
+        response.put("paymentStatus", savedPayment.getPaymentStatus());
+        response.put("paymentUrl", paymentUrl);
+
+        return ResponseEntity.ok(response);
+
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Lỗi tạo URL thanh toán: " + e.getMessage());
+    }
+}
+
+
+
+    @GetMapping("/vnpay-return")
+    public String paymentReturn(@RequestParam Map<String, String> params, Model model) {
+        String responseCode = params.get("vnp_ResponseCode");
+        String txnRef = params.get("vnp_TxnRef"); // orderId
+
+        paymentRepository.findById(Integer.parseInt(txnRef)).ifPresent(order -> {
+            if ("00".equals(responseCode)) {
+                order.setPaymentStatus("SUCCESS");
+                paymentRepository.save(order);
+                // Truy vấn danh sách khóa học từ bảng payment_course
+                List<Payment_Course> paymentCourses = paymentCourseService.findByPaymentId(order.getIdPayment());
+                for (Payment_Course pc : paymentCourses) {
+                    dtoCreateUserCourse uc = new dtoCreateUserCourse();
+                    uc.setId_Course(pc.getIdCourse());
+                    uc.setId_User(order.getIdUser());
+                    uc.setEnrolledAt(LocalDateTime.now());
+                    uc.setStatus("active");
+                    userCourseService.createUserCourse(uc);
+                }
+
+            } else {
+                order.setPaymentStatus("FAILED");
+                paymentRepository.save(order);
+            }
+        });
+
+        model.addAttribute("params", params);
+        return "Thanh toan hoan tat";
+    }
+
+
 
     @GetMapping
     public ResponseEntity<?> getAllPayments() {

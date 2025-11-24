@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetListening {
+    int idListening;
     int idLesson;
     String audioUrl;
     String transcript;

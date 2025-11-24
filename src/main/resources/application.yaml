@@ -34,7 +34,17 @@ spring:
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             user-name-attribute: sub
 
+vnpay:
+  tmn-code: ${TMN_CODE}
+  hash-secret: ${HASH_SECRET}
+  pay-url: ${PAY_URL}
+  return-url: ${RETURN_URL}
 jwt:
   secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION}
   expiration_refresh: ${JWT_EXPIRATION_REFESH}
+
+
+
+
+

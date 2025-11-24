@@ -14,7 +14,7 @@ public class LessonVocabulary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_Vocab")
+    @Column(name = "id_Vocabulary")
     int idVocab;
 
     @Column(name = "id_Lesson")

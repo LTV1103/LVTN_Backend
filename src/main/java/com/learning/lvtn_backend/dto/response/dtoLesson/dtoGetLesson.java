@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetLesson {
+    int idLesson;
     String lessonTitle;
     String description;
     LocalDateTime createdAt;
