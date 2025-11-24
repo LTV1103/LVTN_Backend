@@ -1,9 +1,11 @@
 package com.learning.lvtn_backend.reponsitory;
 
 import com.learning.lvtn_backend.entity.UserCourse;
+import org.hibernate.annotations.processing.SQL;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserCourseRepository extends JpaRepository<UserCourse, Integer> {
+
 }

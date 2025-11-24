@@ -1,5 +1,6 @@
 package com.learning.lvtn_backend.service;
 
+import com.learning.lvtn_backend.dto.response.dtoSaved.dtoSaveVocabulary;
 import com.learning.lvtn_backend.entity.UserSavedVocabulary;
 import com.learning.lvtn_backend.reponsitory.UserSavedVocabularyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,12 @@ public class UserSavedVocabularyService {
     public void deleteUserSavedVocabulary(int id) {
         if (!userSavedVocabularyRepository.existsById(id)) throw new RuntimeException("Saved Vocabulary not found with ID = " + id);
         userSavedVocabularyRepository.deleteById(id);
+    }
+
+    public List<dtoSaveVocabulary> getVocabSaveByUser(int iduser){
+        if(!userSavedVocabularyRepository.existsById(iduser)){
+            throw new RuntimeException("Saved Vocabulary not found with ID = " + iduser);
+        }
+        return userSavedVocabularyRepository.findVocabByUserID(iduser);
     }
 }

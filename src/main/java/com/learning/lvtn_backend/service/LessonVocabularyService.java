@@ -8,6 +8,8 @@ import com.learning.lvtn_backend.mapper.MapperEntity;
 import com.learning.lvtn_backend.reponsitory.LessonVocabularyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +26,6 @@ public class LessonVocabularyService {
     public dtoGetVocabulary getLessonVocabularyById(int id) {
         return vocabMapping.vocabularyToDtoGetVocabulary(lessonVocabularyRepository.findById(id).orElseThrow(() -> new RuntimeException("Vocab not found with ID = " + id)));
     }
-
     public LessonVocabulary createLessonVocabulary(dtoCreateVocabulary vocab) {
         LessonVocabulary lesVocabulary = vocabMapping.dtoCreateVocabularyToVocabulary(vocab);
         return lessonVocabularyRepository.save(lesVocabulary); }
@@ -41,4 +42,5 @@ public class LessonVocabularyService {
         if (!lessonVocabularyRepository.existsById(id)) throw new RuntimeException("Vocab not found with ID = " + id);
         lessonVocabularyRepository.deleteById(id);
     }
+
 }

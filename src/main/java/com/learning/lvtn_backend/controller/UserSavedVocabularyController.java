@@ -1,5 +1,6 @@
 package com.learning.lvtn_backend.controller;
 
+import com.learning.lvtn_backend.dto.response.dtoSaved.dtoSaveVocabulary;
 import com.learning.lvtn_backend.entity.UserSavedVocabulary;
 import com.learning.lvtn_backend.service.UserSavedVocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,9 @@ public class UserSavedVocabularyController {
     public String deleteUserSavedVocabulary(@PathVariable int id) {
         userSavedVocabularyService.deleteUserSavedVocabulary(id);
         return "Deleted saved vocabulary with ID = " + id;
+    }
+    @GetMapping("/user/{id}")
+    public List<dtoSaveVocabulary> getUserSavedVocabularyByUserId(@PathVariable int id) {
+        return userSavedVocabularyService.getVocabSaveByUser(id);
     }
 }
