@@ -16,13 +16,13 @@ public class UserSavedVocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Saved")
-    int idSaved;
+    int saveId;
 
     @Column(name = "id_User")
-    int idUser;
+    int userId;
 
     @Column(name = "id_Vocab")
-    int idVocab;
+    int vocabularyId;
 
     @Column(name = "saved_at")
     LocalDateTime savedAt;

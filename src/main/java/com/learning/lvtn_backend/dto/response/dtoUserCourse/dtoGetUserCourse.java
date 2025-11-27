@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetUserCourse {
-    int id_Course;
-    int id_User;
+    int courseId;
+    int userId;
     LocalDateTime enrolledAt;
     String status;
 }

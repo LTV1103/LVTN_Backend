@@ -16,10 +16,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment")
-    int idPayment;
+    int paymentId;
 
     @Column(name = "id_User")
-    int idUser;
+    int userId;
 
     @Column(name = "amount")
     BigDecimal amount;

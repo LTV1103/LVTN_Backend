@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateVocabulary {
-     int idLesson;
+     int lessonId;
      String word;
      String meaning;
      String example;

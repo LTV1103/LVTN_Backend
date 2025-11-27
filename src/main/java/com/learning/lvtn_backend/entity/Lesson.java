@@ -16,10 +16,10 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Lesson")
-    int idLesson;
+    int lessonId;
 
     @Column(name = "id_Course")
-    int idCourse;
+    int courseId;
 
     @Column(name = "lesson_title")
     String lessonTitle;

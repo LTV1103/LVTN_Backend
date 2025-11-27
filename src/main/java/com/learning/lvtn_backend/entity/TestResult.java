@@ -17,13 +17,13 @@ public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Result")
-    int idResult;
+    int resultId;
 
     @Column(name = "id_Test")
-    int idTest;
+    int testId;
 
     @Column(name = "id_User")
-    int idUser;
+    int userId;
 
     @Column(name = "score")
     BigDecimal score;

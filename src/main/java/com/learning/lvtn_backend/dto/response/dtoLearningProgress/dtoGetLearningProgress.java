@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetLearningProgress {
-    int idProgress;
-    int idUserCourse;
-    int idLesson;
+    int progressId;
+    int userCourseId;
+    int lessonId;
     BigDecimal progressPercent;
     LocalDateTime lastAccessed;
     String status;

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateGrammar {
-     int idLesson;
+     int lessonId;
      String title;
      String explanation;
      String example;

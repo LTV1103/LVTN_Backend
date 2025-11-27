@@ -19,11 +19,11 @@ public class Payment_Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment_course")
-    int idPaymentCourse;
+    int paymentCourseId;
     @Column(name = "id_payment")
     int idPayment;
     @Column(name = "id_Course")
-    int idCourse;
+    int courseId;
     @Column(name = "created_at")
     LocalDateTime createdAt;
 

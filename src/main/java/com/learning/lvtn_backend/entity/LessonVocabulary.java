@@ -15,10 +15,10 @@ public class LessonVocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Vocabulary")
-    int idVocab;
+    int vocabularyId;
 
     @Column(name = "id_Lesson")
-    int idLesson;
+    int lessonId;
 
     @Column(name = "word")
     String word;

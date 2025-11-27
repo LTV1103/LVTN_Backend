@@ -7,8 +7,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetTestQuestion {
-    int idQuestion;
-    int idTest;
+    int questionId;
+    int testId;
     String questionText;
     String optionA;
     String optionB;

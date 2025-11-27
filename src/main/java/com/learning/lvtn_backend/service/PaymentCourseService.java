@@ -24,8 +24,8 @@ public class PaymentCourseService {
     }
 
     // Lấy danh sách khóa học theo idPayment
-    public List<Payment_Course> findByPaymentId(int idPayment) {
-        return paymentCourseRepository.findByIdPayment(idPayment);
+    public List<Payment_Course> findByPaymentId(int paymentId) {
+        return paymentCourseRepository.findByIdPayment(paymentId);
     }
 
     // Thêm mới Payment_Course

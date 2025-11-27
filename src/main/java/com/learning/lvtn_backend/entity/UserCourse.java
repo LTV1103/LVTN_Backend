@@ -16,13 +16,13 @@ public class UserCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_User_Course")
-    int id_User_Course;
+    int userCourseId;
 
     @Column(name = "id_Course")
-    int id_Course;
+    int courseId;
 
     @Column(name = "id_User")
-    int id_User;
+    int userId;
 
     @Column(name = "enrolled_at")
     LocalDateTime enrolledAt;

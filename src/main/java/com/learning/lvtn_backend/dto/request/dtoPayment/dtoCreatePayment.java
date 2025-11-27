@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreatePayment {
-    int idUser;
-    int idCourse;
+    int userId;
+    int courseId;
     BigDecimal amount;
     String paymentMethod;
     String paymentStatus;

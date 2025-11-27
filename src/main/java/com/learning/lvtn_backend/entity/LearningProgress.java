@@ -17,13 +17,13 @@ public class LearningProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_progress")
-    int idProgress;
+    int progressudId;
 
     @Column(name = "id_user_course")
-    int idUserCourse;
+    int usercourseId;
 
     @Column(name = "id_lesson")
-    int idLesson;
+    int lessonId;
 
     @Column(name = "progress_percent")
     BigDecimal progressPercent;

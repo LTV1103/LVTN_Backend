@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetVocabulary {
-    int idVocab;
-    int idLesson;
+    int vocabularyId;
+    int lessonId;
     String word;
     String meaning;
     String example;

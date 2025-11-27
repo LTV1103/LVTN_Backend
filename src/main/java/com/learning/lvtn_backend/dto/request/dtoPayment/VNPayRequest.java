@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VNPayRequest {
-    long idPayment;
-    long idUser;
-    String idCourse;
+    long paymentId;
+    long userId;
+    String courseId;
     long amount;
     String paymentMethod;
     String paymentStatus;

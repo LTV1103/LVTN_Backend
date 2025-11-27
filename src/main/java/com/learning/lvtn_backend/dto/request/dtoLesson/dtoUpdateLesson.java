@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateLesson {
-     int idCourse;
+     int courseId;
      String lessonTitle;
      String description;
      int orderIndex;

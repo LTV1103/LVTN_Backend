@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateTestResult {
-     int idTest;
-     int idUser;
+     int testId;
+     int userId;
      BigDecimal score;
      LocalDateTime completedAt;
 }

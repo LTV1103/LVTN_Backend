@@ -24,8 +24,8 @@ public class UserSavedVocabularyService {
 
     public UserSavedVocabulary updateUserSavedVocabulary(int id, UserSavedVocabulary details) {
         UserSavedVocabulary existing = getUserSavedVocabularyById(id);
-        existing.setIdUser(details.getIdUser());
-        existing.setIdVocab(details.getIdVocab());
+        existing.setUserId(details.getUserId());
+        existing.setVocabularyId(details.getVocabularyId());
         existing.setSavedAt(details.getSavedAt());
         return userSavedVocabularyRepository.save(existing);
     }

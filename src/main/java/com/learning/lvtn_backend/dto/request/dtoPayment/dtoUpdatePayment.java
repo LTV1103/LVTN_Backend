@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdatePayment {
-     int idUser;
-     int idCourse;
+     int userId;
+     int courseId;
      BigDecimal amount;
      String paymentMethod;
      String paymentStatus;

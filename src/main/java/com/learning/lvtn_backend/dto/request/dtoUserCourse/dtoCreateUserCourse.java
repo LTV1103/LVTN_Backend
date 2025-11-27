@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreateUserCourse {
-    int id_Course;
-    int id_User;
+    int courseId;
+    int userId;
     LocalDateTime enrolledAt;
     String status;
 }

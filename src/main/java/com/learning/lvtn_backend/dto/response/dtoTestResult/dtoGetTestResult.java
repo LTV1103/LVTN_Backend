@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetTestResult {
-    int idTest;
-    int idUser;
+    int resultId;
+    int userId;
     BigDecimal score;
     LocalDateTime completedAt;
 }

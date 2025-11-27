@@ -32,7 +32,7 @@ public class AuthService {
         return Map.of(
 
                 "accessToken", accessToken,
-                "id", user.getId(),
+                "id", user.getUserId(),
                 "user" , user.getUsername(),
                 "role" , user.getRole(),
                 "refreshToken", refreshToken

@@ -15,10 +15,10 @@ public class LessonListening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Listening")
-    int idListening;
+    int listeningId;
 
     @Column(name = "id_Lesson")
-    int idLesson;
+    int lessonId;
 
     @Column(name = "audio_url")
     String audioUrl;

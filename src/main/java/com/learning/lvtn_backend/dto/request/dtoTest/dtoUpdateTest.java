@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateTest {
-     int idCourse;
+     int courseId;
      String testTitle;
      String description;
      String testType;

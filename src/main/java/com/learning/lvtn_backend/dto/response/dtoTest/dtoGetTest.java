@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoGetTest {
-    int idTest;
-    int idCourse;
+    int testId;
+    int courseId;
     String testTitle;
     String description;
     String testType;

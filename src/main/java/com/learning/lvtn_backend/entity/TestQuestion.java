@@ -15,10 +15,10 @@ public class TestQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Question")
-    int idQuestion;
+    int questionId;
 
     @Column(name = "id_Test")
-    int idTest;
+    int testId;
 
     @Column(name = "question_text")
     String questionText;

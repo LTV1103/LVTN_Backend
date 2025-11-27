@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreateReading {
-    int idLesson;
+    int lessonId;
     String passage;
     String question;
     String optionA;

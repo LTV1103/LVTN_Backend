@@ -38,7 +38,7 @@ public class PaymentCourseController {
         List<Payment_Course> toSave = courseIds.stream().map(courseId -> {
             Payment_Course pc = new Payment_Course();
             pc.setIdPayment(idPayment);
-            pc.setIdCourse(courseId);
+            pc.setCourseId(courseId);
             return pc;
         }).toList();
 

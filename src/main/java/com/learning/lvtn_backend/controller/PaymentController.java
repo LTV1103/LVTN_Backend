@@ -51,20 +51,20 @@ public class PaymentController extends BaseController {
         try {
             //Tạo Payment
             Payment payment = new Payment();
-            payment.setIdUser((int) req.getIdUser());
+            payment.setUserId((int) req.getUserId());
             payment.setAmount(new BigDecimal(req.getAmount()));
             payment.setPaymentMethod("vnpay");
             payment.setPaymentStatus("pending");
             Payment savedPayment = paymentRepository.save(payment);
 
             //Lưu Payment_Course cho nhiều khóa học
-            String coursesStr = req.getIdCourse();
+            String coursesStr = req.getCourseId();
             String[] courseIdsArr = coursesStr.split(",");
             List<Payment_Course> paymentCourses = new ArrayList<>();
             for (String id : courseIdsArr) {
                 Payment_Course pc = new Payment_Course();
-                pc.setIdPayment(savedPayment.getIdPayment());
-                pc.setIdCourse(Integer.parseInt(id.trim()));
+                pc.setIdPayment(savedPayment.getPaymentId());
+                pc.setCourseId(Integer.parseInt(id.trim()));
                 pc.setCreatedAt(LocalDateTime.now());
                 paymentCourses.add(pc);
             }
@@ -72,7 +72,7 @@ public class PaymentController extends BaseController {
 
             //Tạo URL VNPAY
             String paymentUrl = vnPayService.createPaymentUrl(
-                    (long) savedPayment.getIdPayment(),
+                    (long) savedPayment.getPaymentId(),
                     req.getAmount(),
                     "Thanh toán khóa học: " + coursesStr,
                     coursesStr,
@@ -81,8 +81,8 @@ public class PaymentController extends BaseController {
 
             //Trả response
             Map<String, Object> response = new HashMap<>();
-            response.put("idPayment", savedPayment.getIdPayment());
-            response.put("idUser", savedPayment.getIdUser());
+            response.put("idPayment", savedPayment.getPaymentId());
+            response.put("idUser", savedPayment.getUserId());
             response.put("courses", coursesStr); // trả về tất cả id khóa học
             response.put("amount", savedPayment.getAmount());
             response.put("paymentMethod", savedPayment.getPaymentMethod());
@@ -109,11 +109,11 @@ public class PaymentController extends BaseController {
                     order.setPaymentStatus("SUCCESS");
                     paymentRepository.save(order);
 
-                    List<Payment_Course> paymentCourses = paymentCourseService.findByPaymentId(order.getIdPayment());
+                    List<Payment_Course> paymentCourses = paymentCourseService.findByPaymentId(order.getPaymentId());
                     for (Payment_Course pc : paymentCourses) {
                         dtoCreateUserCourse uc = new dtoCreateUserCourse();
-                        uc.setId_User(order.getIdUser());
-                        uc.setId_Course(pc.getIdCourse());
+                        uc.setUserId(order.getUserId());
+                        uc.setCourseId(pc.getCourseId());
                         uc.setEnrolledAt(LocalDateTime.now());
                         uc.setStatus("active");
                         userCourseService.createUserCourse(uc);

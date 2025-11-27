@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateLearningProgress {
-     int idUserCourse;
-     int idLesson;
+     int userCourseId;
+     int lessonId;
      BigDecimal progressPercent;
      LocalDateTime lastAccessed;
      String status;
