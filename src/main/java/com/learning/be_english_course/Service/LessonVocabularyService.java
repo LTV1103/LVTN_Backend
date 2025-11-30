@@ -1,0 +1,55 @@
+package com.learning.be_english_course.Service;
+
+import com.learning.be_english_course.DTO.request.lesson_vocabulary.dtoCreateVocabulary;
+import com.learning.be_english_course.DTO.request.lesson_vocabulary.dtoUpdateVocabulary;
+import com.learning.be_english_course.Entity.Lesson_vocabulary;
+import com.learning.be_english_course.Mapper.EntityMapping;
+import com.learning.be_english_course.Repository.LessonVocabularyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class LessonVocabularyService {
+    @Autowired
+    private LessonVocabularyRepository lessonVocabularyRepository;
+
+    @Autowired
+    private EntityMapping entityMapping;
+
+    // Lấy tất cả Lesson_vocabulary
+    public List<Lesson_vocabulary> findAll() {
+        return lessonVocabularyRepository.findAll();
+    }
+
+    // Tìm theo id
+    public Lesson_vocabulary findById(Long id) {
+        return lessonVocabularyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài từ vựng với id = " + id));
+    }
+
+    // Tạo mới Lesson_vocabulary
+    public Lesson_vocabulary createLessonVocabulary(dtoCreateVocabulary request) {
+        Lesson_vocabulary lessonVocabulary = entityMapping.DTOtoCreateLessonVocabulary(request);
+        return lessonVocabularyRepository.save(lessonVocabulary);
+    }
+
+    // Cập nhật Lesson_vocabulary
+    public Lesson_vocabulary updateLessonVocabulary(Long id, dtoUpdateVocabulary request) {
+        Lesson_vocabulary lessonVocabulary = lessonVocabularyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài từ vựng với id = " + id));
+        entityMapping.DTOtoUpdateLessonVocabulary(lessonVocabulary, request);
+        return lessonVocabularyRepository.save(lessonVocabulary);
+    }
+
+    // Xóa Lesson_vocabulary
+    public void deleteLessonVocabulary(Long id) {
+        if (!lessonVocabularyRepository.existsById(id)) {
+            throw new RuntimeException("Không thể xóa vì không tồn tại id = " + id);
+        }
+        lessonVocabularyRepository.deleteById(id);
+    }
+
+}
+

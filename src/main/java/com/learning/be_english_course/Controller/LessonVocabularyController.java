@@ -1,0 +1,58 @@
+package com.learning.be_english_course.Controller;
+
+import com.learning.be_english_course.DTO.request.lesson_vocabulary.dtoCreateVocabulary;
+import com.learning.be_english_course.DTO.request.lesson_vocabulary.dtoUpdateVocabulary;
+import com.learning.be_english_course.Entity.Lesson_vocabulary;
+import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
+import com.learning.be_english_course.Exception.apiRespone.BaseController;
+import com.learning.be_english_course.Service.LessonVocabularyService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/vocabulary")
+public class LessonVocabularyController extends BaseController {
+
+    @Autowired
+    private LessonVocabularyService lessonVocabularyService;
+
+    // Lấy tất cả bài từ vựng
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Lesson_vocabulary>>> getAll() {
+        List<Lesson_vocabulary> vocabularies = lessonVocabularyService.findAll();
+        return success("Lấy danh sách bài từ vựng thành công!", vocabularies);
+    }
+
+    // Lấy bài từ vựng theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Lesson_vocabulary>> getById(@PathVariable Long id) {
+        Lesson_vocabulary vocabulary = lessonVocabularyService.findById(id);
+        return success("Lấy thông tin bài từ vựng thành công!", vocabulary);
+    }
+
+    // Tạo mới bài từ vựng
+    @PostMapping
+    public ResponseEntity<ApiResponse<Lesson_vocabulary>> create(@RequestBody @Valid dtoCreateVocabulary request) {
+        Lesson_vocabulary vocabulary = lessonVocabularyService.createLessonVocabulary(request);
+        return created("Tạo bài từ vựng mới thành công!", vocabulary);
+    }
+
+    // Cập nhật bài từ vựng
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Lesson_vocabulary>> update(@PathVariable Long id,
+                                                                 @RequestBody @Valid dtoUpdateVocabulary request) {
+        Lesson_vocabulary vocabulary = lessonVocabularyService.updateLessonVocabulary(id, request);
+        return success("Cập nhật bài từ vựng thành công!", vocabulary);
+    }
+
+    // Xóa bài từ vựng
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
+        lessonVocabularyService.deleteLessonVocabulary(id);
+        return success("Xóa bài từ vựng thành công!", "ID = " + id);
+    }
+}

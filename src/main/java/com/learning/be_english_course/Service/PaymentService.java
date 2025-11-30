@@ -1,0 +1,48 @@
+package com.learning.be_english_course.Service;
+
+import com.learning.be_english_course.DTO.request.payment.dtoCreatePayment;
+import com.learning.be_english_course.DTO.request.payment.dtoUpdatePayment;
+import com.learning.be_english_course.Entity.Payment;
+import com.learning.be_english_course.Mapper.EntityMapping;
+import com.learning.be_english_course.Repository.PaymentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private EntityMapping entityMapping;
+
+    public List<Payment> findAll() {
+        return paymentRepository.findAll();
+    }
+    public Payment findById(Long id) {
+        if (!paymentRepository.existsById(id)) {
+            throw new RuntimeException("Không tìm thấy thanh toán với id = " + id);
+        }
+        return paymentRepository.findById(id).get();
+    }
+    public Payment createPaymet(dtoCreatePayment request) {
+        Payment payment = entityMapping.DTOtoCreatePayment(request);
+        return paymentRepository.save(payment);
+    }
+    public Payment updatePaymet(long id , dtoUpdatePayment request) {
+        Payment payment = paymentRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thanh toán với id = " + id));;
+        entityMapping.DTOtoUpdatePayment(payment,request);
+        return paymentRepository.save(payment);
+    }
+    public void deletePaymet(long id) {
+        if(!paymentRepository.existsById(id)){
+            throw new RuntimeException("Không thể xóa vì không tồn tại id = " + id);
+        }
+        paymentRepository.deleteById(id);
+    }
+}
+
+
+

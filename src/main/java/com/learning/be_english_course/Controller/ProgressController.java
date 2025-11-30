@@ -1,0 +1,58 @@
+package com.learning.be_english_course.Controller;
+
+import com.learning.be_english_course.DTO.request.progress.dtoCreateProgress;
+import com.learning.be_english_course.DTO.request.progress.dtoUpdateProgress;
+import com.learning.be_english_course.Entity.Progress;
+import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
+import com.learning.be_english_course.Exception.apiRespone.BaseController;
+import com.learning.be_english_course.Service.ProgressService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/progress")
+public class ProgressController extends BaseController {
+
+    @Autowired
+    private ProgressService progressService;
+
+    // Lấy tất cả Progress
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Progress>>> getAll() {
+        List<Progress> progresses = progressService.findAll();
+        return success("Lấy danh sách tiến trình thành công!", progresses);
+    }
+
+    // Lấy Progress theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Progress>> getById(@PathVariable Long id) {
+        Progress progress = progressService.findById(id);
+        return success("Lấy thông tin tiến trình thành công!", progress);
+    }
+
+    // Tạo mới Progress
+    @PostMapping
+    public ResponseEntity<ApiResponse<Progress>> create(@RequestBody @Valid dtoCreateProgress request) {
+        Progress progress = progressService.createProgress(request);
+        return created("Tạo tiến trình mới thành công!", progress);
+    }
+
+    // Cập nhật Progress
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Progress>> update(@PathVariable Long id,
+                                                        @RequestBody @Valid dtoUpdateProgress request) {
+        Progress progress = progressService.updateProgress(id, request);
+        return success("Cập nhật tiến trình thành công!", progress);
+    }
+
+    // Xóa Progress
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
+        progressService.deleteProgress(id);
+        return success("Xóa tiến trình thành công!", "ID = " + id);
+    }
+}
