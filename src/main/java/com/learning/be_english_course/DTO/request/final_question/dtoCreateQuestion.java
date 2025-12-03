@@ -5,10 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreateQuestion {
     Long finalQuestionId;
     String questionText;

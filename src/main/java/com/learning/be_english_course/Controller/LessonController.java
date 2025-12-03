@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.lesson.dtoCreateLesson;
 import com.learning.be_english_course.DTO.request.lesson.dtoUpdateLesson;
+import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
 import com.learning.be_english_course.Entity.Lesson;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -25,6 +26,12 @@ public class LessonController extends BaseController {
     public ResponseEntity<ApiResponse<List<Lesson>>> getAllLesson() {
         List<Lesson> lessons = lessonService.findAll();
         return success("Lấy danh sách bài học thành công!", lessons);
+    }
+
+    @GetMapping("/course/{id}")
+    public ResponseEntity<ApiResponse<List<dtoLesson>>> getAllLessonByCourseId(@PathVariable Long id) {
+        List<dtoLesson> dto = lessonService.getAllByCourseId(id);
+        return success("Lấy danh sách bài học thành công!", dto);
     }
 
     // Lấy Lesson theo id

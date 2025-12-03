@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
-@Table(name = "Payment")
+@Table(name = "payment")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

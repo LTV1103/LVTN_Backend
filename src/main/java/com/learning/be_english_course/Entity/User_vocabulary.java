@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "User_vocabulary")
+@Table(name = "user_vocabulary")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

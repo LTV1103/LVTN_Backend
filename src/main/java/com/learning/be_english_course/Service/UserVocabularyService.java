@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoCreateUserVocabulary;
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoUpdateUserVocabulary;
+import com.learning.be_english_course.DTO.respone.user_vocabulary.dtoGetSaveVocabulary;
 import com.learning.be_english_course.Entity.User_vocabulary;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.UserVocabularyRepository;
@@ -27,6 +28,9 @@ public class UserVocabularyService {
     public User_vocabulary findById(Long id) {
         return userVocabularyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy từ vựng người dùng với id = " + id));
+    }
+    public  List<dtoGetSaveVocabulary> findyUserId(Long userId) {
+        return userVocabularyRepository.saveVocabulary(userId);
     }
 
     // Tạo mới User_vocabulary

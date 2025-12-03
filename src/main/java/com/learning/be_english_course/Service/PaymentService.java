@@ -27,6 +27,12 @@ public class PaymentService {
         }
         return paymentRepository.findById(id).get();
     }
+    public List<Payment> findByUserId(long iduser) {
+        if(!paymentRepository.existsById(iduser)) {throw new RuntimeException("Không tìm thấy người dùng với id = " + iduser);
+        }
+        return paymentRepository.findByUserId(iduser);
+    }
+
     public Payment createPaymet(dtoCreatePayment request) {
         Payment payment = entityMapping.DTOtoCreatePayment(request);
         return paymentRepository.save(payment);

@@ -3,11 +3,9 @@ package com.learning.be_english_course.DTO.request.reading_question;
 import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateReadQuestion {
     @Column(name = "reading_Id")

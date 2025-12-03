@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -15,6 +14,7 @@ public class dtoCreateUser {
     String fullName;
     String email;
     String password;
+    String phoneNumber;
     String provider;
     String role;
     LocalDateTime createAt;

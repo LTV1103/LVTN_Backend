@@ -1,7 +1,9 @@
-package com.learning.be_english_course.DTO.request.course;
+package com.learning.be_english_course.DTO.respone.payment;
 
-import jakarta.persistence.Column;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
@@ -11,12 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class dtoCreateCourse {
+public class dtoDetailPayment {
     String courseName;
-    String description;
-    String imgUrl;
     BigDecimal price;
-    String level;
-    String status;
+    String  level;
     LocalDateTime createdAt;
+
+
 }

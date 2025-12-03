@@ -23,9 +23,10 @@ public class AuthService {
     public Map<String, Object> login(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
-
+        System.out.println(user);
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Sai mật khẩu");
+
         }
 
         String accessToken = jwtUtil.generateToken(email);          // dùng email
@@ -35,6 +36,7 @@ public class AuthService {
         userRepository.save(user);
 
         return Map.of(
+                "refreshToken", refreshToken,
                 "accessToken", accessToken,
                 "id", user.getUserId(),
                 "email", user.getEmail(),

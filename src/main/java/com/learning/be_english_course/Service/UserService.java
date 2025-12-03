@@ -17,28 +17,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private EntityMapping mapper;
+    private EntityMapping entityMapping;
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     public dtoOneUser findByIdUser(long userid) {
-        User userfindId = userRepository.findById(userid)
+         User user = userRepository.findById(userid)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID = " + userid));
-        System.out.println(mapper.DTOgetOneUser(userfindId));
-        return mapper.DTOgetOneUser(userfindId);
-
+         return entityMapping.DTOgetOneUser(user);
     }
 
     public User createUser(dtoCreateUser request) {
         if(userRepository.existsByEmail(request.getEmail())){
             throw new RuntimeException("Email đã tồn tại");
         }
-        User user = mapper.DTOtoCreateUser(request);
+        User user = entityMapping.DTOtoCreateUser(request);
         user.setEmail(request.getEmail());
         user.setFullName(request.getFullName());
         user.setPassword(request.getPassword());
+        user.setPhoneNumber(request.getPhoneNumber());
         user.setRole("user");
         user.setProvider("local");
         user.setCreatedAt(LocalDateTime.now());
@@ -46,7 +45,7 @@ public class UserService {
     }
     public User updateUser(long id, dtoUpdateUser request) {
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thấy người dùng với ID = " + id));
-        mapper.DTOtoUpdateUser(user,request);
+        entityMapping.DTOtoUpdateUser(user,request);
         return userRepository.save(user);
     }
     public void deleteUser(long id) {

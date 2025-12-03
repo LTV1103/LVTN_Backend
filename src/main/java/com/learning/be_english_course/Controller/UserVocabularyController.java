@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoCreateUserVocabulary;
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoUpdateUserVocabulary;
+import com.learning.be_english_course.DTO.respone.user_vocabulary.dtoGetSaveVocabulary;
 import com.learning.be_english_course.Entity.User_vocabulary;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -25,6 +26,11 @@ public class UserVocabularyController extends BaseController {
     public ResponseEntity<ApiResponse<List<User_vocabulary>>> getAlluserVocabulary() {
         List<User_vocabulary> vocabularies = userVocabularyService.findAll();
         return success("Lấy danh sách từ vựng người dùng thành công!", vocabularies);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<dtoGetSaveVocabulary>>> getSaveByUserId(@PathVariable Long userId){
+        List<dtoGetSaveVocabulary> saveVoca = userVocabularyService.findyUserId(userId);
+        return success("Lấy danh sách từ vựng người dùng thành công!", saveVoca);
     }
 
     // Lấy User_vocabulary theo id

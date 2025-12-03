@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.lesson.dtoCreateLesson;
 import com.learning.be_english_course.DTO.request.lesson.dtoUpdateLesson;
+import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
 import com.learning.be_english_course.Entity.Lesson;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.LessonRepository;
@@ -27,6 +28,10 @@ public class LessonService {
     public Lesson findById(Long id) {
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với id = " + id));
+    }
+    public List<dtoLesson> getAllByCourseId(Long courseId) {
+        List<Lesson> lessons = lessonRepository.findByCourseId(courseId);
+        return entityMapping.DTOGetLesson(lessons);
     }
 
     // Tạo mới Lesson

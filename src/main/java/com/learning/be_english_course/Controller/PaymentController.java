@@ -45,8 +45,16 @@ public class PaymentController extends BaseController {
     private UserCourseService userCourseService;
 
     @GetMapping
-    public List<Payment> getAll() {
-        return paymentService.findAll();
+    public ResponseEntity<ApiResponse<List<Payment>>> getAll() {
+        List<Payment> payments = paymentRepository.findAll();
+         return success("Lấy thông tin thanh toán thành công" , payments);
+
+    }
+    @GetMapping("user/{id}")
+    public ResponseEntity<ApiResponse<List<Payment>>> getPaymentByUserId(@PathVariable long id) {
+        List<Payment> payments = paymentRepository.findByUserId(id);
+        return success("Lấy thông tin thanh toán thành công" , payments);
+
     }
     //VNpay
     @PostMapping("/create")

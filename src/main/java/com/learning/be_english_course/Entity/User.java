@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 @Entity
 
-@Table(name = "User")
+@Table(name = "user")
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,6 +27,13 @@ public class User {
 
     @Column(name = "password")
     String password;
+
+    @Column(name = "birthday")
+    String birthday;
+
+    @Column(name = "phone_number")
+    String phoneNumber;
+
 
     @Column(name = "refresh_token")
     String refreshToken;

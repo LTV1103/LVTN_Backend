@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.payment_course.dtoCreatePaymentCourse;
 import com.learning.be_english_course.DTO.request.payment_course.dtoUpdatePaymentCourse;
+import com.learning.be_english_course.DTO.respone.payment.dtoDetailPayment;
 import com.learning.be_english_course.Entity.Payment_course;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -26,7 +27,12 @@ public class PaymentCourseController extends BaseController {
         List<Payment_course> payments = paymentCourseService.findAll();
         return success("Lấy danh sách thanh toán khóa học thành công!", payments);
     }
+    @GetMapping("/detail/{paymentId}")
+    public ResponseEntity<ApiResponse<List<dtoDetailPayment>>> GetbyIdPayment(@PathVariable long paymentId) {
+        List<dtoDetailPayment> dto = paymentCourseService.findByIDPayment(paymentId);
+        return success("Lấy thông tin chi tiet thanh toán thành công!" , dto);
 
+    }
     // Lấy Payment_course theo id
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Payment_course>> getById(@PathVariable Long id) {

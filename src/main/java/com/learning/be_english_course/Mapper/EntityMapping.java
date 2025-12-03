@@ -34,17 +34,22 @@ import com.learning.be_english_course.DTO.request.user_course.dtoCreateUserCours
 import com.learning.be_english_course.DTO.request.user_course.dtoUpdateUserCourse;
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoCreateUserVocabulary;
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoUpdateUserVocabulary;
+import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.context.annotation.Primary;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Primary
 @Mapper(componentModel = "spring")
 public interface EntityMapping {
 
     //USER
+
     User DTOtoCreateUser(dtoCreateUser request);
     dtoOneUser DTOgetOneUser(User user);
     void DTOtoUpdateUser(@MappingTarget User User, dtoUpdateUser dtoUpdateUser);
@@ -66,6 +71,18 @@ public interface EntityMapping {
     void DTOtoUpdateProgress(@MappingTarget Progress Progress, dtoUpdateProgress dtoUpdateProgress);
 
     //LESSON
+    // Trong class entityMapping
+    default List<dtoLesson> DTOGetLesson(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(l -> new dtoLesson(
+                        l.getLessonId(),
+                        l.getLessonTitle(),
+                        l.getDescription(),
+                        l.getOrderIndex()
+                ))
+                .collect(Collectors.toList());
+    }
+
     Lesson DTOtoCreateLesson(dtoCreateLesson request);
     void DTOtoUpdateLesson(@MappingTarget Lesson Lesson, dtoUpdateLesson dtoUpdateLesson);
 
