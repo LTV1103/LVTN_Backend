@@ -38,6 +38,7 @@ public class UserService {
         user.setFullName(request.getFullName());
         user.setPassword(request.getPassword());
         user.setPhoneNumber(request.getPhoneNumber());
+        user.setBirthday("");
         user.setRole("user");
         user.setProvider("local");
         user.setCreatedAt(LocalDateTime.now());

@@ -72,6 +72,7 @@ public class AuthService {
             newUser.setEmail(email);
             newUser.setFullName(fullName);
             newUser.setProvider("google");
+            newUser.setBirthday("");
             newUser.setCreatedAt(LocalDateTime.now());
             newUser.setRole("user");
             newUser.setPassword("GOOGLE_USER"); // placeholder

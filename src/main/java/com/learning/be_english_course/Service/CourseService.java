@@ -28,9 +28,6 @@ public class CourseService {
         return courseRepository.findCourseByUser(userId);
     }
     public Course createCourse(dtoCreateCourse request) {
-        if(courseRepository.existsByCourseName(request.getCourseName())){
-            throw new RuntimeException("Khóa học này đã tồn tại vui lòng đổi tên!!");
-        }
         Course course = entityMapping.DTOtoCreateCourse(request);
         return courseRepository.save(course);
     }

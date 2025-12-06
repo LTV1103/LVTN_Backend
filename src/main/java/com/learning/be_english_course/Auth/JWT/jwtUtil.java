@@ -47,24 +47,20 @@ public class jwtUtil {
     }
 
     // Kiểm tra token hợp lệ
-    public void validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(token);
+            return true;
         } catch (ExpiredJwtException e) {
-            throw new RuntimeException("Token đã hết hạn");
-        } catch (UnsupportedJwtException e) {
-            throw new RuntimeException("Token không được hỗ trợ");
-        } catch (MalformedJwtException e) {
-            throw new RuntimeException("Token không đúng định dạng");
-        } catch (SignatureException e) {
-            throw new RuntimeException("Chữ ký token không hợp lệ");
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Token rỗng hoặc không hợp lệ");
+            return false;
+        } catch (Exception e) {
+            return false;
         }
     }
+
 
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder()
