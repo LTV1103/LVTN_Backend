@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.payment.dtoCreatePayment;
 import com.learning.be_english_course.DTO.request.payment.dtoUpdatePayment;
+import com.learning.be_english_course.DTO.respone.payment.dtoGetPayment;
 import com.learning.be_english_course.Entity.Payment;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.PaymentRepository;
@@ -18,8 +19,9 @@ public class PaymentService {
     @Autowired
     private EntityMapping entityMapping;
 
-    public List<Payment> findAll() {
-        return paymentRepository.findAll();
+    public List<dtoGetPayment> findAll() {
+       return paymentRepository.getPayments();
+
     }
     public Payment findById(Long id) {
         if (!paymentRepository.existsById(id)) {

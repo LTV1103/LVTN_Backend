@@ -13,4 +13,5 @@ public class dtoUpdateUser {
     String fullName;
     String phoneNumber;
     String birthday;
+    String role;
 }

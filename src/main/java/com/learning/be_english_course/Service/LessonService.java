@@ -20,8 +20,8 @@ public class LessonService {
     private EntityMapping entityMapping;
 
     // Lấy tất cả Lesson
-    public List<Lesson> findAll() {
-        return lessonRepository.findAll();
+    public List<dtoLesson> findAll() {
+        return lessonRepository.findAllLessons();
     }
 
     // Tìm theo id
@@ -29,10 +29,10 @@ public class LessonService {
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với id = " + id));
     }
-    public List<dtoLesson> getAllByCourseId(Long courseId) {
-        List<Lesson> lessons = lessonRepository.findByCourseId(courseId);
-        return entityMapping.DTOGetLesson(lessons);
-    }
+//    public List<dtoLesson> getAllByCourseId(Long courseId) {
+//        List<Lesson> lessons = lessonRepository.findByCourseId(courseId);
+//        return entityMapping.DTOGetLesson(lessons);
+//    }
 
     // Tạo mới Lesson
     public Lesson createLesson(dtoCreateLesson request) {

@@ -3,6 +3,7 @@ package com.learning.be_english_course.Controller;
 import com.learning.be_english_course.Auth.AuthService;
 import com.learning.be_english_course.DTO.request.user.dtoCreateUser;
 import com.learning.be_english_course.DTO.request.user.dtoUpdateUser;
+import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.User;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
@@ -29,8 +30,8 @@ public class UserController extends BaseController {
     //    public List<User> getAllUser() {
     //        return userservice.findAll();}
     @GetMapping
-    public ResponseEntity<ApiResponse<List<User>>> getAllUsers() {
-        List<User> users = userservice.findAll();
+    public ResponseEntity<ApiResponse<List<dtoGetUser>>> getAllUsers() {
+        List<dtoGetUser> users = userservice.findAll();
         return success("Lấy danh sách người dùng thành công!", users);
     }
     @GetMapping("/{id}")

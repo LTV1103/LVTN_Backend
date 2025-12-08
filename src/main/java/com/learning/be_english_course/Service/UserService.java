@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.user.dtoCreateUser;
 import com.learning.be_english_course.DTO.request.user.dtoUpdateUser;
+import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.User;
 import com.learning.be_english_course.Mapper.EntityMapping;
@@ -19,8 +20,9 @@ public class UserService {
     @Autowired
     private EntityMapping entityMapping;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<dtoGetUser> findAll() {
+        List<User> user = userRepository.findAll();
+        return entityMapping.userToDTOList(user);
     }
 
     public dtoOneUser findByIdUser(long userid) {

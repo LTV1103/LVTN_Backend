@@ -35,6 +35,7 @@ import com.learning.be_english_course.DTO.request.user_course.dtoUpdateUserCours
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoCreateUserVocabulary;
 import com.learning.be_english_course.DTO.request.user_vocabulary.dtoUpdateUserVocabulary;
 import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
+import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.*;
 import org.mapstruct.Mapper;
@@ -49,9 +50,11 @@ import java.util.stream.Collectors;
 public interface EntityMapping {
 
     //USER
+    User DTOtoUser(User user);
+    List<dtoGetUser> userToDTOList(List<User> users);
+    dtoOneUser DTOgetOneUser(User user);
 
     User DTOtoCreateUser(dtoCreateUser request);
-    dtoOneUser DTOgetOneUser(User user);
     void DTOtoUpdateUser(@MappingTarget User User, dtoUpdateUser dtoUpdateUser);
 
     //COURSE
@@ -72,17 +75,6 @@ public interface EntityMapping {
 
     //LESSON
     // Trong class entityMapping
-    default List<dtoLesson> DTOGetLesson(List<Lesson> lessons) {
-        return lessons.stream()
-                .map(l -> new dtoLesson(
-                        l.getLessonId(),
-                        l.getLessonTitle(),
-                        l.getDescription(),
-                        l.getOrderIndex()
-                ))
-                .collect(Collectors.toList());
-    }
-
     Lesson DTOtoCreateLesson(dtoCreateLesson request);
     void DTOtoUpdateLesson(@MappingTarget Lesson Lesson, dtoUpdateLesson dtoUpdateLesson);
 

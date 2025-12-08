@@ -4,6 +4,7 @@ import com.learning.be_english_course.DTO.request.payment.VNPayRequest;
 import com.learning.be_english_course.DTO.request.payment.dtoCreatePayment;
 import com.learning.be_english_course.DTO.request.payment.dtoUpdatePayment;
 import com.learning.be_english_course.DTO.request.user_course.dtoCreateUserCourse;
+import com.learning.be_english_course.DTO.respone.payment.dtoGetPayment;
 import com.learning.be_english_course.Entity.Payment;
 import com.learning.be_english_course.Entity.Payment_course;
 import com.learning.be_english_course.Entity.User_course;
@@ -45,8 +46,8 @@ public class PaymentController extends BaseController {
     private UserCourseService userCourseService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Payment>>> getAll() {
-        List<Payment> payments = paymentRepository.findAll();
+    public ResponseEntity<ApiResponse<List<dtoGetPayment>>> getAll() {
+        List<dtoGetPayment> payments = paymentService.findAll();
          return success("Lấy thông tin thanh toán thành công" , payments);
 
     }

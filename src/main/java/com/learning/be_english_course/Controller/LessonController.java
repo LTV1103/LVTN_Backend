@@ -23,16 +23,16 @@ public class LessonController extends BaseController {
 
     // Lấy tất cả Lesson
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Lesson>>> getAllLesson() {
-        List<Lesson> lessons = lessonService.findAll();
+    public ResponseEntity<ApiResponse<List<dtoLesson>>> getAllLesson() {
+        List<dtoLesson> lessons = lessonService.findAll();
         return success("Lấy danh sách bài học thành công!", lessons);
     }
 
-    @GetMapping("/course/{id}")
-    public ResponseEntity<ApiResponse<List<dtoLesson>>> getAllLessonByCourseId(@PathVariable Long id) {
-        List<dtoLesson> dto = lessonService.getAllByCourseId(id);
-        return success("Lấy danh sách bài học thành công!", dto);
-    }
+//    @GetMapping("/course/{id}")
+//    public ResponseEntity<ApiResponse<List<dtoLesson>>> getAllLessonByCourseId(@PathVariable Long id) {
+//        List<dtoLesson> dto = lessonService.getAllByCourseId(id);
+//        return success("Lấy danh sách bài học thành công!", dto);
+//    }
 
     // Lấy Lesson theo id
     @GetMapping("/{id}")
