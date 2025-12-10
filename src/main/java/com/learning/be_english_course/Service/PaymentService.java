@@ -18,7 +18,13 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
     @Autowired
     private EntityMapping entityMapping;
-
+    public Long totalPayments() {
+        Long totalPayments = 0L;
+        for (Payment payment : paymentRepository.findAll()) {
+           totalPayments = paymentRepository.countAmount(payment.getAmount());
+        }
+        return totalPayments;
+    }
     public List<dtoGetPayment> findAll() {
        return paymentRepository.getPayments();
 

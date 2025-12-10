@@ -29,6 +29,9 @@ public class ReadingQuestionService {
         return readingQuestionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi đọc với id = " + id));
     }
+    public List<Reading_question> findByReadingId(Long readingId) {
+        return readingQuestionRepository.findByReadingId(readingId);
+    }
 
     // Tạo mới Reading_question
     public Reading_question createReadingQuestion(dtoCreateReadQuestion request) {

@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -44,7 +45,11 @@ public class PaymentController extends BaseController {
     private PaymentCourseService paymentCourseService;
     @Autowired
     private UserCourseService userCourseService;
-
+    @GetMapping("/totalAmount")
+    public ResponseEntity<ApiResponse<Long>> totalAmount() {
+        Long totalAmount = paymentService.totalPayments();
+        return success("Tổng tiền", totalAmount);
+    }
     @GetMapping
     public ResponseEntity<ApiResponse<List<dtoGetPayment>>> getAll() {
         List<dtoGetPayment> payments = paymentService.findAll();

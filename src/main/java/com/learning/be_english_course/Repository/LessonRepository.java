@@ -12,7 +12,7 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("""
      SELECT new com.learning.be_english_course.DTO.respone.lesson.dtoLesson (
-      l.courseId, c.courseName , l.lessonTitle , l.orderIndex , l.description
+      l.lessonId,l.courseId , l.lessonTitle , l.description , l.orderIndex , c.courseName 
     )
     FROM Lesson l
     JOIN Course c ON l.courseId = c.courseId

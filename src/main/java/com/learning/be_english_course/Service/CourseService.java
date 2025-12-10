@@ -3,12 +3,14 @@ package com.learning.be_english_course.Service;
 import com.learning.be_english_course.DTO.request.course.dtoCreateCourse;
 import com.learning.be_english_course.DTO.request.course.dtoUpdateCourse;
 import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
+import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,18 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private EntityMapping entityMapping;
+    public Integer count() {
+        Integer count = 0 ;
+        List<Course> courses = courseRepository.findAll();
+        for (Course course : courses) {
+            count++;
+        }
+        return count;
+    }
+    public List<dtoTotalCourseLevel> totalCourseLevel() {
+        List <dtoTotalCourseLevel> totalCourseLevel = courseRepository.courselevel();
+        return totalCourseLevel;
+    }
     public List<Course> findAll() {
         return courseRepository.findAll();
     }

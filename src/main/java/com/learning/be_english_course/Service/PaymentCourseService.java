@@ -3,6 +3,7 @@ package com.learning.be_english_course.Service;
 import com.learning.be_english_course.DTO.request.payment_course.dtoCreatePaymentCourse;
 import com.learning.be_english_course.DTO.request.payment_course.dtoUpdatePaymentCourse;
 import com.learning.be_english_course.DTO.respone.payment.dtoDetailPayment;
+import com.learning.be_english_course.DTO.respone.payment_course.dtoChartMonth;
 import com.learning.be_english_course.Entity.Payment;
 import com.learning.be_english_course.Entity.Payment_course;
 import com.learning.be_english_course.Mapper.EntityMapping;
@@ -27,6 +28,9 @@ public class PaymentCourseService {
     }
     public List<dtoDetailPayment> findByIDPayment(long paymentId) {
         return paymentCourseRepository.findPaymentById(paymentId);
+    }
+    public List<dtoChartMonth> getPaymentCourseByMonth() {
+        return paymentCourseRepository.countPaymentCourseByMonth();
     }
 
     // Lấy tất cả Payment_Course

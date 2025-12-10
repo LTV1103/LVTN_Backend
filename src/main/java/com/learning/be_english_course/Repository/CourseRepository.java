@@ -1,6 +1,7 @@
 package com.learning.be_english_course.Repository;
 
 import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
+import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +23,16 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     WHERE u.userId = :userId
 """)
     List<dtoCourseUser> findCourseByUser(@Param("userId") Long userId);
+
+    @Query(value = """
+        SELECT c.level AS level,
+               COUNT(*) AS total
+        FROM Course c
+        GROUP BY c.level
+        ORDER BY c.level
+        """, nativeQuery = true)
+    List<dtoTotalCourseLevel> courselevel();
+
+
 
 }

@@ -23,6 +23,16 @@ public class ProgressService {
     public List<Progress> findAll() {
         return progressRepository.findAll();
     }
+    public Double finishLesson() {
+        Double totalProgress = progressRepository.totalPercent();
+        Integer countLesson = progressRepository.totalLesson();
+
+        if (countLesson == null || countLesson == 0) return 0.0;
+        if (totalProgress == null) return 0.0;
+        double systemCompletionRate = totalProgress / countLesson;
+
+        return systemCompletionRate;
+    }
 
     // Tìm theo id
     public Progress findById(Long id) {

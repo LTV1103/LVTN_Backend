@@ -29,8 +29,8 @@ public class ListeningQuestionController extends BaseController {
 
     // Lấy câu hỏi nghe theo id
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Listening_question>> getById(@PathVariable Long id) {
-        Listening_question question = listeningQuestionService.findById(id);
+    public ResponseEntity<ApiResponse<List<Listening_question>>> getById(@PathVariable Long id) {
+        List<Listening_question> question = listeningQuestionService.findByListenId(id);
         return success("Lấy thông tin câu hỏi nghe thành công!", question);
     }
 

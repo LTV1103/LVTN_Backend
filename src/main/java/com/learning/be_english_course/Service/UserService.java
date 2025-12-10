@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.user.dtoCreateUser;
 import com.learning.be_english_course.DTO.request.user.dtoUpdateUser;
+import com.learning.be_english_course.DTO.respone.payment_course.dtoChartMonth;
 import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.User;
@@ -19,10 +20,20 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private EntityMapping entityMapping;
-
+    public Integer countUsers() {
+        Integer count = 0;
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            count++;
+        }
+        return count;
+    }
     public List<dtoGetUser> findAll() {
         List<User> user = userRepository.findAll();
         return entityMapping.userToDTOList(user);
+    }
+    public List<dtoChartMonth> totalMonth() {
+        return userRepository.countUserByMonth();
     }
 
     public dtoOneUser findByIdUser(long userid) {

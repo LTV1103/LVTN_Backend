@@ -3,6 +3,7 @@ package com.learning.be_english_course.Service;
 import com.learning.be_english_course.DTO.request.listening_question.dtoCreateListenQuestion;
 import com.learning.be_english_course.DTO.request.listening_question.dtoUpdateListenQuestion;
 import com.learning.be_english_course.Entity.Listening_question;
+import com.learning.be_english_course.Entity.Reading_question;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.ListeningQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ListeningQuestionService {
     public Listening_question findById(Long id) {
         return listeningQuestionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi nghe với id = " + id));
+    }
+    public List<Listening_question> findByListenId(Long readingId) {
+        return listeningQuestionRepository.findByListeningId(readingId);
     }
 
     // Tạo mới Listening_question

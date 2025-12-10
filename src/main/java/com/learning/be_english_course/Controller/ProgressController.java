@@ -26,7 +26,11 @@ public class ProgressController extends BaseController {
         List<Progress> progresses = progressService.findAll();
         return success("Lấy danh sách tiến trình thành công!", progresses);
     }
-
+    @GetMapping("/rate")
+    public ResponseEntity<ApiResponse<Double>> finishLesson() {
+        Double CompletionRate = progressService.finishLesson();
+        return success("tien trinh trung binh" , CompletionRate);
+    }
     // Lấy Progress theo id
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Progress>> getById(@PathVariable Long id) {

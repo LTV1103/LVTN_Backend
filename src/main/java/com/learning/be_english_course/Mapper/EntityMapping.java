@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Primary
-@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring")
 public interface EntityMapping {
 
     //USER

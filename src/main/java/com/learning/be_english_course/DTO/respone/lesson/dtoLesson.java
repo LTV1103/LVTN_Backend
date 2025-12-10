@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoLesson {
     Long lessonId;
+    Long courseId;
     String lessonTitle;
     String description;
     int orderIndex;

@@ -3,6 +3,7 @@ package com.learning.be_english_course.Controller;
 import com.learning.be_english_course.DTO.request.course.dtoCreateCourse;
 import com.learning.be_english_course.DTO.request.course.dtoUpdateCourse;
 import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
+import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -20,6 +21,16 @@ import java.util.List;
 public class CourseController extends BaseController {
     @Autowired
     private CourseService courseService;
+    @GetMapping("/count")
+    public ResponseEntity<ApiResponse<Integer>> count() {
+        Integer count = courseService.count();
+        return success("Tổng số khóa học" , count);
+    }
+    @GetMapping("total-level")
+    public ResponseEntity<ApiResponse<List<dtoTotalCourseLevel>>> totalLevel() {
+        List<dtoTotalCourseLevel> list = courseService.totalCourseLevel();
+        return success("Tổng level" , list);
+    }
     @GetMapping
     public ResponseEntity<ApiResponse<List<Course>>>  getAllCourse() {
         List<Course> course =  courseService.findAll();

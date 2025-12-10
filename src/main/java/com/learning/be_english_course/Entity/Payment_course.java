@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "PaymentCourse")
 @Data
 @Table(name = "payment_course")
 @Builder

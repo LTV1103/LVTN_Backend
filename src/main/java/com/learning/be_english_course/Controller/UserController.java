@@ -3,6 +3,7 @@ package com.learning.be_english_course.Controller;
 import com.learning.be_english_course.Auth.AuthService;
 import com.learning.be_english_course.DTO.request.user.dtoCreateUser;
 import com.learning.be_english_course.DTO.request.user.dtoUpdateUser;
+import com.learning.be_english_course.DTO.respone.payment_course.dtoChartMonth;
 import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.User;
@@ -29,6 +30,16 @@ public class UserController extends BaseController {
     //    @GetMapping
     //    public List<User> getAllUser() {
     //        return userservice.findAll();}
+    @GetMapping("/count")
+    public  ResponseEntity<ApiResponse<Integer>> count() {
+        Integer count = userservice.countUsers();
+        return success("tổng số user", count);
+    }
+    @GetMapping("/month")
+    public  ResponseEntity<ApiResponse<List<dtoChartMonth>>> month() {
+        List<dtoChartMonth> list = userservice.totalMonth();
+        return success("Tăng trưởng người dùng theo tháng" , list);
+    }
     @GetMapping
     public ResponseEntity<ApiResponse<List<dtoGetUser>>> getAllUsers() {
         List<dtoGetUser> users = userservice.findAll();
