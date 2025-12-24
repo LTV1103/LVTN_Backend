@@ -18,6 +18,8 @@ public class dtoDetailPayment {
     BigDecimal price;
     String  level;
     LocalDateTime createdAt;
+    String imgUrl;
+
 
 
 }

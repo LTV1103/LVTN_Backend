@@ -10,9 +10,7 @@ import java.util.List;
 
 @Repository
 public interface LessonVocabularyRepository extends JpaRepository<Lesson_vocabulary, Long> {
-//    @Query"""
-//    """
-//    List<Lesson_reading> findAll();
+    List<Lesson_vocabulary> findByLessonId(Long lessonId);
 
 }
 

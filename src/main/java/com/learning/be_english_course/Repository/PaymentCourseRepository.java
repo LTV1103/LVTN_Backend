@@ -13,7 +13,7 @@ import java.util.List;
 public interface PaymentCourseRepository extends JpaRepository<Payment_course, Long> {
         @Query("""
         SELECT new com.learning.be_english_course.DTO.respone.payment.dtoDetailPayment (
-           c.courseName, c.price , c.level , pc.createdAt
+           c.courseName, c.price , c.level , pc.createdAt , c.imgUrl
         )
         FROM PaymentCourse  pc
         JOIN Course c ON pc.courseId = c.courseId

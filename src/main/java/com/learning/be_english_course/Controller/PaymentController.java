@@ -45,6 +45,13 @@ public class PaymentController extends BaseController {
     private PaymentCourseService paymentCourseService;
     @Autowired
     private UserCourseService userCourseService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Payment>> getPayment(@PathVariable long id) {
+        Payment payment = paymentService.findById(id);
+        return  success("Lay thong tin thanh cong", payment);
+
+    }
     @GetMapping("/totalAmount")
     public ResponseEntity<ApiResponse<Long>> totalAmount() {
         Long totalAmount = paymentService.totalPayments();
@@ -56,7 +63,7 @@ public class PaymentController extends BaseController {
          return success("Lấy thông tin thanh toán thành công" , payments);
 
     }
-    @GetMapping("user/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<ApiResponse<List<Payment>>> getPaymentByUserId(@PathVariable long id) {
         List<Payment> payments = paymentRepository.findByUserId(id);
         return success("Lấy thông tin thanh toán thành công" , payments);

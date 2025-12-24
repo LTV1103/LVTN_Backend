@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.lesson.dtoCreateLesson;
 import com.learning.be_english_course.DTO.request.lesson.dtoUpdateLesson;
+import com.learning.be_english_course.DTO.respone.lesson.dtoDetailLesson;
 import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
 import com.learning.be_english_course.Entity.Lesson;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
@@ -28,11 +29,11 @@ public class LessonController extends BaseController {
         return success("Lấy danh sách bài học thành công!", lessons);
     }
 
-//    @GetMapping("/course/{id}")
-//    public ResponseEntity<ApiResponse<List<dtoLesson>>> getAllLessonByCourseId(@PathVariable Long id) {
-//        List<dtoLesson> dto = lessonService.getAllByCourseId(id);
-//        return success("Lấy danh sách bài học thành công!", dto);
-//    }
+    @GetMapping("/course/{id}")
+    public ResponseEntity<ApiResponse<List<Lesson>>> getAllLessonByCourseId(@PathVariable Long id) {
+        List<Lesson> dto = lessonService.getAllByCourseId(id);
+        return success("Lấy danh sách bài học thành công!", dto);
+    }
 
     // Lấy Lesson theo id
     @GetMapping("/{id}")
@@ -61,5 +62,12 @@ public class LessonController extends BaseController {
     public ResponseEntity<ApiResponse<String>> deleteLesson(@PathVariable Long id) {
         lessonService.deleteLesson(id);
         return success("Xóa bài học thành công!", "ID = " + id);
+    }
+
+    //Lay chi tiet
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<ApiResponse<dtoDetailLesson>> getLessonDetail(@PathVariable Long id) {
+        dtoDetailLesson lesson = lessonService.detailLesson(id);
+        return success("Lay thong tin thanh cong!", lesson);
     }
 }
