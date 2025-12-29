@@ -23,6 +23,10 @@ public class LessonVocabularyService {
         return lessonVocabularyRepository.findAll();
     }
 
+    public List<Lesson_vocabulary> findByLessonId(Long lessonId) {
+        return lessonVocabularyRepository.findByLessonId(lessonId);
+    }
+
     // Tìm theo id
     public Lesson_vocabulary findById(Long id) {
         return lessonVocabularyRepository.findById(id)

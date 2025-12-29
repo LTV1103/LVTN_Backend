@@ -22,8 +22,6 @@ public class dtoUpdateLesson {
     @Column(name = "description")
     String description;
 
-    @Column(name = "order_index")
-    Integer orderIndex;
 
 
 }

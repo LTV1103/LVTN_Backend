@@ -11,6 +11,7 @@ import com.learning.be_english_course.Entity.User_course;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Repository.PaymentRepository;
+import com.learning.be_english_course.Repository.UserCourseRepository;
 import com.learning.be_english_course.Service.PaymentCourseService;
 import com.learning.be_english_course.Service.PaymentService;
 import com.learning.be_english_course.Service.UserCourseService;
@@ -25,16 +26,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/payment")
 public class PaymentController extends BaseController {
-
+    @Autowired
+    private UserCourseRepository userCourseRepository;
     @Autowired
     private VNPayService vnPayService;
     @Autowired
@@ -119,55 +118,76 @@ public class PaymentController extends BaseController {
 
     @GetMapping("/vnpay-return")
     public ResponseEntity<String> paymentReturn(@RequestParam Map<String, String> params) {
+
         String responseCode = params.get("vnp_ResponseCode");
-        String txnRef = params.get("vnp_TxnRef"); // Mã đơn hàng
+        String txnRef = params.get("vnp_TxnRef");
         AtomicReference<String> status = new AtomicReference<>("fail");
+
         try {
             paymentRepository.findById(Long.valueOf(txnRef)).ifPresent(order -> {
+
                 if ("00".equals(responseCode)) {
-                    // Giao dịch thành công
+
                     order.setPaymentStatus("success");
                     paymentRepository.save(order);
 
-                    List<Payment_course> paymentCourses = paymentCourseService.findByPaymentId(order.getPaymentId());
+                    List<Payment_course> paymentCourses =
+                            paymentCourseService.findByPaymentId(order.getPaymentId());
+
                     for (Payment_course pc : paymentCourses) {
-                        User_course uc = new User_course();
-                        uc.setUserId(order.getUserId());
-                        uc.setCourseId(pc.getCourseId());
-                        uc.setEnrolledAt(LocalDateTime.now());
-                        uc.setStatus("active");
-                        userCourseService.createEntiryUserCourse(uc);
+
+                        Optional<User_course> opt =
+                                userCourseRepository.findByUserIdAndCourseId(
+                                        order.getUserId(),
+                                        pc.getCourseId()
+                                );
+
+                        if (opt.isPresent()) {
+                            // 🔁 RENEW
+                            User_course uc = opt.get();
+                            uc.setEnrolledAt(LocalDateTime.now()); // reset hạn
+                            uc.setStatus("active");
+                            userCourseRepository.save(uc);
+
+                        } else {
+                            // 🆕 MUA MỚI
+                            User_course uc = new User_course();
+                            uc.setUserId(order.getUserId());
+                            uc.setCourseId(pc.getCourseId());
+                            uc.setEnrolledAt(LocalDateTime.now());
+                            uc.setStatus("active");
+                            userCourseRepository.save(uc);
+                        }
                     }
+
                     status.set("success");
+
                 } else {
-                    // Giao dịch thất bại
                     order.setPaymentStatus("failed");
                     paymentRepository.save(order);
                     status.set("failed");
                 }
             });
 
-            // HTML redirect về FE
             String html = """
-                <html>
-                  <head>
-                    <meta http-equiv='refresh' content='0; URL=http://localhost:5173/shop?status=%s' />
-                  </head>
-                  <body>
-                    <p>Đang chuyển hướng về cửa hàng...</p>
-                  </body>
-                </html>
-                """.formatted(status.get());
+            <html>
+              <head>
+                <meta http-equiv='refresh' content='0; URL=http://localhost:5173/shop?status=%s' />
+              </head>
+              <body>
+                <p>Đang chuyển hướng về cửa hàng...</p>
+              </body>
+            </html>
+            """.formatted(status.get());
 
             return ResponseEntity.ok()
                     .header("Content-Type", "text/html")
                     .body(html);
 
         } catch (Exception e) {
-            String errorHtml = "<html><body><h3>Lỗi xử lý thanh toán: " + e.getMessage() + "</h3></body></html>";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .header("Content-Type", "text/html")
-                    .body(errorHtml);
+                    .body("<h3>Lỗi xử lý thanh toán: " + e.getMessage() + "</h3>");
         }
     }
 

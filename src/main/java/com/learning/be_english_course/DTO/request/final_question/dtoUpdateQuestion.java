@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateQuestion {
-    Long finalQuestionId;
+    Long finalTestId;
     String questionText;
     String optionA;
     String optionB;

@@ -15,7 +15,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     boolean existsByCourseName(String name);
     @Query("""
     SELECT new com.learning.be_english_course.DTO.respone.course.dtoCourseUser (
-        c.courseId, c.courseName, c.description, c.imgUrl, c.price, c.level, c.status
+        c.courseId, c.courseName, c.description, c.imgUrl, c.price, c.level, uc.status
     )
     FROM User_course uc
     JOIN Course c ON uc.courseId = c.courseId

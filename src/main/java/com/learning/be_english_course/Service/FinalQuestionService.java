@@ -8,6 +8,7 @@ import com.learning.be_english_course.Repository.FinalQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,12 +29,33 @@ public class FinalQuestionService {
         return finalQuestionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi với id = " + id));
     }
-
-    // Tạo mới Final_question
-    public Final_question createFinalQuestion(dtoCreateQuestion request) {
-        Final_question question = entityMapping.DTOtoCreateTestQuestion(request);
-        return finalQuestionRepository.save(question);
+    public List<Final_question> findByFinalTestId(Long finalTestId) {
+        return finalQuestionRepository.findByFinalTestId(finalTestId);
     }
+
+//    // Tạo mới Final_question
+    public List<Final_question> createFinalQuestions(List<dtoCreateQuestion> requests) {
+
+        List<Final_question> finalQuestions = requests.stream()
+                .map(req -> {
+                    Final_question q = new Final_question();
+                    q.setFinalTestId(req.getFinalTestId());
+                    q.setQuestionText(req.getQuestionText());
+                    q.setOptionA(req.getOptionA());
+                    q.setOptionB(req.getOptionB());
+                    q.setOptionC(req.getOptionC());
+                    q.setOptionD(req.getOptionD());
+                    q.setCorrectOption(req.getCorrectOption());
+                    q.setExplanation(req.getExplanation());
+                    return q;
+                })
+                .toList();
+
+        return finalQuestionRepository.saveAll(finalQuestions);
+    }
+
+
+
 
     // Cập nhật Final_question
     public Final_question updateFinalQuestion(Long id, dtoUpdateQuestion request) {

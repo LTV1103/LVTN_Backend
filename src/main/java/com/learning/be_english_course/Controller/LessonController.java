@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lesson")
@@ -30,8 +31,8 @@ public class LessonController extends BaseController {
     }
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<ApiResponse<List<Lesson>>> getAllLessonByCourseId(@PathVariable Long id) {
-        List<Lesson> dto = lessonService.getAllByCourseId(id);
+    public ResponseEntity<ApiResponse<Optional<Lesson>>> getAllLessonByCourseId(@PathVariable Long id) {
+        Optional<Lesson> dto = lessonService.getAllByCourseId(id);
         return success("Lấy danh sách bài học thành công!", dto);
     }
 
@@ -62,12 +63,5 @@ public class LessonController extends BaseController {
     public ResponseEntity<ApiResponse<String>> deleteLesson(@PathVariable Long id) {
         lessonService.deleteLesson(id);
         return success("Xóa bài học thành công!", "ID = " + id);
-    }
-
-    //Lay chi tiet
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<ApiResponse<dtoDetailLesson>> getLessonDetail(@PathVariable Long id) {
-        dtoDetailLesson lesson = lessonService.detailLesson(id);
-        return success("Lay thong tin thanh cong!", lesson);
     }
 }

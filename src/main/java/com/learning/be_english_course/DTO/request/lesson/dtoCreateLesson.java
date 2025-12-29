@@ -22,8 +22,7 @@ public class dtoCreateLesson {
     @Column(name = "description")
     String description;
 
-    @Column(name = "order_index")
-    Integer orderIndex;
+
 
     @Column(name = "created_at")
     LocalDateTime createdAt;

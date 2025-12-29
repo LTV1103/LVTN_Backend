@@ -26,6 +26,11 @@ public class LessonListeningController extends BaseController {
         List<Lesson_listening> listenings = lessonListeningService.findAll();
         return success("Lấy danh sách bài nghe thành công!", listenings);
     }
+    @GetMapping("/lesson/{id}")
+    public ResponseEntity<ApiResponse<List<Lesson_listening>>> getByLessonId(@PathVariable Long id) {
+        List<Lesson_listening> listenings = lessonListeningService.findByLessonId(id);
+        return success("Lấy danh sách bài nghe theo bai thành công!", listenings);
+    }
 
     // Lấy bài nghe theo id
     @GetMapping("/{id}")

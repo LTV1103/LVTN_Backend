@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.progress.dtoCreateProgress;
 import com.learning.be_english_course.DTO.request.progress.dtoUpdateProgress;
+import com.learning.be_english_course.DTO.respone.progress.dtoProgress;
 import com.learning.be_english_course.Entity.Progress;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.ProgressRepository;
@@ -32,6 +33,10 @@ public class ProgressService {
         double systemCompletionRate = totalProgress / countLesson;
 
         return systemCompletionRate;
+    }
+    //Tim theo nguoi dung
+    public List<dtoProgress> findByUserId(Long userId) {
+        return progressRepository.findByUserId(userId);
     }
 
     // Tìm theo id

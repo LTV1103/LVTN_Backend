@@ -14,14 +14,13 @@ import java.util.Optional;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("""
      SELECT new com.learning.be_english_course.DTO.respone.lesson.dtoLesson (
-      l.lessonId,l.courseId , l.lessonTitle , l.description , l.orderIndex , c.courseName 
+      l.lessonId,l.courseId , l.lessonTitle , l.description , c.courseName 
     )
     FROM Lesson l
     JOIN Course c ON l.courseId = c.courseId
 """)
     List<dtoLesson> findAllLessons();
-    List<Lesson> findByCourseId(Long courseId);
-
-
-
+    Optional<Lesson> findByCourseId(Long courseId);
+    boolean existsByCourseId(Long courseId);
+    boolean existsByCourseIdAndLessonIdNot(Long courseId, Long lessonId);
 }

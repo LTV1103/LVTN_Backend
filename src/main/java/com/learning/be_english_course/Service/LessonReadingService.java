@@ -22,7 +22,9 @@ public class LessonReadingService {
     public List<Lesson_reading> findAll() {
         return lessonReadingRepository.findAll();
     }
-
+    public List<Lesson_reading> findByLessonId(Long lessonId) {
+        return lessonReadingRepository.findByLessonId(lessonId);
+    }
     // Tìm theo id
     public Lesson_reading findById(Long id) {
         return lessonReadingRepository.findById(id)

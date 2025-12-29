@@ -29,8 +29,8 @@ public class ListeningQuestionService {
         return listeningQuestionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi nghe với id = " + id));
     }
-    public List<Listening_question> findByListenId(Long readingId) {
-        return listeningQuestionRepository.findByListeningId(readingId);
+    public List<Listening_question> findByListenId(Long listenId) {
+        return listeningQuestionRepository.findByListeningId(listenId);
     }
 
     // Tạo mới Listening_question

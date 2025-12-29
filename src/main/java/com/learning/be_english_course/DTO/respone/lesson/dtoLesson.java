@@ -15,6 +15,5 @@ public class dtoLesson {
     Long courseId;
     String lessonTitle;
     String description;
-    int orderIndex;
     String courseName;
 }

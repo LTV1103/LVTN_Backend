@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Primary
-//@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface EntityMapping {
 
     //USER
@@ -107,7 +107,6 @@ public interface EntityMapping {
     void DTOtoUpdateTest(@MappingTarget Final_test Final_test, dtoUpdateTest dtoUpdateFinalTest);
 
     //FINAL_TEST_QUESTION
-    Final_question DTOtoCreateTestQuestion(dtoCreateQuestion request);
     void DTOtoUpdateTestQuestion(@MappingTarget Final_question Final_test_question, dtoUpdateQuestion dtoUpdateFinalTestQuestion);
 
     //TEST_RESULT

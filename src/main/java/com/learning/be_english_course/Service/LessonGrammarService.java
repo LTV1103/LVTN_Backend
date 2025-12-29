@@ -23,7 +23,9 @@ public class LessonGrammarService {
     public List<Lesson_grammar> findAll() {
         return lessonGrammarRepository.findAll();
     }
-
+    public List<Lesson_grammar> findByLessonId(Long lessonId) {
+        return lessonGrammarRepository.findByLessonId(lessonId);
+    }
     // Tìm theo id
     public Lesson_grammar findById(Long id) {
         return lessonGrammarRepository.findById(id)

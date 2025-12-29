@@ -26,6 +26,11 @@ public class LessonGrammarController extends BaseController {
         List<Lesson_grammar> grammars = lessonGrammarService.findAll();
         return success("Lấy danh sách bài ngữ pháp thành công!", grammars);
     }
+    @GetMapping("/lesson/{id}")
+    public ResponseEntity<ApiResponse<List<Lesson_grammar>>> getGrammarByLessonId(@PathVariable Long id) {
+        List<Lesson_grammar> grammar = lessonGrammarService.findByLessonId(id);
+        return success("Lấy danh sách bài ngữ pháp theo bai thành công!", grammar);
+    }
 
     // Lấy bài ngữ pháp theo id
     @GetMapping("/{id}")

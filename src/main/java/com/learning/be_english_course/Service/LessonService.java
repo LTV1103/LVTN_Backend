@@ -2,21 +2,16 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.lesson.dtoCreateLesson;
 import com.learning.be_english_course.DTO.request.lesson.dtoUpdateLesson;
-import com.learning.be_english_course.DTO.respone.grammar.dtoGrammar;
-import com.learning.be_english_course.DTO.respone.lesson.dtoDetailLesson;
 import com.learning.be_english_course.DTO.respone.lesson.dtoLesson;
-import com.learning.be_english_course.DTO.respone.listening.dtoListening;
-import com.learning.be_english_course.DTO.respone.reading.dtoReading;
-import com.learning.be_english_course.DTO.respone.vocabulary.dtoVocabulary;
+import com.learning.be_english_course.Entity.Course;
 import com.learning.be_english_course.Entity.Lesson;
-import com.learning.be_english_course.Entity.Lesson_grammar;
-import com.learning.be_english_course.Entity.Lesson_vocabulary;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -24,15 +19,7 @@ public class LessonService {
     @Autowired
     private LessonRepository lessonRepository;
     @Autowired
-    private  LessonVocabularyRepository lessonVocabularyRepository;
-    @Autowired
-    private  LessonGrammarRepository lessonGrammarRepository;
-    @Autowired
-    private  LessonReadingRepository lessonReadingRepository;
-    @Autowired
-    private  LessonListeningRepository lessonListeningRepository;
-
-
+    private CourseRepository courseRepository;
     @Autowired
     private EntityMapping entityMapping;
 
@@ -46,23 +33,47 @@ public class LessonService {
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với id = " + id));
     }
-    public List<Lesson> getAllByCourseId(Long courseId) {
+    public Optional<Lesson> getAllByCourseId(Long courseId) {
         return lessonRepository.findByCourseId(courseId);
     }
 
     // Tạo mới Lesson
     public Lesson createLesson(dtoCreateLesson request) {
+        if (request.getCourseId() == null) {
+            throw new RuntimeException("Bài học bắt buộc phải thuộc 1 khóa học");
+        }
+        if (lessonRepository.existsByCourseId(request.getCourseId())) {
+            throw new RuntimeException(
+                    "Khóa học này đã có bài học, vui lòng chọn khóa học khác"
+            );
+        }
         Lesson lesson = entityMapping.DTOtoCreateLesson(request);
         return lessonRepository.save(lesson);
     }
 
+
+
     // Cập nhật Lesson
     public Lesson updateLesson(Long id, dtoUpdateLesson request) {
         Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với id = " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Không tìm thấy bài học với id = " + id)
+                );
+        if (request.getCourseId() != null) {
+            boolean courseUsedByOtherLesson =
+                    lessonRepository.existsByCourseIdAndLessonIdNot(
+                            request.getCourseId(), id
+                    );
+            if (courseUsedByOtherLesson) {
+                throw new RuntimeException(
+                        "Khóa học này đã được gán cho bài học khác"
+                );
+            }
+        }
         entityMapping.DTOtoUpdateLesson(lesson, request);
         return lessonRepository.save(lesson);
     }
+
 
 
     // Xóa Lesson
@@ -72,48 +83,5 @@ public class LessonService {
         }
         lessonRepository.deleteById(id);
     }
-
-    //Lay tat ca cac dang bai
-    public dtoDetailLesson detailLesson(Long id) {
-        Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Khong tin thay"));
-
-        dtoDetailLesson res = new dtoDetailLesson();
-        res.setLessonId(lesson.getLessonId());
-        res.setLessonTitle(lesson.getLessonTitle());
-        res.setDescription(lesson.getDescription());
-
-        res.setVocabulary(
-                lessonVocabularyRepository.findByLessonId(id)
-                        .stream()
-                        .map(v -> new dtoVocabulary(v.getWord(), v.getMeaning() , v.getExample(), v.getPronunciation(), v.getAudioUrl()))
-                        .toList()
-        );
-
-        res.setGrammar(
-                lessonGrammarRepository.findByLessonId(id)
-                        .stream()
-                        .map(g -> new dtoGrammar(g.getTitle(), g.getExample() , g.getExplanation()))
-                        .toList()
-        );
-
-        res.setReading(
-                lessonReadingRepository.findByLessonId(id)
-                        .stream()
-                        .map(r -> new dtoReading(r.getReadingId(),r.getPassage()))
-                        .toList()
-        );
-
-        res.setListening(
-                lessonListeningRepository.findByLessonId(id)
-                         .stream()
-                        .map(l -> new dtoListening(l.getListeningId(),l.getAudioUrl(), l.getTranscript()))
-                        .toList()
-        );
-
-        return res;
-    }
-
-
 
 }

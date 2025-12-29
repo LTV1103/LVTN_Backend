@@ -3,6 +3,7 @@ package com.learning.be_english_course.Controller;
 import com.learning.be_english_course.DTO.request.final_question.dtoCreateQuestion;
 import com.learning.be_english_course.DTO.request.final_question.dtoUpdateQuestion;
 import com.learning.be_english_course.Entity.Final_question;
+import com.learning.be_english_course.Entity.Final_test;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Service.FinalQuestionService;
@@ -26,6 +27,11 @@ public class FinalQuestionController extends BaseController {
         List<Final_question> questions = finalQuestionService.findAll();
         return success("Lấy danh sách câu hỏi cuối kỳ thành công!", questions);
     }
+    @GetMapping("/test/{testId}")
+    public ResponseEntity<ApiResponse<List<Final_question>>> findByTestId(@PathVariable Long testId) {
+        List<Final_question> questions = finalQuestionService.findByFinalTestId(testId);
+        return success("DS cau hoi" , questions);
+    }
 
     // Lấy câu hỏi theo id
     @GetMapping("/{id}")
@@ -36,8 +42,8 @@ public class FinalQuestionController extends BaseController {
 
     // Tạo mới câu hỏi
     @PostMapping
-    public ResponseEntity<ApiResponse<Final_question>> createFinalQuestion(@RequestBody @Valid dtoCreateQuestion request) {
-        Final_question question = finalQuestionService.createFinalQuestion(request);
+    public ResponseEntity<ApiResponse<List<Final_question>>> createFinalQuestion(@RequestBody @Valid List<dtoCreateQuestion> request) {
+        List<Final_question> question = finalQuestionService.createFinalQuestions(request);
         return created("Tạo câu hỏi mới thành công!", question);
     }
 

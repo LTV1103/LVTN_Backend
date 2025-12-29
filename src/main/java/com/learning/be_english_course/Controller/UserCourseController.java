@@ -29,8 +29,8 @@ public class UserCourseController extends BaseController {
 
     // Lấy User_course theo id
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<User_course>> getById(@PathVariable Long id) {
-        User_course userCourse = userCourseService.getUserCourseById(id);
+    public ResponseEntity<ApiResponse<List<User_course>>> getById(@PathVariable Long id) {
+        List<User_course> userCourse = userCourseService.getUserCourseById(id);
         return success("Lấy thông tin User_course thành công!", userCourse);
     }
 

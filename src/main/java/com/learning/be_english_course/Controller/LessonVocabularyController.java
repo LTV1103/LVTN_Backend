@@ -26,6 +26,11 @@ public class LessonVocabularyController extends BaseController {
         List<Lesson_vocabulary> vocabularies = lessonVocabularyService.findAll();
         return success("Lấy danh sách bài từ vựng thành công!", vocabularies);
     }
+    @GetMapping("/lesson/{id}")
+    public ResponseEntity<ApiResponse<List<Lesson_vocabulary>>> findByLessonId(@PathVariable Long id) {
+        List<Lesson_vocabulary> voca = lessonVocabularyService.findByLessonId(id);
+        return success("DS tu vung theo bai" , voca);
+    }
 
     // Lấy bài từ vựng theo id
     @GetMapping("/{id}")

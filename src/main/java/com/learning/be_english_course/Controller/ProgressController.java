@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.progress.dtoCreateProgress;
 import com.learning.be_english_course.DTO.request.progress.dtoUpdateProgress;
+import com.learning.be_english_course.DTO.respone.progress.dtoProgress;
 import com.learning.be_english_course.Entity.Progress;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -37,6 +38,11 @@ public class ProgressController extends BaseController {
         Progress progress = progressService.findById(id);
         return success("Lấy thông tin tiến trình thành công!", progress);
     }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ApiResponse<List<dtoProgress>>> getByUserId(@PathVariable Long id) {
+        List<dtoProgress> progresses = progressService.findByUserId(id);
+        return success("Lay thong tin theo nguoi dung" , progresses);
+    }
 
     // Tạo mới Progress
     @PostMapping
@@ -59,4 +65,5 @@ public class ProgressController extends BaseController {
         progressService.deleteProgress(id);
         return success("Xóa tiến trình thành công!", "ID = " + id);
     }
+
 }
