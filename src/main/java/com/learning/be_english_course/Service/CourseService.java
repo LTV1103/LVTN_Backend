@@ -10,6 +10,7 @@ import com.learning.be_english_course.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +42,17 @@ public class CourseService {
     public List<dtoCourseUser> findUserId(long userId) {
         return courseRepository.findCourseByUser(userId);
     }
-    public Course createCourse(dtoCreateCourse request) {
+
+    public Course createCourse(dtoCreateCourse request, String imageUrl) {
+        if (courseRepository.existsByCourseName(request.getCourseName())) {
+            throw new RuntimeException("Ten da ton tai");
+        }
         Course course = entityMapping.DTOtoCreateCourse(request);
+        course.setImgUrl(imageUrl);
+        course.setCreatedAt(LocalDateTime.now());
         return courseRepository.save(course);
     }
+
     public Course updateCourse(long id,dtoUpdateCourse request) {
         Course course = courseRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thấy khóa học với id = " + id));
         entityMapping.DTOtoUpdateCourse(course,request);
@@ -55,5 +63,21 @@ public class CourseService {
             throw new RuntimeException("Không thể xóa vì không tồn tại id = " + id);
         }
         courseRepository.deleteById(id);
+    }
+    public List<Course> searchQuick(String keyword) {
+        return courseRepository
+                .findTop10ByCourseName(keyword)
+                .stream()
+                .map(p -> new Course(
+                        p.getCourseId(),
+                        p.getCourseName(),
+                        p.getDescription(),
+                        p.getImgUrl(),
+                        p.getPrice(),
+                        p.getLevel(),
+                        p.getStatus(),
+                        p.getCreatedAt()
+                ))
+                .toList();
     }
 }

@@ -34,5 +34,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<dtoTotalCourseLevel> courselevel();
 
 
+    List<Course> findTop10ByCourseName(String keyword);
 
 }

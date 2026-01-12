@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 public interface EntityMapping {
 
     //USER
-    User DTOtoUser(User user);
+    dtoGetUser toDto(User user);
     List<dtoGetUser> userToDTOList(List<User> users);
     dtoOneUser DTOgetOneUser(User user);
 

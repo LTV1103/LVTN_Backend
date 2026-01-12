@@ -18,12 +18,10 @@ public class FinalQuestionService {
 
     @Autowired
     private EntityMapping entityMapping;
-
     // Lấy tất cả Final_question
     public List<Final_question> findAll() {
         return finalQuestionRepository.findAll();
     }
-
     // Tìm theo id
     public Final_question findById(Long id) {
         return finalQuestionRepository.findById(id)
@@ -32,8 +30,7 @@ public class FinalQuestionService {
     public List<Final_question> findByFinalTestId(Long finalTestId) {
         return finalQuestionRepository.findByFinalTestId(finalTestId);
     }
-
-//    // Tạo mới Final_question
+    // Tạo mới Final_question
     public List<Final_question> createFinalQuestions(List<dtoCreateQuestion> requests) {
 
         List<Final_question> finalQuestions = requests.stream()
@@ -53,10 +50,6 @@ public class FinalQuestionService {
 
         return finalQuestionRepository.saveAll(finalQuestions);
     }
-
-
-
-
     // Cập nhật Final_question
     public Final_question updateFinalQuestion(Long id, dtoUpdateQuestion request) {
         Final_question question = finalQuestionRepository.findById(id)
@@ -64,7 +57,6 @@ public class FinalQuestionService {
         entityMapping.DTOtoUpdateTestQuestion(question, request);
         return finalQuestionRepository.save(question);
     }
-
     // Xóa Final_question
     public void deleteFinalQuestion(Long id) {
         if (!finalQuestionRepository.existsById(id)) {

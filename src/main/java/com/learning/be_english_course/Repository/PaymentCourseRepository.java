@@ -13,11 +13,11 @@ import java.util.List;
 public interface PaymentCourseRepository extends JpaRepository<Payment_course, Long> {
         @Query("""
         SELECT new com.learning.be_english_course.DTO.respone.payment.dtoDetailPayment (
-           c.courseName, c.price , c.level , pc.createdAt , c.imgUrl
+           c.courseName, c.price , c.level , pc.createdAt , c.imgUrl , p.nameBank
         )
         FROM PaymentCourse  pc
         JOIN Course c ON pc.courseId = c.courseId
-     
+        JOIN Payment p ON pc.paymentId = p.paymentId
         WHERE pc.paymentId = :paymentId
         """)
     List <dtoDetailPayment> findPaymentById(long paymentId);

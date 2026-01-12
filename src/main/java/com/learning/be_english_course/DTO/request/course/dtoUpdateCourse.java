@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class dtoUpdateCourse {
     String courseName;
     String description;
-    String imgUrl;
+//    String imgUrl;
     BigDecimal price;
     String level;
     String status;

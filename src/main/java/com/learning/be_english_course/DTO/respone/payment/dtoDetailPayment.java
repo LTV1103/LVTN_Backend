@@ -19,6 +19,7 @@ public class dtoDetailPayment {
     String  level;
     LocalDateTime createdAt;
     String imgUrl;
+    String nameBank;
 
 
 

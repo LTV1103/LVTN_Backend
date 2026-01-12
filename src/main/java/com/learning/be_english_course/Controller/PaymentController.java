@@ -12,10 +12,7 @@ import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Repository.PaymentRepository;
 import com.learning.be_english_course.Repository.UserCourseRepository;
-import com.learning.be_english_course.Service.PaymentCourseService;
-import com.learning.be_english_course.Service.PaymentService;
-import com.learning.be_english_course.Service.UserCourseService;
-import com.learning.be_english_course.Service.VNPayService;
+import com.learning.be_english_course.Service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,8 @@ public class PaymentController extends BaseController {
     private PaymentCourseService paymentCourseService;
     @Autowired
     private UserCourseService userCourseService;
+    @Autowired
+    private url_VnPayService urlVnPayService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Payment>> getPayment(@PathVariable long id) {
@@ -117,10 +116,17 @@ public class PaymentController extends BaseController {
 
 
     @GetMapping("/vnpay-return")
-    public ResponseEntity<String> paymentReturn(@RequestParam Map<String, String> params) {
+    public ResponseEntity<String> paymentReturn(@RequestParam Map<String, String> params , HttpServletRequest request) {
 
         String responseCode = params.get("vnp_ResponseCode");
         String txnRef = params.get("vnp_TxnRef");
+        String callbackUrl = request.getRequestURL().toString()
+                + "?" + request.getQueryString();
+
+        String nameBank = callbackUrl.split("vnp_BankCode=")[1].split("&")[0];
+
+        urlVnPayService.save(callbackUrl);
+
         AtomicReference<String> status = new AtomicReference<>("fail");
 
         try {
@@ -129,6 +135,7 @@ public class PaymentController extends BaseController {
                 if ("00".equals(responseCode)) {
 
                     order.setPaymentStatus("success");
+                    order.setNameBank(nameBank);
                     paymentRepository.save(order);
 
                     List<Payment_course> paymentCourses =
@@ -143,14 +150,12 @@ public class PaymentController extends BaseController {
                                 );
 
                         if (opt.isPresent()) {
-                            // 🔁 RENEW
                             User_course uc = opt.get();
-                            uc.setEnrolledAt(LocalDateTime.now()); // reset hạn
+                            uc.setEnrolledAt(LocalDateTime.now());
                             uc.setStatus("active");
                             userCourseRepository.save(uc);
 
                         } else {
-                            // 🆕 MUA MỚI
                             User_course uc = new User_course();
                             uc.setUserId(order.getUserId());
                             uc.setCourseId(pc.getCourseId());

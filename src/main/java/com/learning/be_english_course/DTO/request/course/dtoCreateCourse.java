@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class dtoCreateCourse {
     String courseName;
     String description;
-    String imgUrl;
+//    String imgUrl;
     BigDecimal price;
     String level;
     String status;

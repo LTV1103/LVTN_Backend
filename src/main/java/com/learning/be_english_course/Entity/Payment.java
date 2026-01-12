@@ -31,4 +31,7 @@ public class Payment {
 
     @Column(name = "payment_status")
     String paymentStatus; // pending / success / failed
+
+    @Column(name = "nameBank")
+    String nameBank;
 }
