@@ -2,12 +2,14 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.final_question.dtoCreateQuestion;
 import com.learning.be_english_course.DTO.request.final_question.dtoUpdateQuestion;
+import com.learning.be_english_course.DTO.respone.test.dtoScore;
 import com.learning.be_english_course.Entity.Final_question;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Service.FinalQuestionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,4 +62,18 @@ public class FinalQuestionController extends BaseController {
         finalQuestionService.deleteFinalQuestion(id);
         return success("Xóa câu hỏi thành công!", "ID = " + id);
     }
+
+    // lay kq
+    @GetMapping("/result/{id}")
+    public ResponseEntity<ApiResponse<String>> getFinalQuestionResult(@PathVariable Long id) {
+        String result = finalQuestionService.getResultQuestion(id);
+        return success("DS đáp án của bài test", result);
+    }
+    @GetMapping("/score/{id}")
+    public ResponseEntity<ApiResponse<dtoScore>> getFinalQuestionScore(@PathVariable Long id, @RequestParam("answer") String answer) {
+        dtoScore dtoScore = finalQuestionService.scoreTest(answer, id);
+        return success("Tinh Diem" , dtoScore);
+    }
+
+
 }

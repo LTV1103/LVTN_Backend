@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.final_question.dtoCreateQuestion;
 import com.learning.be_english_course.DTO.request.final_question.dtoUpdateQuestion;
+import com.learning.be_english_course.DTO.respone.test.dtoScore;
 import com.learning.be_english_course.Entity.Final_question;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.FinalQuestionRepository;
@@ -30,6 +31,35 @@ public class FinalQuestionService {
     public List<Final_question> findByFinalTestId(Long finalTestId) {
         return finalQuestionRepository.findByFinalTestId(finalTestId);
     }
+    // lay ds kq
+    public String getResultQuestion(Long testId) {
+        List<String> results = finalQuestionRepository.findAllCorrectOptions(testId);
+        return String.join("", results);
+    }
+    // tinh diem
+    public dtoScore scoreTest(String answer , long testID) {
+        int correct = 0;
+        int wrong = 0;
+        int score = 0;
+        String correctAnswer = getResultQuestion(testID);
+        int length = Math.min(answer.length(), correctAnswer.length());
+        for (int i = 0; i < length; i++) {
+            if (answer.charAt(i) == correctAnswer.charAt(i)) {
+                correct++;
+            } else {
+                wrong++;
+            }
+        }
+        wrong += Math.abs(answer.length() - correctAnswer.length());
+        score = (int)((double) correct / correctAnswer.length() * 100);
+        dtoScore dto = new dtoScore();
+        dto.setCorrect(correct);
+        dto.setWrong(wrong);
+        dto.setScore(score);
+
+        return dto;
+    }
+
     // Tạo mới ds cau hoi
     public List<Final_question> createFinalQuestions(List<dtoCreateQuestion> requests) {
         List<Final_question> finalQuestions = requests.stream()
@@ -62,4 +92,7 @@ public class FinalQuestionService {
         }
         finalQuestionRepository.deleteById(id);
     }
+
+
+
 }
