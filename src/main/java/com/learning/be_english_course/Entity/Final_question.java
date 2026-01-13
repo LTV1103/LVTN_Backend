@@ -20,7 +20,7 @@ public class Final_question {
     @Column(name = "final_test_Id")
     Long finalTestId;
 
-    @Column(name = "question_text")
+    @Column(name = "question_text", columnDefinition = "TEXT")
     String questionText;
 
     @Column(name = "option_a")

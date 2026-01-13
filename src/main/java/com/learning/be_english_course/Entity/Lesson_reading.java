@@ -21,7 +21,7 @@ public class Lesson_reading {
     @Column(name = "lesson_Id")
     Long lessonId;
 
-    @Column(name = "passage")
+    @Column(name = "passage", columnDefinition = "TEXT")
     String passage;
 }
 

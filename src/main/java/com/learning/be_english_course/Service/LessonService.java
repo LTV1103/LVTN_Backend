@@ -19,8 +19,6 @@ public class LessonService {
     @Autowired
     private LessonRepository lessonRepository;
     @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
     private EntityMapping entityMapping;
 
     // Lấy tất cả Lesson

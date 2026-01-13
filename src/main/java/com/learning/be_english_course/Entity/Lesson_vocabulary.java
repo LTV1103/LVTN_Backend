@@ -33,6 +33,6 @@ public class Lesson_vocabulary {
     @Column(name = "pronunciation")
     String pronunciation;
 
-    @Column(name = "audio_url")
+    @Column(name = "audio_url", columnDefinition = "TEXT")
     String audioUrl;
 }

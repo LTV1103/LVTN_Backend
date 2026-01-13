@@ -21,7 +21,7 @@ public class Reading_question {
     @Column(name = "reading_Id")
     Long readingId;
 
-    @Column(name = "question")
+    @Column(name = "question", columnDefinition = "TEXT")
     String question;
 
     @Column(name = "option_a")

@@ -30,19 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequestMapping("/payment")
 public class PaymentController extends BaseController {
     @Autowired
-    private UserCourseRepository userCourseRepository;
-    @Autowired
-    private VNPayService vnPayService;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
     private PaymentService paymentService;
-    @Autowired
-    private PaymentCourseService paymentCourseService;
-    @Autowired
-    private UserCourseService userCourseService;
-    @Autowired
-    private url_VnPayService urlVnPayService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Payment>> getPayment(@PathVariable long id) {
@@ -63,145 +51,28 @@ public class PaymentController extends BaseController {
     }
     @GetMapping("/user/{id}")
     public ResponseEntity<ApiResponse<List<Payment>>> getPaymentByUserId(@PathVariable long id) {
-        List<Payment> payments = paymentRepository.findByUserId(id);
+        List<Payment> payments = paymentService.findByUserId(id);
         return success("Lấy thông tin thanh toán thành công" , payments);
 
     }
     //VNpay
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> createPayment(@RequestBody VNPayRequest req, HttpServletRequest request) {
-        try {
-            // Tạo Payment
-            Payment newPayment = new Payment();
-            newPayment.setUserId(req.getUserId());
-            newPayment.setAmount(req.getAmount());
-            newPayment.setPaymentStatus("pending");
-            newPayment.setPaymentMethod("vnpay");
-            paymentRepository.save(newPayment);
-
-
-            // Lưu Payment_Course cho nhiều khóa học
-            String coursesStr = req.getCourseId();
-            String[] courseIdsArr = coursesStr.split(",");
-            List<Payment_course> paymentCourses = new ArrayList<>();
-            for (String id : courseIdsArr) {
-                Payment_course pc = new Payment_course();
-                pc.setPaymentId(newPayment.getPaymentId());
-                pc.setCourseId(Long.parseLong(id.trim()));
-                pc.setCreatedAt(LocalDateTime.now());
-                paymentCourses.add(pc);
-            }
-            paymentCourseService.saveAll(paymentCourses);
-
-
-            // Tạo URL VNPAY
-            String paymentUrl = vnPayService.createPaymentUrl(newPayment.getPaymentId(), Long.valueOf(req.getAmount().toPlainString()), "Thanh toán khóa học: " + coursesStr, coursesStr, request);
-
-
-            // Chuẩn bị data trả về
-            Map<String, Object> data = new HashMap<>();
-            data.put("paymentId", newPayment.getPaymentId());
-            data.put("userId", newPayment.getUserId());
-            data.put("courses", coursesStr);
-            data.put("amount", newPayment.getAmount());
-            data.put("paymentMethod", newPayment.getPaymentMethod());
-            data.put("paymentStatus", newPayment.getPaymentStatus());
-            data.put("paymentUrl", paymentUrl);
-            return success("Tạo Hóa Đơn Thanh toán thành công",data);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return error(HttpStatus.BAD_REQUEST, "Lỗi tạo URL thanh toán: " + e.getMessage(), null);
-        }
+    public ResponseEntity<ApiResponse<Map<String, Object>>> createPayment(
+            @RequestBody VNPayRequest req,
+            HttpServletRequest request
+    ) throws Exception {
+        Map<String, Object> data = paymentService.createPayment(req, request);
+        return success("Tạo Hóa Đơn Thanh toán thành công", data);
     }
-
 
     @GetMapping("/vnpay-return")
-    public ResponseEntity<String> paymentReturn(@RequestParam Map<String, String> params , HttpServletRequest request) {
-
-        String responseCode = params.get("vnp_ResponseCode");
-        String txnRef = params.get("vnp_TxnRef");
-        String callbackUrl = request.getRequestURL().toString()
-                + "?" + request.getQueryString();
-
-        String nameBank = callbackUrl.split("vnp_BankCode=")[1].split("&")[0];
-
-        urlVnPayService.save(callbackUrl);
-
-        AtomicReference<String> status = new AtomicReference<>("fail");
-
-        try {
-            paymentRepository.findById(Long.valueOf(txnRef)).ifPresent(order -> {
-
-                if ("00".equals(responseCode)) {
-
-                    order.setPaymentStatus("success");
-                    order.setNameBank(nameBank);
-                    paymentRepository.save(order);
-
-                    List<Payment_course> paymentCourses =
-                            paymentCourseService.findByPaymentId(order.getPaymentId());
-
-                    for (Payment_course pc : paymentCourses) {
-
-                        Optional<User_course> opt =
-                                userCourseRepository.findByUserIdAndCourseId(
-                                        order.getUserId(),
-                                        pc.getCourseId()
-                                );
-
-                        if (opt.isPresent()) {
-                            User_course uc = opt.get();
-                            uc.setEnrolledAt(LocalDateTime.now());
-                            uc.setStatus("active");
-                            userCourseRepository.save(uc);
-
-                        } else {
-                            User_course uc = new User_course();
-                            uc.setUserId(order.getUserId());
-                            uc.setCourseId(pc.getCourseId());
-                            uc.setEnrolledAt(LocalDateTime.now());
-                            uc.setStatus("active");
-                            userCourseRepository.save(uc);
-                        }
-                    }
-
-                    status.set("success");
-
-                } else {
-                    order.setPaymentStatus("failed");
-                    paymentRepository.save(order);
-                    status.set("failed");
-                }
-            });
-
-            String html = """
-            <html>
-              <head>
-                <meta http-equiv='refresh' content='0; URL=http://localhost:5173/shop?status=%s' />
-              </head>
-              <body>
-                <p>Đang chuyển hướng về cửa hàng...</p>
-              </body>
-            </html>
-            """.formatted(status.get());
-
-            return ResponseEntity.ok()
-                    .header("Content-Type", "text/html")
-                    .body(html);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .header("Content-Type", "text/html")
-                    .body("<h3>Lỗi xử lý thanh toán: " + e.getMessage() + "</h3>");
-        }
+    public ResponseEntity<String> paymentReturn(
+            @RequestParam Map<String, String> params,
+            HttpServletRequest request
+    ) {
+        return paymentService.handleVNPayReturn(params, request);
     }
 
-
-    @PostMapping
-    public ResponseEntity<ApiResponse<Payment>> createPayment(@RequestBody @Valid dtoCreatePayment request) {
-        Payment payment = paymentService.createPaymet(request);
-        return created ("Tạo hóa đơn thanh toán thành công", payment);
-    }
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Payment>> updatePayment(@PathVariable Long id, @RequestBody @Valid dtoUpdatePayment request) {
         Payment payment = paymentService.updatePaymet(id, request);
@@ -209,7 +80,7 @@ public class PaymentController extends BaseController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deletePayment(@PathVariable Long id) {
-        paymentRepository.deleteById(id);
+        paymentService.deletePaymet(id);
         return success("Xóa thanh toán thành công!", "ID = " + id);
     }
 }

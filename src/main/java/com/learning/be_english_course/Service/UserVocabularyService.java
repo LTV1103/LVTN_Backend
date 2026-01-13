@@ -29,6 +29,8 @@ public class UserVocabularyService {
         return userVocabularyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy từ vựng người dùng với id = " + id));
     }
+
+    // ds tu vung theo nguoi dung
     public  List<dtoGetSaveVocabulary> findyUserId(Long userId) {
         return userVocabularyRepository.saveVocabulary(userId);
     }

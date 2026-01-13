@@ -20,6 +20,7 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private EntityMapping entityMapping;
+    // dem so nguoi dung
     public Integer countUsers() {
         Integer count = 0;
         List<User> users = userRepository.findAll();
@@ -28,20 +29,22 @@ public class UserService {
         }
         return count;
     }
+    // ds tat ca nguoi dung
     public List<dtoGetUser> findAll() {
         List<User> user = userRepository.findAll();
         return entityMapping.userToDTOList(user);
     }
+    // ds so nguoi tao moi theo thang
     public List<dtoChartMonth> totalMonth() {
         return userRepository.countUserByMonth();
     }
-
+    // lay thong tin 1 nguoi dung
     public dtoOneUser findByIdUser(long userid) {
          User user = userRepository.findById(userid)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID = " + userid));
          return entityMapping.DTOgetOneUser(user);
     }
-
+    // tao moi
     public User createUser(dtoCreateUser request) {
         if(userRepository.existsByEmail(request.getEmail())){
             throw new RuntimeException("Email đã tồn tại");
@@ -57,11 +60,13 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
+    // cap nhat
     public User updateUser(long id, dtoUpdateUser request) {
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thấy người dùng với ID = " + id));
         entityMapping.DTOtoUpdateUser(user,request);
         return userRepository.save(user);
     }
+    // xoa
     public void deleteUser(long id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("Không tìm thấy người dùng với ID = " + id);

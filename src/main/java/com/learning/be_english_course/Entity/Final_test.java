@@ -25,7 +25,7 @@ public class Final_test {
     @Column(name = "test_title")
     String testTitle;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     String description;
 
     @Column(name = "total_questions")

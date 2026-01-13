@@ -52,7 +52,7 @@ public class PaymentCourseService {
         return paymentCourseRepository.save(newPaymentCourse);
 
     }
-
+    // cap nhat
     public Payment_course updatePaymentCourse(Long id,dtoUpdatePaymentCourse request) {
         Payment_course paymentCourse = paymentCourseRepository.findById(id).orElse(null);
         entityMapping.DTOtoUpdatePaymentCourse(paymentCourse,request);
@@ -68,9 +68,4 @@ public class PaymentCourseService {
         paymentCourseRepository.deleteById(paymentCourseId);
     }
 
-    // Xóa tất cả khóa học của 1 payment
-    public void deleteByPaymentId(long paymentId) {
-        List<Payment_course> list = paymentCourseRepository.findByPaymentId(paymentId);
-        paymentCourseRepository.deleteAll(list);
-    }
 }

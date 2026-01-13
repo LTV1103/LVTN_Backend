@@ -21,10 +21,10 @@ public class Lesson_listening {
     @Column(name = "lesson_Id")
     Long lessonId;
 
-    @Column(name = "audio_url")
+    @Column(name = "audio_url", columnDefinition = "TEXT")
     String audioUrl;
 
-    @Column(name = "transcript")
+    @Column(name = "transcript", columnDefinition = "TEXT")
     String transcript;
 }
 

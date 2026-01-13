@@ -15,24 +15,23 @@ import java.util.List;
 public class FinalQuestionService {
     @Autowired
     private FinalQuestionRepository finalQuestionRepository;
-
     @Autowired
     private EntityMapping entityMapping;
+
     // Lấy tất cả Final_question
     public List<Final_question> findAll() {
         return finalQuestionRepository.findAll();
     }
     // Tìm theo id
     public Final_question findById(Long id) {
-        return finalQuestionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi với id = " + id));
+        return finalQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi với id = " + id));
     }
+    //ds theo bai test
     public List<Final_question> findByFinalTestId(Long finalTestId) {
         return finalQuestionRepository.findByFinalTestId(finalTestId);
     }
-    // Tạo mới Final_question
+    // Tạo mới ds cau hoi
     public List<Final_question> createFinalQuestions(List<dtoCreateQuestion> requests) {
-
         List<Final_question> finalQuestions = requests.stream()
                 .map(req -> {
                     Final_question q = new Final_question();
@@ -47,7 +46,6 @@ public class FinalQuestionService {
                     return q;
                 })
                 .toList();
-
         return finalQuestionRepository.saveAll(finalQuestions);
     }
     // Cập nhật Final_question
@@ -64,7 +62,4 @@ public class FinalQuestionService {
         }
         finalQuestionRepository.deleteById(id);
     }
-
-
-
 }

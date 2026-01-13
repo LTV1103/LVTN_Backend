@@ -23,10 +23,11 @@ public class UserCourseService {
     private EntityMapping entityMapping;
     @Autowired
     private CourseService courseService;
-
+    // ds khoa hoc da dc mua
     public List<User_course> findAll() {
         return userCourseRepository.findAll();
     }
+   //ds khoa hoc da mua theo nguoi dung
     public List<User_course> getUserCourseById(long id) {
         List<User_course> userCourses =
                 userCourseRepository.findByUserId(id);
@@ -46,22 +47,19 @@ public class UserCourseService {
         }
         return userCourses;
     }
-
+    // tao moi
     public User_course createUserCourse(dtoCreateUserCourse request) {
         User_course entity = entityMapping.DTOtoCreateUserCourse(request);
         return userCourseRepository.save(entity);
     }
-    public User_course createEntiryUserCourse(User_course userCourse) {
-        return userCourseRepository.save(userCourse);
-    }
-
+    // cap nhat
     public User_course updateUserCourse(long id, dtoUpdateUserCourse request) {
         User_course existing = userCourseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy UserCourse có ID = " + id));
         entityMapping.DTOtoUpdateUserCourse(existing, request);
         return userCourseRepository.save(existing);
     }
-
+    // xoa
     public void deleteUserCourse(long id) {
         if (!userCourseRepository.existsById(id))
             throw new RuntimeException("Không tìm thấy UserCourse có ID = " + id);

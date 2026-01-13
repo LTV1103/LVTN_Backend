@@ -25,7 +25,7 @@ public class Lesson {
     @Column(name = "lesson_title")
     String lessonTitle;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     String description;
 
     @Column(name = "created_at")

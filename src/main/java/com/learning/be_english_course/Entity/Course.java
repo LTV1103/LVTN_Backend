@@ -22,11 +22,9 @@ public class Course {
 
     @Column(name = "course_name")
     String courseName;
-
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     String description;
-
-    @Column(name = "img_url")
+    @Column(name = "img_url", columnDefinition = "TEXT")
     String imgUrl;
 
     @Column(name = "price")

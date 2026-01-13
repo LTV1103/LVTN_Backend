@@ -68,9 +68,17 @@ public class CourseController extends BaseController {
         return ResponseEntity.ok(course);
     }
 
-    @PutMapping(value = "/{id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable Long id, @RequestParam("file") MultipartFile file, @ModelAttribute dtoUpdateCourse request) {
-        Course course = courseService.updateCourse(id, request);
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<Course>> updateCourse(
+            @PathVariable Long id,
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @ModelAttribute dtoUpdateCourse request) throws IOException {
+        String imageUrl = null;
+        if (file != null && !file.isEmpty()) {
+            Map uploadResult = cloudinaryService.uploadFile(file, "courses");
+            imageUrl = uploadResult.get("secure_url").toString();
+        }
+        Course course = courseService.updateCourse(id, request, imageUrl);
         return success("Cập nhật khóa học thành công!", course);
     }
 

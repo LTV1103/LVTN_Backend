@@ -23,9 +23,9 @@ public class Lesson_grammar {
     @Column(name = "title")
     String title;
 
-    @Column(name = "explanation")
+    @Column(name = "explanation", columnDefinition = "TEXT")
     String explanation;
 
-    @Column(name = "example")
+    @Column(name = "example", columnDefinition = "TEXT")
     String example;
 }

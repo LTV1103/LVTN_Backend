@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
     boolean existsByCourseName(String name);
+    boolean existsByCourseNameAndCourseIdNot(String courseName, Long courseId);
+    List<Course> findTop10ByCourseNameContainingIgnoreCase(String keyword);
+
     @Query("""
     SELECT new com.learning.be_english_course.DTO.respone.course.dtoCourseUser (
         c.courseId, c.courseName, c.description, c.imgUrl, c.price, c.level, uc.status
@@ -34,6 +37,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<dtoTotalCourseLevel> courselevel();
 
 
-    List<Course> findTop10ByCourseName(String keyword);
 
 }

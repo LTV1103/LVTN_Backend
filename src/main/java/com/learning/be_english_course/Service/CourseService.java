@@ -21,6 +21,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private EntityMapping entityMapping;
+
+    // tong so khoa hoc
     public Integer count() {
         Integer count = 0 ;
         List<Course> courses = courseRepository.findAll();
@@ -29,55 +31,57 @@ public class CourseService {
         }
         return count;
     }
+    // ds theo khoa hoc
     public List<dtoTotalCourseLevel> totalCourseLevel() {
         List <dtoTotalCourseLevel> totalCourseLevel = courseRepository.courselevel();
         return totalCourseLevel;
     }
+    //ds khoa hoc
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
+    //lay theo id
     public Course findById(Long id) {
         return courseRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thấy khóa học với id = " + id));
     }
+    //lay theo idUser
     public List<dtoCourseUser> findUserId(long userId) {
         return courseRepository.findCourseByUser(userId);
     }
-
+    //tao moi
     public Course createCourse(dtoCreateCourse request, String imageUrl) {
         if (courseRepository.existsByCourseName(request.getCourseName())) {
-            throw new RuntimeException("Ten da ton tai");
-        }
+            throw new RuntimeException("Tên khóa học đã tồn tại!");}
         Course course = entityMapping.DTOtoCreateCourse(request);
         course.setImgUrl(imageUrl);
         course.setCreatedAt(LocalDateTime.now());
         return courseRepository.save(course);
     }
-
-    public Course updateCourse(long id,dtoUpdateCourse request) {
+    //cap nhat
+    private boolean hasNewImage(String imageUrl){
+        return imageUrl != null && !imageUrl.trim().isEmpty();
+    }
+    public Course updateCourse(long id,dtoUpdateCourse request , String imageUrl) {
         Course course = courseRepository.findById(id).orElseThrow(()->new RuntimeException("Không tìm thấy khóa học với id = " + id));
+        if (courseRepository.existsByCourseNameAndCourseIdNot(request.getCourseName(),id)) {
+            throw new RuntimeException("Tên khóa học đã tồn tại!");}
         entityMapping.DTOtoUpdateCourse(course,request);
+        if (hasNewImage(imageUrl)) {
+            course.setImgUrl(imageUrl);
+        }
         return courseRepository.save(course);
     }
+    // xoa
     public void deleteCourse(long id) {
         if(!courseRepository.existsById(id)){
             throw new RuntimeException("Không thể xóa vì không tồn tại id = " + id);
         }
         courseRepository.deleteById(id);
     }
+    // tim kiem
     public List<Course> searchQuick(String keyword) {
-        return courseRepository
-                .findTop10ByCourseName(keyword)
-                .stream()
-                .map(p -> new Course(
-                        p.getCourseId(),
-                        p.getCourseName(),
-                        p.getDescription(),
-                        p.getImgUrl(),
-                        p.getPrice(),
-                        p.getLevel(),
-                        p.getStatus(),
-                        p.getCreatedAt()
-                ))
-                .toList();
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return List.of();}
+        return courseRepository.findTop10ByCourseNameContainingIgnoreCase(keyword.trim());
     }
 }
