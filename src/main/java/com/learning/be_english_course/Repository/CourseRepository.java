@@ -36,6 +36,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         """, nativeQuery = true)
     List<dtoTotalCourseLevel> courselevel();
 
+    @Query(value = "SELECT * FROM course ORDER BY RAND() LIMIT 8", nativeQuery = true)
+    List<Course> findRandom8Courses();
 
 
 }

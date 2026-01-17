@@ -40,7 +40,6 @@ public class FinalQuestionService {
     public dtoScore scoreTest(String answer , long testID) {
         int correct = 0;
         int wrong = 0;
-        int score = 0;
         String correctAnswer = getResultQuestion(testID);
         int length = Math.min(answer.length(), correctAnswer.length());
         for (int i = 0; i < length; i++) {
@@ -51,7 +50,7 @@ public class FinalQuestionService {
             }
         }
         wrong += Math.abs(answer.length() - correctAnswer.length());
-        score = (int)((double) correct / correctAnswer.length() * 100);
+        int score = (int)((double) correct / correctAnswer.length() * 100);
         dtoScore dto = new dtoScore();
         dto.setCorrect(correct);
         dto.setWrong(wrong);

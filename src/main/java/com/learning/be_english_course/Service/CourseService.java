@@ -84,4 +84,9 @@ public class CourseService {
             return List.of();}
         return courseRepository.findTop10ByCourseNameContainingIgnoreCase(keyword.trim());
     }
+
+    //lay ngau nhien 8 khoa hoc
+    public List<Course> getRandom8Courses() {
+        return courseRepository.findRandom8Courses();
+    }
 }

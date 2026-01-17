@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -97,5 +98,11 @@ public class CourseController extends BaseController {
                 courseService.searchQuick(keyword.trim())
         );
     }
+    @GetMapping("/random")
+    public ResponseEntity<ApiResponse<List<Course>>> getRandom8Courses() {
+        List<Course> courses = courseService.getRandom8Courses();
+        return success("lay danh sach thanh cong", courses);
+    }
+
 
 }

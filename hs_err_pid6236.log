@@ -1,0 +1,36 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007fff0edbf664, pid=6236, tid=8728
+#
+# JRE version: OpenJDK Runtime Environment Microsoft-11933218 (21.0.8+9) (build 21.0.8+9-LTS)
+# Java VM: OpenJDK 64-Bit Server VM Microsoft-11933218 (21.0.8+9-LTS, mixed mode, emulated-client, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# Problematic frame:
+# V  [jvm.dll+0x3ef664]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/microsoft/openjdk/issues
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -XX:TieredStopAtLevel=1 -Dspring.output.ansi.enabled=always -Dcom.sun.management.jmxremote -Dspring.jmx.enabled=true -Dspring.liveBeansView.mbeanDomain -Dspring.application.admin.enabled=true -Dmanagement.endpoints.jmx.exposure.include=* -javaagent:E:\IDEA\IntelliJ IDEA 2024.3\lib\idea_rt.jar=56865 -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 com.learning.be_english_course.BeEnglisgCourseApplication
+
+Host: AMD Ryzen 5 5600H with Radeon Graphics         , 12 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.6807)
+Time: Thu Jan 15 01:53:04 2026 SE Asia Standard Time elapsed time: 451.888622 seconds (0d 0h 7m 31s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000153911bd6f0):  JavaThread "http-nio-8080-exec-11" daemon [_thread_in_vm, id=8728, stack(0x00000025eb600000,0x00000025eb700000) (1024K)]
+
+Stack: [0x00000025eb600000,0x00000025eb700000],  sp=0x00000025eb6ff360,  free space=1020k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x3ef664]
+V  [jvm.dll+0x6e1642]
+V  [jvm.dll+0x3f02db]
+V  [jvm.dll+0x3f0567]
+V  [jvm.dll+0x483ba6]
+V  [jvm.dll+0x40151d]
+V  [jvm.dll+0x86975d]

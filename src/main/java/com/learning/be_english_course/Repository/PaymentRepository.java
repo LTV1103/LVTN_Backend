@@ -22,6 +22,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
    
 """)
     List<dtoGetPayment> getPayments();
+//    @Query("SELECT p FROM Payment p WHERE p.paymentStatus IN ('success', 'failed')")
     List<Payment> findByUserId(long iduser);
     @Query("SELECT SUM(p.amount) FROM Payment p")
     Long countAmount(BigDecimal amount);
