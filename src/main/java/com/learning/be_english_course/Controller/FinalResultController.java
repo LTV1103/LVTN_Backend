@@ -2,6 +2,7 @@ package com.learning.be_english_course.Controller;
 
 import com.learning.be_english_course.DTO.request.final_result.dtoCreateResult;
 import com.learning.be_english_course.DTO.request.final_result.dtoUpdateResult;
+import com.learning.be_english_course.DTO.respone.result.dtoResult;
 import com.learning.be_english_course.Entity.Final_result;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
@@ -27,10 +28,16 @@ public class FinalResultController extends BaseController {
         return success("Lấy danh sách kết quả thành công!", results);
     }
 
+
     // Lấy kết quả theo id
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Final_result>> getFinalResultById(@PathVariable Long id) {
         Final_result result = finalResultService.findById(id);
+        return success("Lấy thông tin kết quả thành công!", result);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<dtoResult>>> getResultByUserId(@PathVariable Long userId) {
+       List<dtoResult> result = finalResultService.findByUserId(userId);
         return success("Lấy thông tin kết quả thành công!", result);
     }
 

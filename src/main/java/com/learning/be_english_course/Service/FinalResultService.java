@@ -2,6 +2,7 @@ package com.learning.be_english_course.Service;
 
 import com.learning.be_english_course.DTO.request.final_result.dtoCreateResult;
 import com.learning.be_english_course.DTO.request.final_result.dtoUpdateResult;
+import com.learning.be_english_course.DTO.respone.result.dtoResult;
 import com.learning.be_english_course.Entity.Final_result;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.FinalResultRepository;
@@ -27,6 +28,10 @@ public class FinalResultService {
     public Final_result findById(Long id) {
         return finalResultRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy kết quả với id = " + id));
+    }
+    public List<dtoResult>  findByUserId(Long UserId) {
+        return finalResultRepository.findByUserId(UserId);
+
     }
 
     // Tạo mới Final_result

@@ -4,11 +4,15 @@ import com.learning.be_english_course.DTO.request.final_question.dtoCreateQuesti
 import com.learning.be_english_course.DTO.request.final_question.dtoUpdateQuestion;
 import com.learning.be_english_course.DTO.respone.test.dtoScore;
 import com.learning.be_english_course.Entity.Final_question;
+import com.learning.be_english_course.Entity.Final_result;
 import com.learning.be_english_course.Mapper.EntityMapping;
 import com.learning.be_english_course.Repository.FinalQuestionRepository;
+import com.learning.be_english_course.Repository.FinalResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class FinalQuestionService {
     private FinalQuestionRepository finalQuestionRepository;
     @Autowired
     private EntityMapping entityMapping;
+    @Autowired
+    private FinalResultRepository finalResultRepository;
 
     // Lấy tất cả Final_question
     public List<Final_question> findAll() {
@@ -37,7 +43,7 @@ public class FinalQuestionService {
         return String.join("", results);
     }
     // tinh diem
-    public dtoScore scoreTest(String answer , long testID) {
+    public dtoScore scoreTest(String answer , long testID , long userID) {
         int correct = 0;
         int wrong = 0;
         String correctAnswer = getResultQuestion(testID);
@@ -51,6 +57,12 @@ public class FinalQuestionService {
         }
         wrong += Math.abs(answer.length() - correctAnswer.length());
         int score = (int)((double) correct / correctAnswer.length() * 100);
+        Final_result finalResult = new Final_result();
+        finalResult.setScore(BigDecimal.valueOf(score));
+        finalResult.setFinalTestId(testID);
+        finalResult.setCompletedAt(LocalDateTime.now());
+        finalResult.setUserId(userID);
+        finalResultRepository.save(finalResult);
         dtoScore dto = new dtoScore();
         dto.setCorrect(correct);
         dto.setWrong(wrong);

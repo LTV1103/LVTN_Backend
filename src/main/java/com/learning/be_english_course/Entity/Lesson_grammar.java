@@ -28,4 +28,7 @@ public class Lesson_grammar {
 
     @Column(name = "example", columnDefinition = "TEXT")
     String example;
+
+    @Column(name = "video_url", columnDefinition = "TEXT")
+    String videoUrl;
 }

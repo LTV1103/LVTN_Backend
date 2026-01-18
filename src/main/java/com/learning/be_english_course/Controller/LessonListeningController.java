@@ -8,9 +8,11 @@ import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Service.LessonListeningService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -40,16 +42,16 @@ public class LessonListeningController extends BaseController {
     }
 
     // Tạo mới bài nghe
-    @PostMapping
-    public ResponseEntity<ApiResponse<Lesson_listening>> create(@RequestBody @Valid dtoCreateListening request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<Lesson_listening>> create(@ModelAttribute @Valid dtoCreateListening request)throws IOException {
         Lesson_listening listening = lessonListeningService.createLessonListening(request);
         return created("Tạo bài nghe mới thành công!", listening);
     }
 
     // Cập nhật bài nghe
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<Lesson_listening>> update(@PathVariable Long id,
-                                                                @RequestBody @Valid dtoUpdateListening request) {
+                                                                @ModelAttribute dtoUpdateListening request)throws IOException {
         Lesson_listening listening = lessonListeningService.updateLessonListening(id, request);
         return success("Cập nhật bài nghe thành công!", listening);
     }

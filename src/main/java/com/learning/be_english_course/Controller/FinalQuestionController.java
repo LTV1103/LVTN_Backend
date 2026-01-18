@@ -69,9 +69,9 @@ public class FinalQuestionController extends BaseController {
         String result = finalQuestionService.getResultQuestion(id);
         return success("DS đáp án của bài test", result);
     }
-    @GetMapping("/score/{id}")
-    public ResponseEntity<ApiResponse<dtoScore>> getFinalQuestionScore(@PathVariable Long id, @RequestParam("answer") String answer) {
-        dtoScore dtoScore = finalQuestionService.scoreTest(answer, id);
+    @GetMapping("/score/{id}/{userId}")
+    public ResponseEntity<ApiResponse<dtoScore>> getFinalQuestionScore(@PathVariable Long id, @PathVariable Long userId , @RequestParam("answer") String answer) {
+        dtoScore dtoScore = finalQuestionService.scoreTest(answer, id ,userId );
         return success("Tinh Diem" , dtoScore);
     }
 

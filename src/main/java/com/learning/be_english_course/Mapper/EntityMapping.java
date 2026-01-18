@@ -39,6 +39,7 @@ import com.learning.be_english_course.DTO.respone.user.dtoGetUser;
 import com.learning.be_english_course.DTO.respone.user.dtoOneUser;
 import com.learning.be_english_course.Entity.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.context.annotation.Primary;
 
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Primary
-@Mapper(componentModel = "spring")
+    @Mapper(componentModel = "spring")
 public interface EntityMapping {
 
     //USER
@@ -87,8 +88,14 @@ public interface EntityMapping {
     void DTOtoUpdateLessonGrammar(@MappingTarget Lesson_grammar Lesson_grammar, dtoUpdateGrammar dtoUpdateLessonGrammar);
 
     //LESSON_LISTENING
+    @Mapping(target = "audioUrl", ignore = true)
     Lesson_listening DTOtoCreateLessonListening(dtoCreateListening request);
-    void DTOtoUpdateLessonListening(@MappingTarget Lesson_listening Lesson_listening, dtoUpdateListening dtoUpdateLessonListening);
+
+    @Mapping(target = "audioUrl", ignore = true)
+    void DTOtoUpdateLessonListening(
+            @MappingTarget Lesson_listening entity,
+            dtoUpdateListening request
+    );
 
     //LESSON_READING
     Lesson_reading DTOtoCreateLessonReading(dtoCreateReading request);
