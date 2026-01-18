@@ -8,9 +8,11 @@ import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Service.LessonVocabularyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -40,16 +42,16 @@ public class LessonVocabularyController extends BaseController {
     }
 
     // Tạo mới bài từ vựng
-    @PostMapping
-    public ResponseEntity<ApiResponse<Lesson_vocabulary>> create(@RequestBody @Valid dtoCreateVocabulary request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<Lesson_vocabulary>> create(@ModelAttribute dtoCreateVocabulary request) throws IOException {
         Lesson_vocabulary vocabulary = lessonVocabularyService.createLessonVocabulary(request);
         return created("Tạo bài từ vựng mới thành công!", vocabulary);
     }
 
     // Cập nhật bài từ vựng
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<Lesson_vocabulary>> update(@PathVariable Long id,
-                                                                 @RequestBody @Valid dtoUpdateVocabulary request) {
+                                                                 @ModelAttribute dtoUpdateVocabulary request) throws IOException {
         Lesson_vocabulary vocabulary = lessonVocabularyService.updateLessonVocabulary(id, request);
         return success("Cập nhật bài từ vựng thành công!", vocabulary);
     }

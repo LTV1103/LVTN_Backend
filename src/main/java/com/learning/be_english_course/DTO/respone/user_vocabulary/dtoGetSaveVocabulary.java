@@ -17,6 +17,7 @@ public class dtoGetSaveVocabulary {
     String word;
     String meaning;
     String pronunciation;
+    String imgUrl;
     String audioUrl;
     LocalDateTime savedAt;
 

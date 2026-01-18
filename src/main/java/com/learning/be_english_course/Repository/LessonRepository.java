@@ -20,7 +20,9 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     JOIN Course c ON l.courseId = c.courseId
 """)
     List<dtoLesson> findAllLessons();
-    Optional<Lesson> findByCourseId(Long courseId);
+//    Optional<Lesson> findByCourseId(Long courseId);
     boolean existsByCourseId(Long courseId);
     boolean existsByCourseIdAndLessonIdNot(Long courseId, Long lessonId);
+    List<Lesson> findByCourseId(Long courseId);
+
 }

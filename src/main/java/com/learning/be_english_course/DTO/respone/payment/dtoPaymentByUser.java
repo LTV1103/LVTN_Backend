@@ -8,18 +8,16 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class dtoGetPayment {
-    String fullName;
+public class dtoPaymentByUser {
     long paymentId;
+    long userId;
     BigDecimal amount;
     String paymentMethod;
     String paymentStatus;
+    String nameBank;
     LocalDateTime createdAt;
-
-
 }

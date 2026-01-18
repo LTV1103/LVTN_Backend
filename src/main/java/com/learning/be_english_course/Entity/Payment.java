@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -34,4 +35,5 @@ public class Payment {
 
     @Column(name = "nameBank")
     String nameBank;
+
 }

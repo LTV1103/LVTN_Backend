@@ -31,7 +31,7 @@ public class LessonService {
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bài học với id = " + id));
     }
-    public Optional<Lesson> getAllByCourseId(Long courseId) {
+    public List<Lesson> getAllByCourseId(Long courseId) {
         return lessonRepository.findByCourseId(courseId);
     }
 

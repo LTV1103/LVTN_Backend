@@ -9,7 +9,9 @@ import com.learning.be_english_course.Repository.ProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProgressService {
@@ -46,18 +48,36 @@ public class ProgressService {
     }
 
     // Tạo mới Progress
-    public Progress createProgress(dtoCreateProgress request) {
+    public Progress createProgressIfNotExist(dtoCreateProgress request) {
+        Optional<Progress> existing =
+                progressRepository.findByUserCourseIdAndLessonId(
+                        request.getUserCourseId(),
+                        request.getLessonId()
+                );
+
+        if (existing.isPresent()) {
+            return existing.get(); // đã có thì trả về luôn
+        }
+
         Progress progress = entityMapping.DTOtoCreateProgress(request);
+        progress.setLastAccessed(LocalDateTime.now());
+        progress.setStatus("learning");
+
         return progressRepository.save(progress);
     }
+
 
     // Cập nhật Progress
     public Progress updateProgress(Long id, dtoUpdateProgress request) {
         Progress progress = progressRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy tiến trình với id = " + id));
+                .orElseThrow(() -> new RuntimeException(
+                        "Không tìm thấy tiến trình với id = " + id
+                ));
+
         entityMapping.DTOtoUpdateProgress(progress, request);
         return progressRepository.save(progress);
     }
+
 
     // Xóa Progress
     public void deleteProgress(Long id) {

@@ -4,6 +4,7 @@ import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
 import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Course, Long> , JpaSpecificationExecutor<Course> {
     boolean existsByCourseName(String name);
     boolean existsByCourseNameAndCourseIdNot(String courseName, Long courseId);
     List<Course> findTop10ByCourseNameContainingIgnoreCase(String keyword);

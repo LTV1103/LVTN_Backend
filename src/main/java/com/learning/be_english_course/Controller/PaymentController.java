@@ -5,6 +5,7 @@ import com.learning.be_english_course.DTO.request.payment.dtoCreatePayment;
 import com.learning.be_english_course.DTO.request.payment.dtoUpdatePayment;
 import com.learning.be_english_course.DTO.request.user_course.dtoCreateUserCourse;
 import com.learning.be_english_course.DTO.respone.payment.dtoGetPayment;
+import com.learning.be_english_course.DTO.respone.payment.dtoPaymentByUser;
 import com.learning.be_english_course.Entity.Payment;
 import com.learning.be_english_course.Entity.Payment_course;
 import com.learning.be_english_course.Entity.User_course;
@@ -50,8 +51,8 @@ public class PaymentController extends BaseController {
 
     }
     @GetMapping("/user/{id}")
-    public ResponseEntity<ApiResponse<List<Payment>>> getPaymentByUserId(@PathVariable long id) {
-        List<Payment> payments = paymentService.findByUserId(id);
+    public ResponseEntity<ApiResponse<List<dtoPaymentByUser>>> getPaymentByUserId(@PathVariable long id) {
+        List<dtoPaymentByUser> payments = paymentService.findPaymentByUserId(id);
         return success("Lấy thông tin thanh toán thành công" , payments);
 
     }

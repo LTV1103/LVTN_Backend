@@ -47,7 +47,7 @@ public class ProgressController extends BaseController {
     // Tạo mới Progress
     @PostMapping
     public ResponseEntity<ApiResponse<Progress>> create(@RequestBody @Valid dtoCreateProgress request) {
-        Progress progress = progressService.createProgress(request);
+        Progress progress = progressService.createProgressIfNotExist(request);
         return created("Tạo tiến trình mới thành công!", progress);
     }
 

@@ -25,4 +25,9 @@ public class CloudinaryController {
                                          @RequestParam("folder") String folderName) throws IOException {
         return ResponseEntity.ok(cloudinaryService.uploadVideo(file, folderName));
     }
+    @PostMapping("/mp3")
+    public ResponseEntity<?> uploadMp3(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("folder") String folderName) throws IOException {
+        return ResponseEntity.ok(cloudinaryService.uploadMp3(file, folderName));
+    }
 }

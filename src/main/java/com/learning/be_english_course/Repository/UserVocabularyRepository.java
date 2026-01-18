@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserVocabularyRepository extends JpaRepository<User_vocabulary, Long> {
     @Query("""
     SELECT new com.learning.be_english_course.DTO.respone.user_vocabulary.dtoGetSaveVocabulary (
-       uv.saveId , lv.word , lv.meaning , lv.pronunciation , lv.audioUrl , uv.savedAt
+       uv.saveId , lv.word , lv.meaning , lv.pronunciation , lv.imgUrl , lv.audioUrl , uv.savedAt
     )
     FROM User_vocabulary uv
     JOIN Lesson_vocabulary lv ON uv.vocabularyId = lv.vocabularyId

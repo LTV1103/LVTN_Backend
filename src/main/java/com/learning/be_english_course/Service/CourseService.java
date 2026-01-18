@@ -3,6 +3,7 @@ package com.learning.be_english_course.Service;
 import com.learning.be_english_course.DTO.request.course.dtoCreateCourse;
 import com.learning.be_english_course.DTO.request.course.dtoUpdateCourse;
 import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
+import com.learning.be_english_course.DTO.respone.course.dtoFilter;
 import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import com.learning.be_english_course.Mapper.EntityMapping;
@@ -89,4 +90,24 @@ public class CourseService {
     public List<Course> getRandom8Courses() {
         return courseRepository.findRandom8Courses();
     }
+
+    //tao bo loc khoa hoc
+    public List<dtoFilter> filterCourses(
+            String courseName,
+            String level,
+            String keyword,
+            Long price
+    ) {
+        return courseRepository
+                .findAll(CourseFilter.filter(courseName, level, keyword, price))
+                .stream()
+                .map(course -> new dtoFilter(
+                        course.getImgUrl(),
+                        course.getCourseName(),
+                        course.getLevel(),
+                        course.getPrice()
+                ))
+                .toList();
+    }
+
 }

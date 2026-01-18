@@ -33,6 +33,9 @@ public class Lesson_vocabulary {
     @Column(name = "pronunciation")
     String pronunciation;
 
+    @Column(name = "img_url", columnDefinition = "TEXT")
+    String imgUrl;
+
     @Column(name = "audio_url", columnDefinition = "TEXT")
     String audioUrl;
 }

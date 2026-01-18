@@ -12,12 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoUpdateProgress {
-    @Column(name = "user_course_Id")
-    Long userCourseId;
-
-    @Column(name = "lesson_Id")
-    Long lessonId;
-
     @Column(name = "progress_percent")
     BigDecimal progressPercent;
 

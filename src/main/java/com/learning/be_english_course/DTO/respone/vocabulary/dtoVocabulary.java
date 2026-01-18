@@ -12,5 +12,6 @@ public class dtoVocabulary {
     private String meaning;
     private String example;
     private String pronunciation;
+    private String imgUrl;
     private String audioUrl;
 }

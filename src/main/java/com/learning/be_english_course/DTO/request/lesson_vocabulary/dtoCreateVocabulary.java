@@ -3,27 +3,18 @@ package com.learning.be_english_course.DTO.request.lesson_vocabulary;
 import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class dtoCreateVocabulary {
-    @Column(name = "lesson_Id")
     Long lessonId;
-
-    @Column(name = "word")
     String word;
-
-    @Column(name = "meaning")
     String meaning;
-
-    @Column(name = "example")
     String example;
-
-    @Column(name = "pronunciation")
     String pronunciation;
-
-    @Column(name = "audio_url")
-    String audioUrl;
+    private MultipartFile image;
+    private MultipartFile audio;
 }

@@ -31,8 +31,8 @@ public class LessonController extends BaseController {
     }
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<ApiResponse<Optional<Lesson>>> getAllLessonByCourseId(@PathVariable Long id) {
-        Optional<Lesson> dto = lessonService.getAllByCourseId(id);
+    public ResponseEntity<ApiResponse<List<Lesson>>> getAllLessonByCourseId(@PathVariable Long id) {
+        List<Lesson> dto = lessonService.getAllByCourseId(id);
         return success("Lấy danh sách bài học thành công!", dto);
     }
 

@@ -4,6 +4,7 @@ import com.learning.be_english_course.DTO.request.payment.VNPayRequest;
 import com.learning.be_english_course.DTO.request.payment.dtoCreatePayment;
 import com.learning.be_english_course.DTO.request.payment.dtoUpdatePayment;
 import com.learning.be_english_course.DTO.respone.payment.dtoGetPayment;
+import com.learning.be_english_course.DTO.respone.payment.dtoPaymentByUser;
 import com.learning.be_english_course.Entity.Payment;
 import com.learning.be_english_course.Entity.Payment_course;
 import com.learning.be_english_course.Entity.User_course;
@@ -57,10 +58,10 @@ public class PaymentService {
         return paymentRepository.findById(id).get();
     }
     // tim theo id nguoi dung
-    public List<Payment> findByUserId(long iduser) {
+    public List<dtoPaymentByUser> findPaymentByUserId(long iduser) {
         if(!paymentRepository.existsById(iduser)) {throw new RuntimeException("Không tìm thấy người dùng với id = " + iduser);
         }
-        return paymentRepository.findByUserId(iduser);
+        return paymentRepository.findPaymentByUserId(iduser);
     }
     // cap nhat
     public Payment updatePaymet(long id , dtoUpdatePayment request) {

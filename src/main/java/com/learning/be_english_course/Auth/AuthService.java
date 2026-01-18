@@ -67,25 +67,23 @@ public class AuthService {
         String email = (String) googleUser.get("email");
         String fullName = (String) googleUser.get("name");
 
-        User user = userRepository.findByEmail(email).orElseGet(() -> {
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setFullName(fullName);
-            newUser.setProvider("google");
-            newUser.setBirthday(" ");
-            newUser.setCreatedAt(LocalDateTime.now());
-            newUser.setRole("user");
-            newUser.setPassword("GOOGLE_USER"); // placeholder
-
-            String refreshToken = jwtUtil.generateRefreshToken(email);
-            newUser.setRefreshToken(refreshToken);
-
-            return userRepository.save(newUser);
-        });
-
-        // Nếu user đã tồn tại → cập nhật refresh token
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            user = new User();
+            user.setEmail(email);
+            user.setFullName(fullName);
+            user.setProvider("google");
+            user.setBirthday(" ");
+            user.setCreatedAt(LocalDateTime.now());
+            user.setRole("user");
+            user.setPassword("GOOGLE_USER");
+        }
         String refreshToken = jwtUtil.generateRefreshToken(email);
         user.setRefreshToken(refreshToken);
+        if (user.getRole() == null) {
+            user.setRole("user");
+        }
+
         userRepository.save(user);
 
         String accessToken = jwtUtil.generateToken(email);
@@ -96,4 +94,5 @@ public class AuthService {
                 "user", user
         );
     }
+
 }

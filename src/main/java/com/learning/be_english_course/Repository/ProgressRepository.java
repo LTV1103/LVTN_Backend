@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
@@ -25,4 +26,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
     WHERE uc.userId = :userId 
     """)
     List<dtoProgress> findByUserId(Long userId);
+    Optional<Progress> findByUserCourseIdAndLessonId(Long userCourseId, Long lessonId);
+
 }
+

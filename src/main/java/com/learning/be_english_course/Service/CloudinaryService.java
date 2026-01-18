@@ -30,4 +30,11 @@ public class CloudinaryService {
                         "folder", folderName
                 ));
     }
+    public Map uploadMp3(MultipartFile file, String folderName) throws IOException {
+        return cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap(
+                        "resource_type", "video",
+                        "folder", folderName
+                ));
+    }
 }

@@ -5,6 +5,7 @@ import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
 import com.learning.be_english_course.Exception.apiRespone.BaseController;
 import com.learning.be_english_course.Service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +18,12 @@ import java.util.List;
 public class BannerController extends BaseController {
     @Autowired
     private BannerService bannerService;
-    @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity<Banner> uploadBanner(
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<Banner>> uploadBanner(
             @RequestPart("file") MultipartFile file
     ) throws IOException {
         Banner banner = bannerService.createBanner(file);
-        return ResponseEntity.ok(banner);
+        return success("them thanh cong" , banner);
     }
 
     @GetMapping
@@ -32,8 +33,8 @@ public class BannerController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBanner(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<String>> deleteBanner(@PathVariable int id) {
         bannerService.deleteBanner(id);
-        return ResponseEntity.noContent().build();
+        return success("Xóa thành công" , "ID = " + id);
     }
 }

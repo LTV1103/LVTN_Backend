@@ -3,6 +3,7 @@ package com.learning.be_english_course.Controller;
 import com.learning.be_english_course.DTO.request.course.dtoCreateCourse;
 import com.learning.be_english_course.DTO.request.course.dtoUpdateCourse;
 import com.learning.be_english_course.DTO.respone.course.dtoCourseUser;
+import com.learning.be_english_course.DTO.respone.course.dtoFilter;
 import com.learning.be_english_course.DTO.respone.course.dtoTotalCourseLevel;
 import com.learning.be_english_course.Entity.Course;
 import com.learning.be_english_course.Exception.apiRespone.ApiResponse;
@@ -103,6 +104,18 @@ public class CourseController extends BaseController {
         List<Course> courses = courseService.getRandom8Courses();
         return success("lay danh sach thanh cong", courses);
     }
+    @GetMapping("/filter")
+    public ResponseEntity<ApiResponse<List<dtoFilter>>> filterCourses(
+            @RequestParam(required = false) String courseName,
+            @RequestParam(required = false) String level,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long price
+    )
+    {
+       List<dtoFilter> filter = courseService.filterCourses(courseName, level, keyword, price);
+       return success("Bộ lọc khóa học" , filter);
+    }
+
 
 
 }
